@@ -1,0 +1,6 @@
+framework module Pods_poyo {
+  umbrella header "Pods-poyo-umbrella.h"
+
+  export *
+  module * { export * }
+}
