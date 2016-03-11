@@ -9,7 +9,7 @@
 import UIKit
 
 class ListedPoyoViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var collapsedView: UIView!
     
     @IBOutlet weak var questionLabel: UILabel!
@@ -18,16 +18,21 @@ class ListedPoyoViewCell: UITableViewCell {
     
     @IBOutlet weak var timeLabel: UILabel!
     
+    @IBOutlet weak var option1Button: UIButton!
+    
+    @IBOutlet weak var option2Button: UIButton!
+    
+    @IBOutlet weak var distanceLabel: UILabel!
     
     class var expandedHeight: CGFloat { get { return 300 } }
     class var defaultHeight: CGFloat { get { return 100 } }
-
+    
     
     
     
     var frameAdded = false
-//    var expandedHeight: CGFloat = 200
-//    var defaultHeight: CGFloat = 44
+    //    var expandedHeight: CGFloat = 200
+    //    var defaultHeight: CGFloat = 44
     
     func checkHeight(){
         collapsedView.hidden = (frame.size.height < ListedPoyoViewCell.expandedHeight)
@@ -47,7 +52,7 @@ class ListedPoyoViewCell: UITableViewCell {
             frameAdded = false
         }
     }
-
+    
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if keyPath == "frame" {
             checkHeight()
@@ -58,11 +63,11 @@ class ListedPoyoViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-
+    
 }

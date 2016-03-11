@@ -245,10 +245,19 @@
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Distance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7b-Jt-ZO5">
+                                                    <rect key="frame" x="220" y="15" width="147" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="collapsedView" destination="kJW-Oe-p9L" id="fq0-6W-qs3"/>
+                                            <outlet property="distanceLabel" destination="X7b-Jt-ZO5" id="xu9-IS-kac"/>
+                                            <outlet property="option1Button" destination="u8e-cE-ZlI" id="CYC-xn-Z2E"/>
+                                            <outlet property="option2Button" destination="6Fh-xM-n8Q" id="QmJ-Yk-8BW"/>
                                             <outlet property="questionLabel" destination="h81-ka-a7u" id="C0O-2g-3OF"/>
                                             <outlet property="timeLabel" destination="qSP-9i-B8B" id="Kb1-0W-PFu"/>
                                             <outlet property="votesLabel" destination="5kq-Ve-3G5" id="gdA-Ic-MiJ"/>
