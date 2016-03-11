@@ -28,7 +28,7 @@ The location based polling application
   * Datetime
   * Location
 * General
-  * Amount of votes recently (per time)   
+  * Amount of votes recently (per time)
 
 ##Data Fields:
 
@@ -53,3 +53,7 @@ The location based polling application
 * password (null for public)
 * end_time
 * number_of_answers
+
+##Sprint 1
+
+<img src='http://i.imgur.com/EoGIFxK.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
