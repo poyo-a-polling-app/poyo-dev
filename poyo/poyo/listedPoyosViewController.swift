@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import Parse
 
 
 class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate {
@@ -20,6 +21,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     var location: CLLocation!
     
     var frameAdded = false
+    
+    var feed: [PFObject]?
+    
+    var radius: CLLocationDistance = 100
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +47,30 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             print("No location")
         }
         
-  
+        let query = PFQuery(className:"Poyos")
+        query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
+            if let media = media {
+                
+//                self.feed = media
+//                self.tableView.reloadData()
+                print(media)
+                self.feed = media
+                self.tableView.reloadData()
+                // do something with the data fetched
+            } else {
+                // handle error
+            }
+        }
+        
+        
+//        query.getObjectInBackgroundWithId("xWMyZEGZ") {
+//            (gameScore: PFObject?, error: NSError?) -> Void in
+//            if error == nil && gameScore != nil {
+//                print(gameScore)
+//            } else {
+//                print(error)
+//            }
+//        }
         
         
         
@@ -56,13 +84,70 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         // Dispose of any resources that can be recreated.
     }
     
+    func refresh(sender: AnyObject) {
+        let query = PFQuery(className: "UserMedia")
+        query.orderByDescending("createdAt")
+        query.includeKey("author")
+        query.limit = 20
+        
+        query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
+            if let media = media {
+                
+                self.feed = media
+                self.tableView.reloadData()
+                //print(self.feed!)
+                // do something with the data fetched
+//                self.refreshControl?.endRefreshing()
+            } else {
+//                self.refreshControl?.endRefreshing()
+                // handle error
+            }
+            
+        }
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        if let feed = feed {
+            //print(self.feed!.count)
+//            print(feed.count)
+            return feed.count
+            
+        } else {
+            //print("0")
+            return 0
+        }
     }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ListedPoyoViewCell", forIndexPath: indexPath) as! ListedPoyoViewCell
+        
+        let poyo = self.feed![indexPath.row]
+        
+        let question = poyo["caption"] as! String
+        let option1 = poyo["optionOne"] as! String
+        let option2 = poyo["optionTwo"] as! String
+        let poyoLatitude = poyo["latitude"].doubleValue as! CLLocationDegrees
+        let poyoLongitude = poyo["longitude"].doubleValue as! CLLocationDegrees
+        
+        var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
+        var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
+        
+    
+        
+        cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
+        
+        if radius < distanceFromPoyo {
+//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+            
+//            tableV
+        }
+        
+        
+        cell.questionLabel.text = question
+        cell.option1Button.setTitle(option1, forState: UIControlState.Normal)
+        cell.option2Button.setTitle(option2, forState: UIControlState.Normal)
+
         
         return cell
     }
