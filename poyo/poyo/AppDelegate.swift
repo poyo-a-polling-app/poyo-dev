@@ -13,6 +13,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var storyboard = UIStoryboard(name: "Main", bundle: nil)
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -24,6 +25,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 configuration.server = "https://poyo-develop.herokuapp.com/parse"
             }) 
         )
+        
+        if PFUser.currentUser() != nil {
+            print("persisted log in")
+            print(PFUser.currentUser()?.username)
+            let AccountViewController = storyboard.instantiateViewControllerWithIdentifier("go") as! UITabBarController
+            
+            window?.rootViewController = AccountViewController
+            
+        }
+
         return true
     }
 

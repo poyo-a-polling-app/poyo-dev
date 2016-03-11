@@ -2,15 +2,15 @@
 The location based polling application
 
 ##Required
-- [ ] As a poyoker, I can create a multiple choice poll with custom fields
+- [x] As a poyoker, I can create a multiple choice poll with custom fields
 - [ ] As a poyoker, I can see live results of the poyo
 - [ ] As a poyoker, I can close a poll
-- [ ] As a poyee, I can see all of the polls in my range
+- [x] As a poyee, I can see all of the polls in my range
 - [ ] As a poyee, I can answer a poll
-- [ ] As a poyoker, I can see the surrounding poyees on a map
 
 
 ##Optionals
+- [ ] As a poyoker, I can see the surrounding poyees on a map
 - [ ] Private polling (using password distributed offline)
 - [ ] Color coded answer
 - [ ] Map view
@@ -28,7 +28,7 @@ The location based polling application
   * Datetime
   * Location
 * General
-  * Amount of votes recently (per time)   
+  * Amount of votes recently (per time)
 
 ##Data Fields:
 
@@ -53,3 +53,7 @@ The location based polling application
 * password (null for public)
 * end_time
 * number_of_answers
+
+##Sprint 1
+
+<img src='http://i.imgur.com/EoGIFxK.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
