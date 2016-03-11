@@ -78,6 +78,12 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
         print("did something send?")
     }
     
+    @IBAction func onLogout(sender: AnyObject) {
+        PFUser.logOut()
+        PFUser.logOutInBackground()
+        self.performSegueWithIdentifier("LogoutSegue", sender: nil)
+    }
+    
     /*
     // MARK: - Navigation
     

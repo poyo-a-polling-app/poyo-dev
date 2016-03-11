@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5T9-jw-j9d">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -160,11 +160,19 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jhf-03-Z3P">
-                                <rect key="frame" x="152" y="202" width="70" height="37"/>
+                                <rect key="frame" x="152" y="190" width="70" height="37"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <state key="normal" title="post"/>
                                 <connections>
                                     <action selector="onPost:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="X5q-be-325"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ou4-hm-XgL">
+                                <rect key="frame" x="164" y="263" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="onLogout:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="b8k-j4-jIh"/>
+                                    <segue destination="BYZ-38-t0r" kind="presentation" identifier="LogoutSegue" id="3HA-tv-wcn"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -180,7 +188,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="trD-dK-hKc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1010.5" y="1175.5"/>
+            <point key="canvasLocation" x="985.5" y="1308.5"/>
         </scene>
         <!--List-->
         <scene sceneID="ImZ-w6-rbF">
@@ -272,7 +280,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="wqZ-cq-NQT">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="5T9-jw-j9d" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="go" automaticallyAdjustsScrollViewInsets="NO" id="5T9-jw-j9d" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="lzZ-qv-drp">
                         <autoresizingMask key="autoresizingMask"/>
