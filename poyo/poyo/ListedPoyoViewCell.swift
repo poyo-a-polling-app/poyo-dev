@@ -19,9 +19,9 @@ class ListedPoyoViewCell: UITableViewCell {
     
     @IBOutlet weak var timeLabel: UILabel!
     
-    @IBOutlet weak var option1Button: UIButton!
+    @IBOutlet weak var option1Button: subclassedUIButton!
     
-    @IBOutlet weak var option2Button: UIButton!
+    @IBOutlet weak var option2Button: subclassedUIButton!
     
     @IBOutlet weak var distanceLabel: UILabel!
     

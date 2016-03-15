@@ -171,6 +171,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 //        print(cell.option1Button.tag)
         cell.option2Button.tag = indexPath.row
         
+        cell.option1Button.option = 1
+        cell.option2Button.option = 2
+        
 
         cell.option1Button.addTarget(self, action: "option1Pressed:", forControlEvents: UIControlEvents.TouchUpInside)
         cell.option2Button.addTarget(self, action: "option1Pressed:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -206,19 +209,23 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         print("None answered")
         return 0
     }
-    
-    func option1Pressed(sender: UIButton!) {
+
+    func option1Pressed(sender: subclassedUIButton!) {
 //        let buttonTag = sender.tag
         var pickedButtonId = 0
         let poyo = self.feed![sender.tag]
-        if let buttonTitle = sender.titleLabel?.text {
-//            print(buttonTitle)
-            if poyo["optionOne"] as! String == buttonTitle {
-                pickedButtonId = 1
-            } else {
-                pickedButtonId = 2
-            }
-        }
+        
+//        if let buttonTitle = sender.titleLabel?.text {
+////            print(buttonTitle)
+//            if poyo["optionOne"] as! String == buttonTitle {
+//                pickedButtonId = 1
+//            } else {
+//                pickedButtonId = 2
+//            }
+//        }
+        
+        pickedButtonId = sender.option!
+        
         
         print(pickedButtonId)
         
