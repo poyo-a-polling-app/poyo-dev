@@ -15,7 +15,8 @@ class UserMedia: NSObject {
         let media = PFObject(className: "Poyos")
         
         // Add relevant fields to the object
-        //media["media"] = getPFFileFromImage(image) // PFFile column type
+       // media["mediaOne"] = getPFFileFromImage(imageOne) // PFFile column type
+        //media["mediaTwo"] = getPFFileFromImage(imageTwo)
         media["author"] = PFUser.currentUser() // Pointer column type that points to PFUser
         media["caption"] = caption
         media["longitude"] = longitude

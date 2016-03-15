@@ -165,6 +165,7 @@
                                 <state key="normal" title="post"/>
                                 <connections>
                                     <action selector="onPost:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="X5q-be-325"/>
+                                    <segue destination="k3L-oC-vA6" kind="show" id="K7A-5c-sBK"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ou4-hm-XgL">
@@ -175,8 +176,20 @@
                                     <segue destination="BYZ-38-t0r" kind="presentation" identifier="LogoutSegue" id="3HA-tv-wcn"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z3y-o0-nh8">
+                                <rect key="frame" x="243" y="80" width="82" height="30"/>
+                                <state key="normal" title="Image One"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NlP-zL-Dar">
+                                <rect key="frame" x="243" y="138" width="82" height="30"/>
+                                <state key="normal" title="Image Two"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="ljj-iM-cAY" appends="YES" id="KyT-iJ-eJn"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Post" id="x9j-5e-aMr"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -187,6 +200,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="trD-dK-hKc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="ljj-iM-cAY">
+                    <connections>
+                        <action selector="onTap:" destination="W5R-Yb-PQz" id="4kC-iX-viv"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="985.5" y="1308.5"/>
         </scene>
@@ -289,4 +307,7 @@
             <point key="canvasLocation" x="985.5" y="384.5"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="K7A-5c-sBK"/>
+    </inferredMetricsTieBreakers>
 </document>

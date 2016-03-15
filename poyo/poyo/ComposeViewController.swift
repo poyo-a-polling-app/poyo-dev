@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import CoreLocation
 
-class ComposeViewController: UIViewController, CLLocationManagerDelegate {
+class ComposeViewController: UIViewController, CLLocationManagerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     @IBOutlet weak var poyoField: UITextField!
     @IBOutlet weak var optionOneLabel: UITextField!
@@ -84,6 +84,9 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
         self.performSegueWithIdentifier("LogoutSegue", sender: nil)
     }
     
+    @IBAction func onTap(sender: AnyObject) {
+        view.endEditing(true)
+    }
     /*
     // MARK: - Navigation
     
