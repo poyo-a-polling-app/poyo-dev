@@ -56,4 +56,4 @@ The location based polling application
 
 ##Sprint 1
 
-<img src='http://i.imgur.com/EoGIFxK.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/BCLkOxh.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
