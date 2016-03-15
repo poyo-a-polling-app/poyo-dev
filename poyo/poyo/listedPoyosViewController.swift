@@ -13,31 +13,32 @@ import Parse
 
 
 class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate {
-    
+
     @IBOutlet weak var tableView: UITableView!
-    
+
     var selectedIndexPath: NSIndexPath?
-    
+
     var locationManager = CLLocationManager()
     var location: CLLocation!
-    
+
     var frameAdded = false
-    
+
+
     var feed: [PFObject]?
-    
+
     var radius: CLLocationDistance = 100
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         tableView.dataSource = self
         tableView.delegate = self
-        
+
         self.locationManager.requestAlwaysAuthorization()
-        
+
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
-        
+
         if CLLocationManager.locationServicesEnabled() {
             print("Location Successful")
             locationManager.delegate = self
@@ -47,11 +48,27 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         } else {
             print("No location")
         }
-        
+<<<<<<< HEAD
+<<<<<<< HEAD
+
         let query = PFQuery(className:"Poyos")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
             if let media = media {
-                
+
+=======
+
+        let query = PFQuery(className:"Poyos")
+        query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
+            if let media = media {
+
+>>>>>>> develop
+=======
+
+        let query = PFQuery(className:"Poyos")
+        query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
+            if let media = media {
+
+>>>>>>> develop
                 //                self.feed = media
                 //                self.tableView.reloadData()
                 print(media)
@@ -62,8 +79,19 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 // handle error
             }
         }
-        
-        
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+
+
+=======
+
+
+>>>>>>> develop
+=======
+
+
+>>>>>>> develop
         //        query.getObjectInBackgroundWithId("xWMyZEGZ") {
         //            (gameScore: PFObject?, error: NSError?) -> Void in
         //            if error == nil && gameScore != nil {
@@ -72,88 +100,222 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         //                print(error)
         //            }
         //        }
-        
-        
-        
-        
-        
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+
+
+
+
+=======
+
+
+
+
+
+>>>>>>> develop
+=======
+
+
+
+
+
+>>>>>>> develop
         // Do any additional setup after loading the view.
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+=======
+
+>>>>>>> develop
+=======
+
+>>>>>>> develop
     func refresh(sender: AnyObject) {
         let query = PFQuery(className: "UserMedia")
         query.orderByDescending("createdAt")
         query.includeKey("author")
         query.limit = 20
-        
+<<<<<<< HEAD
+<<<<<<< HEAD
+
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
             if let media = media {
-                
+
+=======
+
+        query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
+            if let media = media {
+
+>>>>>>> develop
+=======
+
+        query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
+            if let media = media {
+
+>>>>>>> develop
                 self.feed = media
                 self.tableView.reloadData()
                 //print(self.feed!)
                 // do something with the data fetched
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+=======
+>>>>>>> develop
+=======
+>>>>>>> develop
                 //                self.refreshControl?.endRefreshing()
             } else {
                 //                self.refreshControl?.endRefreshing()
                 // handle error
             }
-            
+<<<<<<< HEAD
+<<<<<<< HEAD
+
         }
     }
-    
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let feed = feed {
+            //print(self.feed!.count)
+
+            //            print(feed.count)
+            return feed.count
+
+=======
+
+=======
+
+        }
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let feed = feed {
             //print(self.feed!.count)
             //            print(feed.count)
             return feed.count
-            
+
+        } else {
+            //print("0")
+            return 0
+>>>>>>> develop
+        }
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let feed = feed {
+            //print(self.feed!.count)
+            //            print(feed.count)
+            return feed.count
+
+>>>>>>> develop
         } else {
             //print("0")
             return 0
         }
     }
-    
-    
+
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ListedPoyoViewCell", forIndexPath: indexPath) as! ListedPoyoViewCell
-        
+<<<<<<< HEAD
+<<<<<<< HEAD
+
         let poyo = self.feed![indexPath.row]
-        
+
+=======
+
+        let poyo = self.feed![indexPath.row]
+
+>>>>>>> develop
+=======
+
+        let poyo = self.feed![indexPath.row]
+
+>>>>>>> develop
         let question = poyo["caption"] as! String
         let option1 = poyo["optionOne"] as! String
         let option2 = poyo["optionTwo"] as! String
         let poyoLatitude = poyo["latitude"].doubleValue as! CLLocationDegrees
         let poyoLongitude = poyo["longitude"].doubleValue as! CLLocationDegrees
-        
+<<<<<<< HEAD
+<<<<<<< HEAD
+
         var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
         var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
-        
-        
-        
+
+
+
         cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
-        
+
         if radius < distanceFromPoyo {
+
             //            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
-            
+
             //            tableV
         }
-        
-        
+
+
         cell.questionLabel.text = question
         cell.option1Button.setTitle(option1, forState: UIControlState.Normal)
         cell.option2Button.setTitle(option2, forState: UIControlState.Normal)
-        
-        
+
+
+=======
+
+        var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
+        var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
+
+
+
+        cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
+
+        if radius < distanceFromPoyo {
+            //            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+
+            //            tableV
+        }
+
+
+        cell.questionLabel.text = question
+        cell.option1Button.setTitle(option1, forState: UIControlState.Normal)
+        cell.option2Button.setTitle(option2, forState: UIControlState.Normal)
+
+
+>>>>>>> develop
+=======
+
+        var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
+        var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
+
+
+
+        cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
+
+        if radius < distanceFromPoyo {
+            //            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+
+            //            tableV
+        }
+
+
+        cell.questionLabel.text = question
+        cell.option1Button.setTitle(option1, forState: UIControlState.Normal)
+        cell.option2Button.setTitle(option2, forState: UIControlState.Normal)
+
+
+>>>>>>> develop
         return cell
     }
-    
-    
+
+
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let previousIndexPath = selectedIndexPath
         if indexPath == selectedIndexPath {
@@ -161,31 +323,39 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         } else {
             selectedIndexPath = indexPath
         }
-        
+
         var indexPaths : Array<NSIndexPath> = []
-        
+
         if let previous = previousIndexPath {
             indexPaths += [previous]
         }
         if let current = selectedIndexPath {
             indexPaths += [current]
         }
-        
+
         if indexPaths.count > 0 {
             tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.None)
         }
-        
+
     }
-    
+
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         (cell as! ListedPoyoViewCell).watchFrameChanges()
     }
-    
+
     func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         (cell as! ListedPoyoViewCell).ignoreFrameChanges()
-        
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+=======
+
+>>>>>>> develop
+=======
+
+>>>>>>> develop
     }
-    
+
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath == selectedIndexPath {
             return ListedPoyoViewCell.expandedHeight
@@ -193,20 +363,54 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             return ListedPoyoViewCell.defaultHeight
         }
     }
-    
-    
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         var latestLocation: AnyObject = locations[locations.count - 1]
-        
+
         //        latitudeLabel.text = String(format: "%.4f", latestLocation.coordinate.latitude)
         //        longitudeLabel.text = String(format: "%.4f", latestLocation.coordinate.longitude)
-        
+
         if location == nil {
             location = latestLocation as! CLLocation
         }
-        
-        
-        
+
+
+
+=======
+
+
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        var latestLocation: AnyObject = locations[locations.count - 1]
+
+        //        latitudeLabel.text = String(format: "%.4f", latestLocation.coordinate.latitude)
+        //        longitudeLabel.text = String(format: "%.4f", latestLocation.coordinate.longitude)
+
+        if location == nil {
+            location = latestLocation as! CLLocation
+        }
+
+
+
+>>>>>>> develop
+=======
+
+
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        var latestLocation: AnyObject = locations[locations.count - 1]
+
+        //        latitudeLabel.text = String(format: "%.4f", latestLocation.coordinate.latitude)
+        //        longitudeLabel.text = String(format: "%.4f", latestLocation.coordinate.longitude)
+
+        if location == nil {
+            location = latestLocation as! CLLocation
+        }
+
+
+
+>>>>>>> develop
         var kennedy = CLLocation(latitude: 28.572646, longitude: -80.649024)
         var distanceFromKennedy: CLLocationDistance = location.distanceFromLocation(kennedy)
         var distanceMiles = distanceFromKennedy * 0.621371 / 1000
@@ -214,14 +418,24 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         //        kennedyDistLabel.text = String(format: "%.2f meters", distanceFromKennedy)
         //
         //        rocketMiles.text = String(format: "%.2f miles", distanceMiles)
-        
-        
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+
+=======
+
+
+>>>>>>> develop
+=======
+
+
+>>>>>>> develop
     }
-    
+
     @IBAction func resetLocation(sender: AnyObject) {
         location = nil
     }
-    
+
     /*
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -230,5 +444,5 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     // Pass the selected object to the new view controller.
     }
     */
-    
+
 }
