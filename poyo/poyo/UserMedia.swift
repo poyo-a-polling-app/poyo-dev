@@ -24,8 +24,9 @@ class UserMedia: NSObject {
         media["commentsCount"] = 0
         media["optionOne"] = optionOne
         media["optionTwo"] = optionTwo
+//        media["optionOneResponses"] =
         
-        print("did it work?")
+//        print("did it work?")
         
         // Save object (following function will save the object in Parse asynchronously)
         media.saveInBackgroundWithBlock(completion)

@@ -158,9 +158,83 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.questionLabel.text = question
         cell.option1Button.setTitle(option1, forState: UIControlState.Normal)
         cell.option2Button.setTitle(option2, forState: UIControlState.Normal)
+        
+        cell.option1Button.tag = indexPath.row
+//        print(cell.option1Button.tag)
+        cell.option2Button.tag = indexPath.row
+
+
+        cell.option1Button.addTarget(self, action: "option1Pressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        cell.option2Button.addTarget(self, action: "option1Pressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        
 
 
         return cell
+    }
+    
+    func option1Pressed(sender: UIButton!) {
+//        let buttonTag = sender.tag
+        var pickedButtonId = 0
+        let poyo = self.feed![sender.tag]
+        if let buttonTitle = sender.titleLabel?.text {
+            print(buttonTitle)
+            if poyo["optionOne"] as! String == buttonTitle {
+                pickedButtonId = 1
+            } else {
+                pickedButtonId = 2
+            }
+        }
+        
+        print(pickedButtonId)
+
+
+        print("ITTWERKS!!!")
+        var query = PFQuery(className: "Poyos")
+        var userID = poyo.objectId
+        print(userID)
+        
+        query.getObjectInBackgroundWithId(userID!) { (object: PFObject?, error: NSError?) -> Void in
+            if error != nil {
+                print(error)
+            } else if let object = object {
+                switch pickedButtonId {
+                    case 1:
+                        print("Option 1 Done")
+//                        object.addObject(PFUser.currentUser()!, forKey: "option1Answers")
+                    case 2:
+                        print("Option 2 Done")
+                    default:
+                        print("None chosen")
+
+                }
+
+            }
+            
+
+            object?.saveInBackground()
+        }
+    }
+    
+    func option2Pressed(sender: UIButton!) {
+        //        let buttonTag = sender.tag
+        let poyo = self.feed![sender.tag]
+        
+        print("ITTWERKS!!!")
+        var query = PFQuery(className: "Poyos")
+        var userID = poyo.objectId
+        print(userID)
+        
+        query.getObjectInBackgroundWithId(userID!) { (object: PFObject?, error: NSError?) -> Void in
+            if error != nil {
+                print(error)
+            } else if let object = object {
+                object.addObject(PFUser.currentUser()!, forKey: "option2Answers")
+            }
+            
+            object?.saveInBackground()
+        }
     }
 
 

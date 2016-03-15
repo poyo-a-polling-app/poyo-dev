@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 class ListedPoyoViewCell: UITableViewCell {
     
@@ -69,5 +70,28 @@ class ListedPoyoViewCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
+//    
+//    @IBAction func option1Pressed(sender: AnyObject) {
+//        var appendToPassengerArrayQuery = PFQuery(className: "Poyos")
+//        
+////        appendToPassengerArrayQuery.getObjectInBackgroundWithId(<#T##objectId: String##String#>, block: <#T##((PFObject?, NSError?) -> Void)?##((PFObject?, NSError?) -> Void)?##(PFObject?, NSError?) -> Void#>)
+//        appendToPassengerArrayQuery.getObjectInBackgroundWithId(self.postIdLabel.text!, block: {
+//            (object:PFObject?, error: NSError?) -> Void in
+//            if object != nil {
+//                object!["passengers"] = userId
+//                object!.saveInBackgroundWithBlock{
+//                    (success: Bool, error: NSError?)-> Void in
+//                    if (success) {
+//                        println("request deleted")
+//                    }
+//                    else {
+//                        println("cannot delete")
+//                    }}
+//            }
+//        })
+//    }
+    
+    
+
     
 }
