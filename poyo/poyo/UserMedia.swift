@@ -24,7 +24,9 @@ class UserMedia: NSObject {
         media["commentsCount"] = 0
         media["optionOne"] = optionOne
         media["optionTwo"] = optionTwo
-//        media["optionOneResponses"] =
+        media["option1Answers"] = []
+        media["option2Answers"] = []
+
         
 //        print("did it work?")
         

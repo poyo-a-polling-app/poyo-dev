@@ -27,7 +27,7 @@ class ListedPoyoViewCell: UITableViewCell {
     
     class var expandedHeight: CGFloat { get { return 300 } }
     class var defaultHeight: CGFloat { get { return 100 } }
-    
+    var alreadyAnswered: Int = 0
     
     
     

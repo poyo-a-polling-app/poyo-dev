@@ -56,7 +56,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
                 //                self.feed = media
                 //                self.tableView.reloadData()
-                print(media)
+//                print(media)
                 self.feed = media
                 self.tableView.reloadData()
                 // do something with the data fetched
@@ -153,6 +153,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
             //            tableV
         }
+        
+        cell.alreadyAnswered = checkAnswered(indexPath)
+        print(cell.alreadyAnswered)
+        if(cell.alreadyAnswered != 0) {
+            cell.backgroundColor = UIColor.blueColor()
+        }
+        
+        
 
 
         cell.questionLabel.text = question
@@ -162,7 +170,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.option1Button.tag = indexPath.row
 //        print(cell.option1Button.tag)
         cell.option2Button.tag = indexPath.row
-
+        
 
         cell.option1Button.addTarget(self, action: "option1Pressed:", forControlEvents: UIControlEvents.TouchUpInside)
         cell.option2Button.addTarget(self, action: "option1Pressed:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -174,12 +182,37 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         return cell
     }
     
+    func checkAnswered (indexPath: NSIndexPath) -> Int {
+        let poyo = self.feed![indexPath.row]
+        
+        var userID = PFUser.currentUser()
+
+        
+        var options1Array = poyo["option1Answers"] as! [PFUser]
+        var id1Array = options1Array.map{ $0.objectId }
+        
+        if id1Array.contains({$0 == userID!.objectId}){
+            print("Already answered 1")
+            return 1
+        }
+        
+        var options2Array = poyo["option2Answers"] as! [PFUser]
+        var id2Array = options2Array.map{ $0.objectId }
+        
+        if id1Array.contains({$0 == userID!.objectId}){
+            print("Already answered 2")
+            return 2
+        }
+        print("None answered")
+        return 0
+    }
+    
     func option1Pressed(sender: UIButton!) {
 //        let buttonTag = sender.tag
         var pickedButtonId = 0
         let poyo = self.feed![sender.tag]
         if let buttonTitle = sender.titleLabel?.text {
-            print(buttonTitle)
+//            print(buttonTitle)
             if poyo["optionOne"] as! String == buttonTitle {
                 pickedButtonId = 1
             } else {
@@ -188,14 +221,28 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
         
         print(pickedButtonId)
+        
+//        if pickedButtonId ==
 
 
         print("ITTWERKS!!!")
         var query = PFQuery(className: "Poyos")
-        var userID = poyo.objectId
-        print(userID)
+        var poyoID = poyo.objectId
+        var userID = PFUser.currentUser()
         
-        query.getObjectInBackgroundWithId(userID!) { (object: PFObject?, error: NSError?) -> Void in
+//        var optionsArray = poyo["option1Answers"] as! [PFUser]
+//        var idArray = optionsArray.map{ $0.objectId }
+//        
+//        print(idArray)
+//        
+//        
+//        if idArray.contains({$0 == userID!.objectId}){
+//            print("Already answered")
+//        } else {
+//            print("Go ahead and answer!!")
+//        }
+//        
+        query.getObjectInBackgroundWithId(poyoID!) { (object: PFObject?, error: NSError?) -> Void in
             if error != nil {
                 print(error)
             } else if let object = object {
@@ -314,4 +361,11 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     }
     */
 
+}
+
+class subclassedUIButton: UIButton {
+    var indexPath: Int?
+    var chosenItem: Int?
+    var option: Int?
+    var urlString: String?
 }
