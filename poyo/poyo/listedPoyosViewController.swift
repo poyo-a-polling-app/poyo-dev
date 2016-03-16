@@ -49,14 +49,20 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             print("No location")
         }
 
-        let query = PFQuery(className:"Poyos")
+        reloadAllData()
+
+    }
+    
+    func reloadAllData() {
+        print("RELOADING DATA!!!")
+        let query = PFQuery(className:"PoyosAnswers")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
             if let media = media {
-
-
+                
+                
                 //                self.feed = media
                 //                self.tableView.reloadData()
-//                print(media)
+                //                print(media)
                 self.feed = media
                 self.tableView.reloadData()
                 // do something with the data fetched
@@ -64,21 +70,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 // handle error
             }
         }
-
-        //        query.getObjectInBackgroundWithId("xWMyZEGZ") {
-        //            (gameScore: PFObject?, error: NSError?) -> Void in
-        //            if error == nil && gameScore != nil {
-        //                print(gameScore)
-        //            } else {
-        //                print(error)
-        //            }
-        //        }
-
-
-
-
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -155,6 +146,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
         
         cell.alreadyAnswered = checkAnswered(indexPath)
+        print("alreadyAnswered Value")
         print(cell.alreadyAnswered)
         if(cell.alreadyAnswered != 0) {
             cell.backgroundColor = UIColor.blueColor()
@@ -174,6 +166,24 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.option1Button.option = 1
         cell.option2Button.option = 2
         
+        if cell.alreadyAnswered == 1 {
+            cell.option1Button.backgroundColor = UIColor.redColor()
+            cell.option2Button.backgroundColor = UIColor.clearColor()
+
+        } else if cell.alreadyAnswered == 2 {
+            cell.option2Button.backgroundColor = UIColor.redColor()
+            cell.option1Button.backgroundColor = UIColor.clearColor()
+
+        }
+        
+        cell.option1Button.indexPath = indexPath
+        cell.option2Button.indexPath = indexPath
+        
+        cell.option1Button.chosenItem = cell.alreadyAnswered
+        cell.option2Button.chosenItem = cell.alreadyAnswered
+
+        
+        
 
         cell.option1Button.addTarget(self, action: "option1Pressed:", forControlEvents: UIControlEvents.TouchUpInside)
         cell.option2Button.addTarget(self, action: "option1Pressed:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -184,56 +194,191 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         return cell
     }
+//    
+//    func addNewPresetDecision (indexPath: NSIndexPath, chosenOption: Int) {
+//        let cell = tableView.dequeueReusableCellWithIdentifier("ListedPoyoViewCell", forIndexPath: indexPath) as! ListedPoyoViewCell
+//        cell.option1Button.chosenItem = chosenOption
+//        cell.option2Button.chosenItem = chosenOption
+//        print("Chosen items Changed")
+//    }
     
     func checkAnswered (indexPath: NSIndexPath) -> Int {
-        let poyo = self.feed![indexPath.row]
+        print("CHECKED ANSWERED")
         
-        var userID = PFUser.currentUser()
+        
+        let query : PFQuery = PFQuery(className: "PoyosAnswers")
+        
+        var savedNum: Int = 0;
+        
+        
+        
+        //        query.whereKey("option1Answers", notEqualTo: (PFUser.currentUser()?.objectId)!)
+        
+        query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
+            for object in objects! {
+                print("Remove options")
+                var cleanArray = object["option1Answers"] as! [String]
+                print(cleanArray)
+                
+                cleanArray = cleanArray.filter() {$0 == PFUser.currentUser()?.objectId}
+                print(cleanArray)
+
+                
+                
+                var clean2Array = object["option2Answers"] as! [String]
+                print(cleanArray)
+                
+                clean2Array = clean2Array.filter() {$0 == PFUser.currentUser()?.objectId}
+                print(cleanArray)
+                
+                
+                if cleanArray.count > 0 {
+                    print("RETURNING 1")
+                    savedNum = 1
+                } else if clean2Array.count > 0 {
+                    print("RETURNING 2")
+                    savedNum = 2
+                } else {
+                    print("RETURNING 0")
+                    savedNum = 0
+                }
+                //                object["option1Answers"] = object["option1Answers"].filter() { $0 !== PFUser.currentUser()?.objectId } as! [String]
+                
+                
+                
+            }
+            
+            //            print("HERE ARE THE OBJECTS")
+            //            print(objects)
+            
+        }
+        return savedNum
+
 
         
-        var options1Array = poyo["option1Answers"] as! [PFUser]
-        var id1Array = options1Array.map{ $0.objectId }
         
-        if id1Array.contains({$0 == userID!.objectId}){
-            print("Already answered 1")
-            return 1
+//        print(indexPath.row)
+//        let poyo = self.feed![indexPath.row]
+//        
+//        var userID = PFUser.currentUser()
+//        
+//
+//
+//        
+//        var options1Array = poyo["option1Answers"] as! [String]
+//        
+//        print(options1Array)
+//        if options1Array.contains({$0 == userID!.objectId}){
+//            print("Already answered 1")
+//            return 1
+//        }
+//    
+//        
+//        
+//        var options2Array = poyo["option2Answers"] as! [String]
+//        
+//        print(options2Array)
+//        
+//        if options2Array.contains({$0 == userID!.objectId}){
+//            print("Already answered 2")
+//            return 2
+//        }
+//        print("None answered")
+//        return 0
+    }
+    
+    
+    func deleteAnswers (sender: subclassedUIButton) {
+        print("DELETE ANSWERS STARTED")
+        
+        let query : PFQuery = PFQuery(className: "PoyosAnswers")
+        
+        
+        
+        
+//        query.whereKey("option1Answers", notEqualTo: (PFUser.currentUser()?.objectId)!)
+        
+        query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
+            for object in objects! {
+                print("Remove options")
+                var cleanArray = object["option1Answers"] as! [String]
+                print(cleanArray)
+                
+                cleanArray = cleanArray.filter() {$0 != PFUser.currentUser()?.objectId}
+                print(cleanArray)
+                
+                object["option1Answers"] = cleanArray
+                
+                
+                
+                var clean2Array = object["option2Answers"] as! [String]
+                print(cleanArray)
+                
+                clean2Array = clean2Array.filter() {$0 != PFUser.currentUser()?.objectId}
+                print(cleanArray)
+                
+                object["option2Answers"] = clean2Array
+                
+                object.saveInBackground()
+//                object["option1Answers"] = object["option1Answers"].filter() { $0 !== PFUser.currentUser()?.objectId } as! [String]
+                
+            
+
+            }
+//            print("HERE ARE THE OBJECTS")
+//            print(objects)
+            
         }
         
-        var options2Array = poyo["option2Answers"] as! [PFUser]
-        var id2Array = options2Array.map{ $0.objectId }
+//        reloadAllData()
+
         
-        if id1Array.contains({$0 == userID!.objectId}){
-            print("Already answered 2")
-            return 2
-        }
-        print("None answered")
-        return 0
+
+        
     }
 
     func option1Pressed(sender: subclassedUIButton!) {
 //        let buttonTag = sender.tag
+        let point = tableView.convertPoint(CGPoint.zero, fromView: sender)
+        
+        guard let foundIndexPath = tableView.indexPathForRowAtPoint(point) else {
+            fatalError("can't find point in tableView")
+        }
+        
+        print("THIS IS THE INDEX PATH")
+        print(foundIndexPath.row)
+        
+        let cell = tableView.cellForRowAtIndexPath(foundIndexPath) as! ListedPoyoViewCell
+        
+        
+        
+        
+        
+        
+        
         var pickedButtonId = 0
         let poyo = self.feed![sender.tag]
-        
-//        if let buttonTitle = sender.titleLabel?.text {
-////            print(buttonTitle)
-//            if poyo["optionOne"] as! String == buttonTitle {
-//                pickedButtonId = 1
-//            } else {
-//                pickedButtonId = 2
-//            }
-//        }
         
         pickedButtonId = sender.option!
         
         
         print(pickedButtonId)
+        print(sender.chosenItem)
         
-//        if pickedButtonId ==
+        if pickedButtonId == sender.chosenItem {
+            print("Already chosen this option")
+            return
+        } else if sender.chosenItem != 0 {
+            print("Option 1 Attempted to be deleted")
+            deleteAnswers(sender)
+        } else {
+            print("Error: It messed up")
+            print(sender.chosenItem)
+        }
 
 
         print("ITTWERKS!!!")
-        var query = PFQuery(className: "Poyos")
+        var query = PFQuery(className: "PoyosAnswers")
         var poyoID = poyo.objectId
         var userID = PFUser.currentUser()
         
@@ -256,9 +401,22 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 switch pickedButtonId {
                     case 1:
                         print("Option 1 Done")
-//                        object.addObject(PFUser.currentUser()!, forKey: "option1Answers")
+                        object.addObject(PFUser.currentUser()!.objectId!, forKey: "option1Answers")
+//                        self.addNewPresetDecision(sender.indexPath!, chosenOption: 1)
+                        sender.chosenItem = 1
+                        cell.alreadyAnswered = 1
+                        cell.option2Button.chosenItem = 1
+                    
+                    
                     case 2:
                         print("Option 2 Done")
+                        object.addObject(PFUser.currentUser()!.objectId!, forKey: "option2Answers")
+
+//                        self.addNewPresetDecision(sender.indexPath!, chosenOption: 2)
+                        
+                        sender.chosenItem = 2
+                        cell.alreadyAnswered = 2
+                        cell.option1Button.chosenItem = 2
                     default:
                         print("None chosen")
 
@@ -266,31 +424,15 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
             }
             
-
-            object?.saveInBackground()
-        }
-    }
-    
-    func option2Pressed(sender: UIButton!) {
-        //        let buttonTag = sender.tag
-        let poyo = self.feed![sender.tag]
-        
-        print("ITTWERKS!!!")
-        var query = PFQuery(className: "Poyos")
-        var userID = poyo.objectId
-        print(userID)
-        
-        query.getObjectInBackgroundWithId(userID!) { (object: PFObject?, error: NSError?) -> Void in
-            if error != nil {
-                print(error)
-            } else if let object = object {
-                object.addObject(PFUser.currentUser()!, forKey: "option2Answers")
-            }
+//            self.checkAnswered(sender.indexPath!)
             
+            self.reloadAllData()
+
             object?.saveInBackground()
         }
+        self.tableView.reloadData()
+        print("==========================")
     }
-
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let previousIndexPath = selectedIndexPath
@@ -371,7 +513,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 }
 
 class subclassedUIButton: UIButton {
-    var indexPath: Int?
+    var indexPath: NSIndexPath?
     var chosenItem: Int?
     var option: Int?
     var urlString: String?

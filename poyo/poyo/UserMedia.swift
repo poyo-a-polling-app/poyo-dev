@@ -12,7 +12,7 @@ import Parse
 class UserMedia: NSObject {
     class func postPoyo(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCompletion completion: PFBooleanResultBlock?) {
         // Create Parse object PFObject
-        let media = PFObject(className: "Poyos")
+        let media = PFObject(className: "PoyosAnswers")
         
         // Add relevant fields to the object
         //media["media"] = getPFFileFromImage(image) // PFFile column type
