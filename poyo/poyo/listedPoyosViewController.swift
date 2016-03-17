@@ -52,15 +52,27 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         let query = PFQuery(className:"Poyos")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
             if let media = media {
+                self.feed = []
+                
+                for medium in media {
+                    let date = medium["time"] as! NSDate
+                    
+                    let timeElapsed = Int(0 - date.timeIntervalSinceNow)
+                    if(timeElapsed > 21 * 60 * 60) {
+                        UserMedia.killPoyo(medium)
+                    } else {
+                        print("hey you yeah you")
+                        self.feed!.append(medium)
+                    }
 
-
+                }
                 //                self.feed = media
                 //                self.tableView.reloadData()
                 print(media)
-                self.feed = media
                 self.tableView.reloadData()
                 // do something with the data fetched
             } else {
+                
                 // handle error
             }
         }
@@ -132,7 +144,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
 
         let poyo = self.feed![indexPath.row]
-
+        let date = poyo["time"] as! NSDate
         let question = poyo["caption"] as! String
         let option1 = poyo["optionOne"] as! String
         let option2 = poyo["optionTwo"] as! String
@@ -158,7 +170,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.questionLabel.text = question
         cell.option1Button.setTitle(option1, forState: UIControlState.Normal)
         cell.option2Button.setTitle(option2, forState: UIControlState.Normal)
-
+        cell.timeLabel.text = timeElapsed(date)
 
         return cell
     }
@@ -230,6 +242,47 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     @IBAction func resetLocation(sender: AnyObject) {
         location = nil
     }
+    
+    func timeElapsed(date: NSDate) -> String {
+        
+        let timeElapsed = Int(0 - date.timeIntervalSinceNow)
+        print(timeElapsed)
+        
+        let secondsInMinute = 60
+        let secondsInHour = secondsInMinute * 60
+        let secondsInDay = secondsInHour * 24
+        let secondsInMonth = secondsInDay * 30
+        let monthsElapsed = timeElapsed/secondsInMonth
+        let daysElapsed = timeElapsed/secondsInDay
+        let hoursElapsed = timeElapsed/secondsInHour
+        let minutesElapsed = timeElapsed/secondsInMinute
+        let secondsElapsed = timeElapsed
+        var timeElapsedString: String?
+        
+        if monthsElapsed != 0 {
+            timeElapsedString = "\(monthsElapsed)mon"
+            
+        } else if daysElapsed != 0 {
+            timeElapsedString = "\(daysElapsed)d"
+            
+            
+        } else if hoursElapsed != 0 {
+            timeElapsedString = "\(hoursElapsed)h"
+            
+            
+        } else if minutesElapsed != 0 {
+            timeElapsedString = "\(minutesElapsed)m"
+            
+        } else {
+            timeElapsedString = "\(secondsElapsed)s"
+            
+            
+        }
+        
+        return timeElapsedString!
+        
+    }
+
 
     /*
     // MARK: - Navigation
