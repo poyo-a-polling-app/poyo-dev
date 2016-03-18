@@ -182,68 +182,21 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
     }
     
+    func countVotes(indexPath: NSIndexPath, option: Int) -> Int {
+        let poyo = self.feed![indexPath.row]
+        switch option {
+            case 1:
+                return poyo["option1Answers"].count
+            case 2:
+                return poyo["option2Answers"].count
+            default:
+                return 0
+        }
+    }
+
     
     func checkAnswered (indexPath: NSIndexPath) -> Int {
-//        print("CHECKED ANSWERED \(indexPath.row)")
-        
-//
-//        
-//        let query : PFQuery = PFQuery(className: "PoyosAnswers")
-//        
-//        var savedNum: Int = 0;
-//        
-//        
-//        
-//        //        query.whereKey("option1Answers", notEqualTo: (PFUser.currentUser()?.objectId)!)
-//        
-//        query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
-//            for object in objects! {
-//                print("Checked options 1")
-//                var cleanArray = object["option1Answers"] as! [String]
-//                print(cleanArray)
-//                
-//                cleanArray = cleanArray.filter() {$0 == PFUser.currentUser()?.objectId}
-//                print(cleanArray)
-//                
-//                
-//                print("Checked options 2")
-//                
-//                var clean2Array = object["option2Answers"] as! [String]
-//                print(clean2Array)
-//                
-//                clean2Array = clean2Array.filter() {$0 == PFUser.currentUser()?.objectId}
-//                print(clean2Array)
-//                
-//                
-//                if cleanArray.count > 0 {
-//                    print("RETURNING CHECKED ANSWER 1")
-//                    savedNum = 1
-//                } else if clean2Array.count > 0 {
-//                    print("RETURNING CHECKED ANSWER 2")
-//                    savedNum = 2
-//                } else {
-//                    print("RETURNING CHECKED ANSWER 0")
-//                    savedNum = 0
-//                }
-//                //                object["option1Answers"] = object["option1Answers"].filter() { $0 !== PFUser.currentUser()?.objectId } as! [String]
-//                
-//                
-//                
-//            }
-//            
-//            //            print("HERE ARE THE OBJECTS")
-//            //            print(objects)
-//            
-//        }
-//        
-//        
-////        tableView.reloadData()
-//
-//        return savedNum
-//        
-//        
-        
-        
+
         
                 print("===Checking Answer for Index Row: \(indexPath.row)")
                 let poyo = self.feed![indexPath.row]
@@ -296,7 +249,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
         var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
 
-
+        
 
         cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
 
@@ -308,7 +261,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         cell.alreadyAnswered = chosenOption[indexPath.row]
 
-//        cell.alreadyAnswered = checkAnswered(indexPath)
 //        NSThread.sleepForTimeInterval(2)
 
         print("alreadyAnswered Value: \(cell.alreadyAnswered)")
@@ -326,7 +278,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             cell.option2Button.backgroundColor = UIColor.blueColor()
         }
         
-        
+        var totalCount = String(format: "\(countVotes(indexPath, option: 1) + countVotes(indexPath, option: 2)) votes")
+//        String(format: "%.2f meters", distanceFromPoyo)
+        cell.votesLabel.text = totalCount as! String
 
 
         cell.questionLabel.text = question
@@ -357,6 +311,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         return cell
     }
+    
 
     
     func deleteAnswers (sender: subclassedUIButton) {
