@@ -48,24 +48,28 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         } else {
             print("No location")
         }
-
+        
         let query = PFQuery(className:"Poyos")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
             if let media = media {
                 self.feed = []
                 
+                
                 for medium in media {
+                    print("hey work you piece of shit \(medium)")
+                    let timeLimit = Int(medium["timeLimit"] as! String)
                     let date = medium["time"] as! NSDate
-                    
                     let timeElapsed = Int(0 - date.timeIntervalSinceNow)
-                    if(timeElapsed > 21 * 60 * 60) {
+                    if(timeElapsed > timeLimit!) {
                         UserMedia.killPoyo(medium)
                     } else {
                         print("hey you yeah you")
                         self.feed!.append(medium)
                     }
+                    
 
                 }
+                
                 //                self.feed = media
                 //                self.tableView.reloadData()
                 print(media)
@@ -75,6 +79,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 
                 // handle error
             }
+            
+
         }
 
         //        query.getObjectInBackgroundWithId("xWMyZEGZ") {
@@ -128,7 +134,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let feed = feed {
-            //print(self.feed!.count)
+            print(self.feed!.count)
+            
             //            print(feed.count)
             return feed.count
 
