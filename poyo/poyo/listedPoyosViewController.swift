@@ -129,6 +129,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ListedPoyoViewCell", forIndexPath: indexPath) as! ListedPoyoViewCell
+        
 
 
         let poyo = self.feed![indexPath.row]
