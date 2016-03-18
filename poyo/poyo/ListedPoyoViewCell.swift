@@ -27,40 +27,40 @@ class ListedPoyoViewCell: UITableViewCell {
     
     class var expandedHeight: CGFloat { get { return 300 } }
 //    class var defaultHeight: CGFloat { get { return 100 } }
-    class var defaultHeight: CGFloat { get { return 300 } }
+    class var defaultHeight: CGFloat { get { return 100 } }
 
     var alreadyAnswered: Int = 0
     
-//    
-//    
-//    var frameAdded = false
-//    //    var expandedHeight: CGFloat = 200
-//    //    var defaultHeight: CGFloat = 44
-//    
-//    func checkHeight(){
-//        collapsedView.hidden = (frame.size.height < ListedPoyoViewCell.expandedHeight)
-//    }
-//    
-//    func watchFrameChanges(){
-//        addObserver(self, forKeyPath: "frame", options: .New, context: nil)
-//        if(!frameAdded){
-//            checkHeight()
-//            frameAdded = true
-//        }
-//    }
-//    
-//    func ignoreFrameChanges(){
-//        if(frameAdded){
-//            removeObserver(self, forKeyPath: "frame")
-//            frameAdded = false
-//        }
-//    }
-//    
-//    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-//        if keyPath == "frame" {
-//            checkHeight()
-//        }
-//    }
+    
+    
+    var frameAdded = false
+    //    var expandedHeight: CGFloat = 200
+    //    var defaultHeight: CGFloat = 44
+    
+    func checkHeight(){
+        collapsedView.hidden = (frame.size.height < ListedPoyoViewCell.expandedHeight)
+    }
+    
+    func watchFrameChanges(){
+        addObserver(self, forKeyPath: "frame", options: .New, context: nil)
+        if(!frameAdded){
+            checkHeight()
+            frameAdded = true
+        }
+    }
+    
+    func ignoreFrameChanges(){
+        if(frameAdded){
+            removeObserver(self, forKeyPath: "frame")
+            frameAdded = false
+        }
+    }
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if keyPath == "frame" {
+            checkHeight()
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

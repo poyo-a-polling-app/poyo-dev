@@ -22,13 +22,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     var location: CLLocation!
 
     var frameAdded = false
+    var chosenSaved = false
 
 
     var feed: [PFObject]?
 
     var radius: CLLocationDistance = 100
     
-    var chosenOption: [Int]?
+    var chosenOption = [Int]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         self.locationManager.requestAlwaysAuthorization()
 
+//        chosenSaved = false
+        
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
 
@@ -52,6 +55,13 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
 
         reloadAllData()
+        
+        
+
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        populateChosenOption()
 
     }
     
@@ -66,6 +76,11 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 //                self.tableView.reloadData()
                 //                print(media)
                 self.feed = media
+                if !self.chosenSaved {
+                    self.populateChosenOption()
+
+                }
+
                 self.tableView.reloadData()
                 // do something with the data fetched
                 print("IT ACCESSED THE DATA!!!!!")
@@ -74,7 +89,50 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 // handle error
             }
         }
+        if chosenOption != [] {
+            print("Chosen saved: \(chosenOption)")
+            chosenSaved = true
+
+        }
         
+    }
+    
+    func populateChosenOption() {
+        if feed != nil {
+            for item in feed! {
+                print("======Populating Checked Option Array======")
+                let poyo = item
+                
+                var userID = PFUser.currentUser()
+                
+                var options1Array = poyo["option1Answers"] as! [String]
+                
+                //                print(options1Array)
+                if options1Array.contains({$0 == userID!.objectId}){
+                    print("Already answered 1")
+                                    chosenOption.append(1)
+                    continue
+                }
+                
+                
+                
+                var options2Array = poyo["option2Answers"] as! [String]
+                
+                //                print(options2Array)
+                
+                if options2Array.contains({$0 == userID!.objectId}){
+                    print("Already answered 2")
+                                    chosenOption.append(2)
+                    continue
+                }
+                print("None answered")
+                            chosenOption.append(0)
+            }
+            
+            print("Chosen Option: \(chosenOption)")
+        } else {
+            print("Chosen did not occur!")
+        }
         
     }
 
@@ -247,8 +305,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
             //            tableV
         }
-        
-        cell.alreadyAnswered = checkAnswered(indexPath)
+
+        cell.alreadyAnswered = chosenOption[indexPath.row]
+
+//        cell.alreadyAnswered = checkAnswered(indexPath)
 //        NSThread.sleepForTimeInterval(2)
 
         print("alreadyAnswered Value: \(cell.alreadyAnswered)")
@@ -258,10 +318,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             cell.option2Button.backgroundColor = UIColor.clearColor()
         } else if cell.alreadyAnswered == 1 {
             cell.backgroundColor = UIColor.greenColor()
-            cell.option1Button.backgroundColor = UIColor.blueColor()
+            cell.option1Button.backgroundColor = UIColor.greenColor()
             cell.option2Button.backgroundColor = UIColor.clearColor()
         } else {
-            cell.backgroundColor = UIColor.greenColor()
+            cell.backgroundColor = UIColor.blueColor()
             cell.option1Button.backgroundColor = UIColor.clearColor()
             cell.option2Button.backgroundColor = UIColor.blueColor()
         }
@@ -278,16 +338,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         
         cell.option1Button.option = 1
         cell.option2Button.option = 2
-        
-        if cell.alreadyAnswered == 1 {
-            cell.option1Button.backgroundColor = UIColor.redColor()
-            cell.option2Button.backgroundColor = UIColor.clearColor()
-
-        } else if cell.alreadyAnswered == 2 {
-            cell.option2Button.backgroundColor = UIColor.redColor()
-            cell.option1Button.backgroundColor = UIColor.clearColor()
-
-        }
         
         cell.option1Button.indexPath = indexPath
         cell.option2Button.indexPath = indexPath
@@ -402,18 +452,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var poyoID = poyo.objectId
         var userID = PFUser.currentUser()
         
-//        var optionsArray = poyo["option1Answers"] as! [PFUser]
-//        var idArray = optionsArray.map{ $0.objectId }
-//        
-//        print(idArray)
-//        
-//        
-//        if idArray.contains({$0 == userID!.objectId}){
-//            print("Already answered")
-//        } else {
-//            print("Go ahead and answer!!")
-//        }
-//        
         query.getObjectInBackgroundWithId(poyoID!) { (object: PFObject?, error: NSError?) -> Void in
             if error != nil {
                 print(error)
@@ -429,6 +467,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                         sender.chosenItem = 1
                         cell.alreadyAnswered = 1
                         cell.option2Button.chosenItem = 1
+                        
+                        self.chosenOption[sender.tag] = 1
                     
                         self.tableView.reloadData()
 
@@ -443,6 +483,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                         cell.alreadyAnswered = 2
 
                         cell.option1Button.chosenItem = 2
+                        
+                        self.chosenOption[sender.tag] = 2
+
                         self.tableView.reloadData()
 
                     default:
@@ -466,45 +509,45 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         print("==========================")
     }
 
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        let previousIndexPath = selectedIndexPath
-//        if indexPath == selectedIndexPath {
-//            selectedIndexPath = nil
-//        } else {
-//            selectedIndexPath = indexPath
-//        }
-//
-//        var indexPaths : Array<NSIndexPath> = []
-//
-//        if let previous = previousIndexPath {
-//            indexPaths += [previous]
-//        }
-//        if let current = selectedIndexPath {
-//            indexPaths += [current]
-//        }
-//
-//        if indexPaths.count > 0 {
-//            tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.None)
-//        }
-//
-//    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let previousIndexPath = selectedIndexPath
+        if indexPath == selectedIndexPath {
+            selectedIndexPath = nil
+        } else {
+            selectedIndexPath = indexPath
+        }
 
-//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-//        (cell as! ListedPoyoViewCell).watchFrameChanges()
-//    }
-//
-//    func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-//        (cell as! ListedPoyoViewCell).ignoreFrameChanges()
-//
-//    }
-//
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        if indexPath == selectedIndexPath {
-//            return ListedPoyoViewCell.expandedHeight
-//        } else {
-//            return ListedPoyoViewCell.defaultHeight
-//        }
-//    }
+        var indexPaths : Array<NSIndexPath> = []
+
+        if let previous = previousIndexPath {
+            indexPaths += [previous]
+        }
+        if let current = selectedIndexPath {
+            indexPaths += [current]
+        }
+
+        if indexPaths.count > 0 {
+            tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.None)
+        }
+
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        (cell as! ListedPoyoViewCell).watchFrameChanges()
+    }
+
+    func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        (cell as! ListedPoyoViewCell).ignoreFrameChanges()
+
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath == selectedIndexPath {
+            return ListedPoyoViewCell.expandedHeight
+        } else {
+            return ListedPoyoViewCell.defaultHeight
+        }
+    }
 
 
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
