@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import Parse
 
 class ListedPoyoViewCell: UITableViewCell {
+    //weak var viewController:listedPoyosViewController
     
     @IBOutlet weak var collapsedView: UIView!
     
@@ -24,6 +26,8 @@ class ListedPoyoViewCell: UITableViewCell {
     
     @IBOutlet weak var distanceLabel: UILabel!
     
+    var poyo: PFObject?
+    
     class var expandedHeight: CGFloat { get { return 300 } }
     class var defaultHeight: CGFloat { get { return 100 } }
     
@@ -36,6 +40,15 @@ class ListedPoyoViewCell: UITableViewCell {
     
     func checkHeight(){
         collapsedView.hidden = (frame.size.height < ListedPoyoViewCell.expandedHeight)
+    }
+    /*@IBAction func killCell(sender: AnyObject) {
+        UserMedia.killPoyo(self.poyo)
+        self.hidden = true
+        self.
+    }*/
+    
+    func killCell(){
+        UserMedia.killPoyo(self.poyo)
     }
     
     func watchFrameChanges(){

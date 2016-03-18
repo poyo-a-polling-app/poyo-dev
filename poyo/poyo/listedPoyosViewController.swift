@@ -151,6 +151,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
 
         let poyo = self.feed![indexPath.row]
+        cell.poyo = poyo
         let date = poyo["time"] as! NSDate
         let question = poyo["caption"] as! String
         let option1 = poyo["optionOne"] as! String
