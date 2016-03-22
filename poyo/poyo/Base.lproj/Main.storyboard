@@ -126,7 +126,6 @@
             </objects>
             <point key="canvasLocation" x="907.5" y="1269.5"/>
         </scene>
-
         <!--Location-->
         <scene sceneID="aFD-e8-yOG">
             <objects>
@@ -294,7 +293,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="299.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="#votes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5kq-Ve-3G5">
                                                     <rect key="frame" x="8" y="61" width="101" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -307,7 +305,6 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kJW-Oe-p9L">
                                                     <rect key="frame" x="0.0" y="98" width="375" height="201"/>
                                                     <subviews>
@@ -336,18 +333,6 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <!-- <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="#votes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5kq-Ve-3G5">
-                                                    <rect key="frame" x="16" y="69" width="53" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label> -->
-                                                <!-- <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="time made" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSP-9i-B8B">
-                                                    <rect key="frame" x="294" y="69" width="81" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label> -->
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Distance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7b-Jt-ZO5">
                                                     <rect key="frame" x="228" y="23" width="147" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -385,7 +370,6 @@
         <scene sceneID="wqZ-cq-NQT">
             <objects>
                 <tabBarController storyboardIdentifier="go" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5T9-jw-j9d" sceneMemberID="viewController">
-
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="lzZ-qv-drp">
                         <autoresizingMask key="autoresizingMask"/>
