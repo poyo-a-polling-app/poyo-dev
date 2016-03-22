@@ -67,25 +67,37 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     
     func reloadAllData() {
         print("RELOADING DATA!!!")
+
         let query = PFQuery(className:"PoyosAnswers")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
             if let media = media {
+                self.feed = []
                 
-                
-                //                self.feed = media
-                //                self.tableView.reloadData()
-                //                print(media)
-                self.feed = media
-                if !self.chosenSaved {
-                    self.populateChosenOption()
+                for medium in media {
+                    let date = medium["time"] as! NSDate
+                    
+                    let timeElapsed = Int(0 - date.timeIntervalSinceNow)
+                    if(timeElapsed > 21 * 60 * 60) {
+                        UserMedia.killPoyo(medium)
+                    } else {
+                        print("hey you yeah you")
+                        self.feed!.append(medium)
+                        if !self.chosenSaved {
+                            self.populateChosenOption()
+                            
+                        }
+                    }
 
                 }
-
+                //                self.feed = media
+                //                self.tableView.reloadData()
+                print(media)
                 self.tableView.reloadData()
                 // do something with the data fetched
                 print("IT ACCESSED THE DATA!!!!!")
             } else {
                 print("COULD NOT ACCESS THE DATA")
+
                 // handle error
             }
         }
@@ -237,7 +249,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
 
         let poyo = self.feed![indexPath.row]
-
+        let date = poyo["time"] as! NSDate
         let question = poyo["caption"] as! String
         let option1 = poyo["optionOne"] as! String
         let option2 = poyo["optionTwo"] as! String
@@ -308,6 +320,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         
         
 
+        cell.timeLabel.text = timeElapsed(date)
 
         return cell
     }
@@ -530,6 +543,47 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     @IBAction func resetLocation(sender: AnyObject) {
         location = nil
     }
+    
+    func timeElapsed(date: NSDate) -> String {
+        
+        let timeElapsed = Int(0 - date.timeIntervalSinceNow)
+        print(timeElapsed)
+        
+        let secondsInMinute = 60
+        let secondsInHour = secondsInMinute * 60
+        let secondsInDay = secondsInHour * 24
+        let secondsInMonth = secondsInDay * 30
+        let monthsElapsed = timeElapsed/secondsInMonth
+        let daysElapsed = timeElapsed/secondsInDay
+        let hoursElapsed = timeElapsed/secondsInHour
+        let minutesElapsed = timeElapsed/secondsInMinute
+        let secondsElapsed = timeElapsed
+        var timeElapsedString: String?
+        
+        if monthsElapsed != 0 {
+            timeElapsedString = "\(monthsElapsed)mon"
+            
+        } else if daysElapsed != 0 {
+            timeElapsedString = "\(daysElapsed)d"
+            
+            
+        } else if hoursElapsed != 0 {
+            timeElapsedString = "\(hoursElapsed)h"
+            
+            
+        } else if minutesElapsed != 0 {
+            timeElapsedString = "\(minutesElapsed)m"
+            
+        } else {
+            timeElapsedString = "\(secondsElapsed)s"
+            
+            
+        }
+        
+        return timeElapsedString!
+        
+    }
+
 
     /*
     // MARK: - Navigation
