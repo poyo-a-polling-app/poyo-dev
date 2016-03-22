@@ -4,9 +4,9 @@ The location based polling application
 ##Required
 - [x] As a poyoker, I can create a multiple choice poll with custom fields
 - [ ] As a poyoker, I can see live results of the poyo
-- [ ] As a poyoker, I can close a poll
+- [x] As a poyoker, I can close a poll
 - [x] As a poyee, I can see all of the polls in my range
-- [ ] As a poyee, I can answer a poll
+- [x] As a poyee, I can answer a poll
 
 
 ##Optionals
@@ -56,4 +56,6 @@ The location based polling application
 
 ##Sprint 1
 
-<img src='http://i.imgur.com/EoGIFxK.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/BCLkOxh.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+<img src='http://i.imgur.com/VBp6NQ9.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
