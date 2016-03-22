@@ -237,18 +237,34 @@
                                     <action selector="onPost:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="X5q-be-325"/>
                                 </connections>
                             </button>
+                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="X51-KD-gHi">
+                                <rect key="frame" x="0.0" y="295" width="375" height="216"/>
+                                <date key="date" timeIntervalSinceReferenceDate="479953450.073874">
+                                    <!--2016-03-18 00:24:10 +0000-->
+                                </date>
+                            </datePicker>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="bYe-UX-o8U" appends="YES" id="uNn-6V-HHv"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Post" id="x9j-5e-aMr"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="myDatePicker" destination="X51-KD-gHi" id="oCl-iW-XNI"/>
                         <outlet property="optionOneLabel" destination="mve-Wa-C1l" id="q3M-uS-LTG"/>
                         <outlet property="optionTwoLabel" destination="1iO-bn-zKk" id="s7H-Hn-lBg"/>
                         <outlet property="poyoField" destination="Rnj-bu-wDt" id="fmd-OL-vh2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="trD-dK-hKc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="bYe-UX-o8U">
+                    <connections>
+                        <action selector="onTap:" destination="W5R-Yb-PQz" id="780-or-EHt"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="687.5" y="1293.5"/>
         </scene>
@@ -346,7 +362,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jln-0o-cGP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="829.60000000000002" y="683.01999999999998"/>
+            <point key="canvasLocation" x="829.5" y="682.5"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="wqZ-cq-NQT">
