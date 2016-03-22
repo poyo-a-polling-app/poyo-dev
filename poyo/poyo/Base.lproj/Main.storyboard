@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<<<<<<< HEAD
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
-=======
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
->>>>>>> develop
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -52,18 +48,11 @@
                     <connections>
                         <outlet property="passwordField" destination="HDV-Ey-RHl" id="k8R-PZ-nE7"/>
                         <outlet property="usernameField" destination="RfA-Ka-epf" id="X7W-PJ-qYF"/>
-<<<<<<< HEAD
                         <segue destination="5T9-jw-j9d" kind="presentation" identifier="LoginSegue" id="Iur-WC-Xsy"/>
-=======
-                        <segue destination="5T9-jw-j9d" kind="modal" identifier="loginSegue" id="Iur-WC-Xsy"/>
->>>>>>> develop
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-<<<<<<< HEAD
-            <point key="canvasLocation" x="246.5" y="384.5"/>
-=======
             <point key="canvasLocation" x="130.40000000000001" y="330.86000000000001"/>
         </scene>
         <!--Profile-->
@@ -135,7 +124,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HMW-7O-gW7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="619.5" y="883.5"/>
->>>>>>> develop
         </scene>
         <!--Location-->
         <scene sceneID="aFD-e8-yOG">
@@ -245,7 +233,6 @@
                                     <segue destination="5T9-jw-j9d" kind="presentation" identifier="Postlist" id="AvR-zF-Nmd"/>
                                 </connections>
                             </button>
-<<<<<<< HEAD
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Poyo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rnj-bu-wDt">
                                 <rect key="frame" x="20" y="55" width="335" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -255,40 +242,25 @@
                                 <rect key="frame" x="0.0" y="234" width="375" height="199"/>
                                 <date key="date" timeIntervalSinceReferenceDate="479945924.78535998">
                                     <!--2016-03-17 22:18:44 +0000-->
-=======
-                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="X51-KD-gHi">
-                                <rect key="frame" x="0.0" y="295" width="375" height="216"/>
-                                <date key="date" timeIntervalSinceReferenceDate="479953450.073874">
-                                    <!--2016-03-18 00:24:10 +0000-->
->>>>>>> develop
                                 </date>
                             </datePicker>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <connections>
-<<<<<<< HEAD
                             <outletCollection property="gestureRecognizers" destination="Hjk-Vu-3fK" appends="YES" id="vY1-0B-YkX"/>
-=======
-                            <outletCollection property="gestureRecognizers" destination="bYe-UX-o8U" appends="YES" id="uNn-6V-HHv"/>
->>>>>>> develop
                         </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Post" id="x9j-5e-aMr"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-<<<<<<< HEAD
                         <outlet property="myDatePicker" destination="pCY-n4-kAn" id="Npr-2c-skL"/>
-=======
-                        <outlet property="myDatePicker" destination="X51-KD-gHi" id="oCl-iW-XNI"/>
->>>>>>> develop
                         <outlet property="optionOneLabel" destination="mve-Wa-C1l" id="q3M-uS-LTG"/>
                         <outlet property="optionTwoLabel" destination="1iO-bn-zKk" id="8C0-xs-ihm"/>
                         <outlet property="poyoField" destination="Rnj-bu-wDt" id="fmd-OL-vh2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="trD-dK-hKc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-<<<<<<< HEAD
                 <tapGestureRecognizer id="Hjk-Vu-3fK">
                     <connections>
                         <action selector="onTap:" destination="W5R-Yb-PQz" id="st1-CR-dvP"/>
@@ -296,15 +268,6 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="999.5" y="1462.5"/>
-=======
-                <tapGestureRecognizer id="bYe-UX-o8U">
-                    <connections>
-                        <action selector="onTap:" destination="W5R-Yb-PQz" id="780-or-EHt"/>
-                    </connections>
-                </tapGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="687.5" y="1293.5"/>
->>>>>>> develop
         </scene>
         <!--List-->
         <scene sceneID="ImZ-w6-rbF">

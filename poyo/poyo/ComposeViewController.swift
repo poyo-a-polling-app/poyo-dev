@@ -11,11 +11,7 @@ import Parse
 import CoreLocation
 
 class ComposeViewController: UIViewController, CLLocationManagerDelegate {
-    
-<<<<<<< HEAD
-=======
-    
->>>>>>> develop
+
     @IBOutlet weak var myDatePicker: UIDatePicker!
     @IBOutlet weak var poyoField: UITextField!
     @IBOutlet weak var optionOneLabel: UITextField!
@@ -72,12 +68,9 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBAction func onPost(sender: AnyObject) {
         let secondsLeftInt = Int(myDatePicker.date.timeIntervalSinceNow)
-<<<<<<< HEAD
         //let secondsLeftString = secondsLeftInt as! String
         performSegueWithIdentifier("Postlist", sender: nil)
-=======
-        //performSegueWithIdentifier("Postlist", sender: nil)
->>>>>>> develop
+
         UserMedia.postPoyo(withCaption: poyoField.text, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), withCompletion: nil)
         print("did something send?")
     }
@@ -87,17 +80,10 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
         PFUser.logOutInBackground()
         self.performSegueWithIdentifier("LogoutSegue", sender: nil)
     }
-<<<<<<< HEAD
     @IBAction func onTap(sender: AnyObject) {
         view.endEditing(true)
     }
-=======
-    
-    @IBAction func onTap(sender: AnyObject) {
-        view.endEditing(true)
-    }
-    
->>>>>>> develop
+
     /*
     // MARK: - Navigation
     
