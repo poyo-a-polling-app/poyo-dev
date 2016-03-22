@@ -121,25 +121,28 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
                 var userID = PFUser.currentUser()
 
-                var options1Array = poyo["option1Answers"] as! [String]
-
-                //                print(options1Array)
-                if options1Array.contains({$0 == userID!.objectId}){
-                    print("Already answered 1")
-                                    chosenOption.append(1)
-                    continue
+                if poyo["option1Answers"] != nil{
+                    var options1Array = poyo["option1Answers"] as! [String]
+                    //                print(options1Array)
+                    if options1Array.contains({$0 == userID!.objectId}){
+                        print("Already answered 1")
+                                        chosenOption.append(1)
+                        continue
+                    }
                 }
 
+                if poyo["option1Answers"] != nil{
 
+                    
+                    var options2Array = poyo["option2Answers"] as! [String]
 
-                var options2Array = poyo["option2Answers"] as! [String]
+                    //                print(options2Array)
 
-                //                print(options2Array)
-
-                if options2Array.contains({$0 == userID!.objectId}){
-                    print("Already answered 2")
-                                    chosenOption.append(2)
-                    continue
+                    if options2Array.contains({$0 == userID!.objectId}){
+                        print("Already answered 2")
+                                        chosenOption.append(2)
+                        continue
+                    }
                 }
                 print("None answered")
                             chosenOption.append(0)

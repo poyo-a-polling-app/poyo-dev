@@ -132,7 +132,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete {
-            poyos!.removeAtIndex(indexPath.row)
+            self.editButtonItem().title = "Close"
+            var something = tableview.cellForRowAtIndexPath(indexPath) as! ListedPoyoViewCell
+            something.killCell()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
         }
     }
