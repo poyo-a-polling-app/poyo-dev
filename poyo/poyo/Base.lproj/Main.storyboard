@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -75,7 +75,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="99"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="La4-eW-avK" id="0h3-QV-516">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="98"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="98.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Question" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fpD-kU-HFn">
@@ -117,15 +117,15 @@
                         <color key="backgroundColor" red="0.55956645347286771" green="0.6098417469874251" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" id="z7d-b8-HmH"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="tableview" destination="YdU-yZ-mvo" id="zTy-l3-fAA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HMW-7O-gW7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="619.5" y="883.5"/>
+            <point key="canvasLocation" x="907.5" y="1269.5"/>
         </scene>
-
         <!--Location-->
         <scene sceneID="aFD-e8-yOG">
             <objects>
@@ -201,7 +201,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EWm-wX-3j1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="829.60000000000002" y="-169.92666666666668"/>
+            <point key="canvasLocation" x="1373.5" y="-223.5"/>
         </scene>
         <!--Post-->
         <scene sceneID="kpK-GW-CkI">
@@ -268,7 +268,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="999.5" y="1462.5"/>
+            <point key="canvasLocation" x="1373.5" y="1269.5"/>
         </scene>
         <!--List-->
         <scene sceneID="ImZ-w6-rbF">
@@ -290,10 +290,9 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qWm-NX-bDq" id="gEv-vc-7AE">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="299"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="299.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="#votes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5kq-Ve-3G5">
                                                     <rect key="frame" x="8" y="61" width="101" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -306,7 +305,6 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kJW-Oe-p9L">
                                                     <rect key="frame" x="0.0" y="98" width="375" height="201"/>
                                                     <subviews>
@@ -331,18 +329,6 @@
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Question" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h81-ka-a7u">
                                                     <rect key="frame" x="16" y="16" width="252" height="36"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="#votes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5kq-Ve-3G5">
-                                                    <rect key="frame" x="16" y="69" width="53" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="time made" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSP-9i-B8B">
-                                                    <rect key="frame" x="294" y="69" width="81" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -378,13 +364,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jln-0o-cGP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="829.5" y="682.5"/>
+            <point key="canvasLocation" x="1373.5" y="496.5"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="wqZ-cq-NQT">
             <objects>
                 <tabBarController storyboardIdentifier="go" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5T9-jw-j9d" sceneMemberID="viewController">
-
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="lzZ-qv-drp">
                         <autoresizingMask key="autoresizingMask"/>
@@ -399,7 +384,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JVL-cO-rVn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="525.60000000000002" y="363.99333333333334"/>
+            <point key="canvasLocation" x="761.5" y="391.5"/>
         </scene>
     </scenes>
     <resources>
