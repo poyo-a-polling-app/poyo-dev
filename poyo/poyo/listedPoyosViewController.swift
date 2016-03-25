@@ -351,6 +351,18 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 //        transformation = CGAffineTransformTranslate(transformation, 0, 100)
 //                NSThread.sleepForTimeInterval(2)
         
+//        UIView.animateWithDuration(0.6 ,
+//            animations: {
+//                cell.voteOverlayOne.transform = CGAffineTransformMakeScale(1,votesOnePercent)
+//            },
+//            completion: { finish in
+//                UIView.animateWithDuration(0.6){
+//                    cell.voteOverlayOne.transform = CGAffineTransformIdentity
+//                }
+//        })
+//        
+        cell.voteOverlayOne.transform = CGAffineTransformMakeScale(1,votesOnePercent)
+
         cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(1,votesTwoPercent)
         
         // MARK: CELL EDITING
