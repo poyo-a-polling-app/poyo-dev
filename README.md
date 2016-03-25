@@ -64,4 +64,4 @@ The location based polling application
 
 ##Sprint 3
 
-<img src='http://i.imgur.com/TUZTFTh.gifv' 'title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/TUZTFTh.gifv' title='Video Walkthrough' width='' alt='Video Walkthrough' />
