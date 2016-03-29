@@ -26,9 +26,17 @@ class ListedPoyoViewCell: UITableViewCell {
     
     @IBOutlet weak var distanceLabel: UILabel!
     
+    
+    @IBOutlet weak var votesOne: UILabel!
+    @IBOutlet weak var votesTwo: UILabel!
+    
+    @IBOutlet weak var voteOverlayOne: UIView!
+    @IBOutlet weak var voteOverlayTwo: UIView!
+    
+    
     var poyo: PFObject?
     
-    class var expandedHeight: CGFloat { get { return 300 } }
+    class var expandedHeight: CGFloat { get { return 400 } }
 //    class var defaultHeight: CGFloat { get { return 100 } }
     class var defaultHeight: CGFloat { get { return 100 } }
 
