@@ -41,7 +41,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         user = PFUser.currentUser()
         print("User: \(user)")
-        var query = PFQuery(className: "Poyos")
+        var query = PFQuery(className: "PoyosAnswers")
         //query.includeKey("author")
         query.whereKey("author", equalTo: PFUser.currentUser()!)
 
