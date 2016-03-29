@@ -135,6 +135,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         return "Close"
     }
     
+    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+        return "Close"
+    }
+    
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
             var something = tableview.cellForRowAtIndexPath(indexPath) as! ListedPoyoViewCell
             something.killCell()
