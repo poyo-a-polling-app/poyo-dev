@@ -108,7 +108,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         var poyo = poyos![indexPath.row] as! PFObject
         let date = poyo["time"] as! NSDate
-
+        
+        cell.poyo = poyo
 
         cell.questionLabel.text = poyo["caption"] as! String
         cell.votesLabel.text = "800"
@@ -132,7 +133,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete {
-            poyos!.removeAtIndex(indexPath.row)
+            self.editButtonItem().title = "Close"
+            var something = tableview.cellForRowAtIndexPath(indexPath) as! ListedPoyoViewCell
+            something.killCell()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
         }
     }
