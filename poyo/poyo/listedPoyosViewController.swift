@@ -453,7 +453,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         
         print("########ADDING THE OPTIONS TO PARSE##########")
         
-e
+
         
         let poyo = self.feed![indexPath.row]
         
