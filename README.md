@@ -10,6 +10,7 @@ The location based polling application
 
 
 ##Optionals
+- [x] Asynchronous network connection and delayed Parse update
 - [ ] As a poyoker, I can see the surrounding poyees on a map
 - [ ] Private polling (using password distributed offline)
 - [ ] Color coded answer
