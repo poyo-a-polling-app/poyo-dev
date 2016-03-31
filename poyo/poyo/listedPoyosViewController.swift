@@ -291,20 +291,27 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var votesOneCount = CGFloat(countVotes(indexPath, option: 1))
         var votesTwoCount = CGFloat(countVotes(indexPath, option: 2))
         
-        cell.votesOne.text = String(format: "\(votesOneCount)")
-        cell.votesTwo.text = String(format: "\(votesTwoCount)")
+        
+        cell.votesOne.text = String(format: "\(Int(votesOneCount))")
+        cell.votesTwo.text = String(format: "\(Int(votesTwoCount))")
 
         
         
-        // MARK: EDITING LIVE RESULTS
-        //calculating total votes
+    // MARK: EDITING LIVE RESULTS
+    //calculating total votes
         
         cell.voteOverlayOne.userInteractionEnabled = false;
         cell.voteOverlayTwo.userInteractionEnabled = false;
 
-        var totalCount = String(format: "\(votesOneCount + votesTwoCount) votes")
-        cell.votesLabel.text = totalCount as! String
+        var totalCount = Int(votesOneCount + votesTwoCount)
+
+        if totalCount == 1 {
+            cell.votesLabel.text = String(format: "\(totalCount) vote")
+        } else {
+            cell.votesLabel.text = String(format: "\(totalCount) votes")
+        }
         
+    //calculating percentage of votes
         var votesOnePercent = CGFloat(votesOneCount/(votesOneCount + votesTwoCount))
         var votesTwoPercent = CGFloat(votesTwoCount/(votesOneCount + votesTwoCount))
         
