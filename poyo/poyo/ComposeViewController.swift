@@ -18,6 +18,9 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var optionTwoLabel: UITextField!
     @IBOutlet weak var timeLimit: UITextField!
 
+    @IBOutlet weak var imageOneView: UIImageView!
+    @IBOutlet weak var imageTwoView: UIImageView!
+    
     var locationManager = CLLocationManager()
     var location: CLLocation!
 
@@ -28,6 +31,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.tabBar.hidden = false
 
         self.locationManager.requestAlwaysAuthorization()
 
@@ -82,6 +86,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func onTap(sender: AnyObject) {
         view.endEditing(true)
     }
+    
     /*
     // MARK: - Navigation
 
