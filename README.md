@@ -19,7 +19,7 @@ The location based polling application
 - [ ] Comments section based on anonymous characters
 - [ ] Anonimity based on character
 - [ ] Animated graphs for results (Pie/Egg charts)
-- [x]/2  Images with options
+- [x] Images with options (add-images branch can perfrom action)
 - [ ] Sort table view based on vote count
 - [ ] Images in question
 
