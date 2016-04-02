@@ -51,7 +51,8 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         super.viewWillAppear(animated)
         
         captureSession = AVCaptureSession()
-        captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
+        captureSession?.accessibilityFrame = cameraView.bounds
+        captureSession?.sessionPreset = AVCaptureSessionPresetPhoto
         
         var backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         
@@ -70,8 +71,9 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
             if ((captureSession?.canAddOutput(stillImageOutput)) != nil){
                 captureSession?.addOutput(stillImageOutput)
                 
+                previewLayer?.frame = cameraView.bounds
                 previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspect
+                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
                 previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
                 cameraView.layer.addSublayer(previewLayer!)
                 captureSession?.startRunning()
@@ -108,11 +110,11 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     func imagePickerController(picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-            //let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
-            let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
+            //let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
             
             vc.dismissViewControllerAnimated(true) { () -> Void in
-                self.tempImageView.image = originalImage
+                self.tempImageView.image = editedImage
                 self.newImageView.hidden = false
                 self.didTakePhoto = true
             }
@@ -142,14 +144,21 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         }
         
     }
-    /*
+    
+    @IBAction func onSend(sender: AnyObject) {
+        performSegueWithIdentifier("ImageTwoSegue", sender: nil)
+        
+    }
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+     //In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        var sendImage = segue.destinationViewController as! ComposeViewController
+        
+        sendImage.imageTwo = tempImageView.image
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+    
 
 }

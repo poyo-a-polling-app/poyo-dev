@@ -21,6 +21,8 @@ class ImageOneView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     let vc = UIImagePickerController()
     
+    var onDataAvailable : ((data: UIImage) -> ())?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -143,10 +145,24 @@ class ImageOneView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         
     }
     
+    func sendData(data: UIImage) {
+        // Send that thing back
+        self.onDataAvailable?(data: data)
+    }
+    
+    @IBAction func doneButtonTouched(sender: AnyObject) {
+        sendData(self.tempImageView.image!)
+            //navigationController?.popViewControllerAnimated(true)
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        var sendImageOne = segue.destinationViewController as! ComposeViewController
+        
+        sendImageOne.imageOne = tempImageView.image
     // Get the new view controller using segue.destinationViewController.
     // Pass the selected object to the new view controller.
     }

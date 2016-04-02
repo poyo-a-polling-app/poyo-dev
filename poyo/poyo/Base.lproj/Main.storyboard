@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -124,7 +124,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HMW-7O-gW7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="591.5" y="1239.5"/>
+            <point key="canvasLocation" x="397.5" y="1393.5"/>
         </scene>
         <!--Location-->
         <scene sceneID="aFD-e8-yOG">
@@ -203,7 +203,7 @@
             </objects>
             <point key="canvasLocation" x="1373.5" y="-223.5"/>
         </scene>
-        <!--Post-->
+        <!--Item-->
         <scene sceneID="kpK-GW-CkI">
             <objects>
                 <viewController id="W5R-Yb-PQz" customClass="ComposeViewController" customModule="poyo" customModuleProvider="target" sceneMemberID="viewController">
@@ -249,14 +249,14 @@
                                 <rect key="frame" x="20" y="177" width="156" height="156"/>
                                 <state key="normal" title="Image 1"/>
                                 <connections>
-                                    <segue destination="lsi-mk-Juc" kind="show" id="4Hi-5c-e4f"/>
+                                    <action selector="onImageOne:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="45m-BQ-N13"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-Sz-Oqn">
                                 <rect key="frame" x="199" y="177" width="156" height="156"/>
                                 <state key="normal" title="Image 2"/>
                                 <connections>
-                                    <segue destination="cxY-1W-kli" kind="show" id="I9X-ar-Khc"/>
+                                    <action selector="onImageTwo:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="2mN-g6-Lia"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CJV-vY-ut5">
@@ -272,7 +272,8 @@
                             <outletCollection property="gestureRecognizers" destination="Hjk-Vu-3fK" appends="YES" id="vY1-0B-YkX"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Post" id="x9j-5e-aMr"/>
+                    <tabBarItem key="tabBarItem" title="Item" id="m3k-H3-e0S"/>
+                    <navigationItem key="navigationItem" id="Hql-sn-a5M"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="imageOneView" destination="acJ-VC-fCz" id="1v9-Ep-ifA"/>
@@ -290,7 +291,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="887.5" y="2185.5"/>
+            <point key="canvasLocation" x="1562.5" y="1634.5"/>
         </scene>
         <!--Image One View-->
         <scene sceneID="gxg-w7-Epz">
@@ -305,7 +306,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nnv-28-e6Z">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="106" width="375" height="375"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lab-0i-Eun">
@@ -321,9 +322,6 @@
                                 <rect key="frame" x="18" y="18" width="58" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Cancel"/>
-                                <connections>
-                                    <segue destination="W5R-Yb-PQz" kind="show" id="AZj-5U-PRT"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j7Q-gk-cDX">
                                 <rect key="frame" x="18" y="550" width="57" height="30"/>
@@ -338,7 +336,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DIK-Y8-wPr">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <rect key="frame" x="0.0" y="106" width="375" height="375"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fqf-8b-kTR">
                                         <rect key="frame" x="164" y="8" width="46" height="30"/>
@@ -350,9 +348,12 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bRF-XB-Ilo">
-                                        <rect key="frame" x="299" y="593" width="46" height="30"/>
+                                        <rect key="frame" x="314" y="617" width="46" height="30"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Send"/>
+                                        <connections>
+                                            <action selector="doneButtonTouched:" destination="lsi-mk-Juc" eventType="touchUpInside" id="poG-Hc-vZ6"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -360,6 +361,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="fmx-IZ-LAP"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="cameraView" destination="Nnv-28-e6Z" id="WBQ-wq-HZl"/>
@@ -369,7 +371,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Owl-Kj-ZEh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1757.5" y="1727.5"/>
+            <point key="canvasLocation" x="2220.5" y="2343.5"/>
         </scene>
         <!--Image Two View-->
         <scene sceneID="u8B-ce-bP1">
@@ -384,7 +386,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QDU-Hr-7qe">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="106" width="375" height="375"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RMx-zy-oza">
@@ -399,9 +401,6 @@
                                 <rect key="frame" x="18" y="18" width="58" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Cancel"/>
-                                <connections>
-                                    <segue destination="W5R-Yb-PQz" kind="show" id="Lqo-w5-7nB"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLW-00-FYg">
                                 <rect key="frame" x="18" y="550" width="57" height="30"/>
@@ -414,15 +413,22 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LgJ-Ty-UI2">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G2t-Cv-SIl">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jpa-1q-Zny">
-                                        <rect key="frame" x="164" y="8" width="46" height="30"/>
+                                        <rect key="frame" x="164" y="15" width="46" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Retry"/>
                                         <connections>
                                             <action selector="retryButton:" destination="cxY-1W-kli" eventType="touchUpInside" id="DgD-Qw-fnn"/>
+                                        </connections>
+                                    </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G2t-Cv-SIl">
+                                        <rect key="frame" x="0.0" y="106" width="375" height="375"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ft5-qi-p2N">
+                                        <rect key="frame" x="321" y="624" width="46" height="30"/>
+                                        <state key="normal" title="Send"/>
+                                        <connections>
+                                            <action selector="onSend:" destination="cxY-1W-kli" eventType="touchUpInside" id="K8v-WI-Tk5"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -431,6 +437,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="UXq-ow-aKZ"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="cameraView" destination="QDU-Hr-7qe" id="tGl-N2-eqJ"/>
@@ -440,7 +447,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qwq-8e-vK4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1840.5" y="2548.5"/>
+            <point key="canvasLocation" x="2692.5" y="2348.5"/>
         </scene>
         <!--List-->
         <scene sceneID="ImZ-w6-rbF">
@@ -584,8 +591,8 @@
                     <connections>
                         <segue destination="k3L-oC-vA6" kind="relationship" relationship="viewControllers" id="Y6h-oj-skV"/>
                         <segue destination="817-Dv-9po" kind="relationship" relationship="viewControllers" id="s17-dB-slv"/>
-                        <segue destination="W5R-Yb-PQz" kind="relationship" relationship="viewControllers" id="Z1B-f6-Ts8"/>
                         <segue destination="eGb-10-XJ2" kind="relationship" relationship="viewControllers" id="oUS-ww-Uoz"/>
+                        <segue destination="W5R-Yb-PQz" kind="relationship" relationship="viewControllers" id="Fhd-0U-NNx"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JVL-cO-rVn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -597,7 +604,6 @@
         <image name="Icon-167" width="167" height="167"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AZj-5U-PRT"/>
         <segue reference="AvR-zF-Nmd"/>
     </inferredMetricsTieBreakers>
 </document>

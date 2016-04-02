@@ -11,6 +11,9 @@ import Parse
 import CoreLocation
 
 class ComposeViewController: UIViewController, CLLocationManagerDelegate {
+    
+    var imageTwo: UIImage?
+    var imageOne: UIImage?
 
     @IBOutlet weak var myDatePicker: UIDatePicker!
     @IBOutlet weak var poyoField: UITextField!
@@ -48,8 +51,25 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
             print("No location")
         }
         //Make a change make a wish
+        self.imageOneView.image = nil
+        self.imageTwoView.image = nil
+        
+        print(imageOneView.image)
+        print(imageTwoView.image)
+        
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        print(imageOneView.image)
+        print(imageTwoView.image)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        imageTwoView.image = imageTwo
+        imageOneView.image = imageOne
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,7 +107,24 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
         view.endEditing(true)
     }
     
-    /*
+    
+    @IBAction func onImageOne(sender: AnyObject) {
+        let imageoneView = ImageOneView()
+        
+        //self.navigationController?.pushViewController(imageoneView, animated: true)
+        // Closures :)
+        /*imageoneView.onDataAvailable = {[weak self]
+            (data: UIImage) in
+            self!.imageOneView.image = data
+            print(self!.imageOneView.image)
+        }*/
+        print("hello Mutha")
+        self.presentViewController(imageoneView, animated: true, completion: nil)
+    }
+    
+     @IBAction func onImageTwo(sender: AnyObject) {
+        performSegueWithIdentifier("ImageTwoer", sender: nil)
+     }
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -95,6 +132,5 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
     // Get the new view controller using segue.destinationViewController.
     // Pass the selected object to the new view controller.
     }
-    */
 
 }

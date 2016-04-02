@@ -12,7 +12,7 @@ import Parse
 class UserMedia: NSObject {
     class func postPoyo(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, withCompletion completion: PFBooleanResultBlock?) {
         // Create Parse object PFObject
-        let media = PFObject(className: "PoyosAnswers")
+        let media = PFObject(className: "Poyos")
         let date = NSDate()
 
         // Add relevant fields to the object
@@ -90,6 +90,48 @@ class UserMedia: NSObject {
 
 
     }
+    
+    
+    class func postPoyoImage(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, imageOne: UIImage, imageTwo: UIImage, withCompletion completion: PFBooleanResultBlock?) {
+        // Create Parse object PFObject
+        let media = PFObject(className: "PoyosImageTest")
+        let date = NSDate()
+        
+        // Add relevant fields to the object
+        //media["media"] = getPFFileFromImage(image) // PFFile column type
+        media["author"] = PFUser.currentUser() // Pointer column type that points to PFUser
+        media["caption"] = caption
+        media["longitude"] = longitude
+        media["latitude"] = latitude
+        //media["likesCount"] = 0
+        media["commentsCount"] = 0
+        media["optionOne"] = optionOne
+        media["optionTwo"] = optionTwo
+        media["option1Answers"] = []
+        media["option2Answers"] = []
+        media["timeLimit"] = timeLimit
+        media["time"] = date
+        
+        if imageOne = "nil"{
+            media["optionImageOne"] = "nil"
+        }
+        else{
+            media["optionImageOne"] = getPFFileFromImage(imageOne)
+        }
+        
+        if imageTwo = "nil"{
+            media["optionImageTwo"] = "nil"
+        }
+        else{
+            media["optionImageOne"] = getPFFileFromImage(imageTwo)
+        }
+        
+        //        print("did it work?")
+        
+        // Save object (following function will save the object in Parse asynchronously)
+        media.saveInBackgroundWithBlock(completion)
+    }
+
 
 }
 
