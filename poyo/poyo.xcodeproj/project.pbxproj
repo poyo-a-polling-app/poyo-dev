@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AC221C21CAB3CA800203C72 /* ImageOneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC221C11CAB3CA800203C72 /* ImageOneView.swift */; };
+		0AC221C41CAB3CBB00203C72 /* ImageTwoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC221C31CAB3CBB00203C72 /* ImageTwoView.swift */; };
 		0AFD03D21C8F9FFA005AC266 /* UserMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD03D11C8F9FFA005AC266 /* UserMedia.swift */; };
 		0AFD03D41C8FA067005AC266 /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD03D31C8FA067005AC266 /* ComposeViewController.swift */; };
 		165647941C8A921B00C73859 /* listedPoyosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165647931C8A921B00C73859 /* listedPoyosViewController.swift */; };
@@ -24,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		04FA1A34DF97DBE152E64C2B /* Pods_poyo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_poyo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0AC221C11CAB3CA800203C72 /* ImageOneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageOneView.swift; sourceTree = "<group>"; };
+		0AC221C31CAB3CBB00203C72 /* ImageTwoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTwoView.swift; sourceTree = "<group>"; };
 		0AFD03D11C8F9FFA005AC266 /* UserMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMedia.swift; sourceTree = "<group>"; };
 		0AFD03D31C8FA067005AC266 /* ComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
 		165647931C8A921B00C73859 /* listedPoyosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = listedPoyosViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +93,8 @@
 				16AF95B11C8A658D00A2E244 /* ViewController.swift */,
 				0AFD03D31C8FA067005AC266 /* ComposeViewController.swift */,
 				16AF95B31C8A658D00A2E244 /* Main.storyboard */,
+				0AC221C11CAB3CA800203C72 /* ImageOneView.swift */,
+				0AC221C31CAB3CBB00203C72 /* ImageTwoView.swift */,
 				0AFD03D11C8F9FFA005AC266 /* UserMedia.swift */,
 				16AF95C11C8A897000A2E244 /* LoginViewController.swift */,
 				165647931C8A921B00C73859 /* listedPoyosViewController.swift */,
@@ -243,10 +249,12 @@
 				165647941C8A921B00C73859 /* listedPoyosViewController.swift in Sources */,
 				16AF95C21C8A897000A2E244 /* LoginViewController.swift in Sources */,
 				165647961C8A9E9B00C73859 /* locationFinderViewController.swift in Sources */,
+				0AC221C41CAB3CBB00203C72 /* ImageTwoView.swift in Sources */,
 				0AFD03D41C8FA067005AC266 /* ComposeViewController.swift in Sources */,
 				16AF95B21C8A658D00A2E244 /* ViewController.swift in Sources */,
 				165647991C8AA0D400C73859 /* ListedPoyoViewCell.swift in Sources */,
 				1FDBDE901C98622C00745801 /* ProfileViewController.swift in Sources */,
+				0AC221C21CAB3CA800203C72 /* ImageOneView.swift in Sources */,
 				16AF95B01C8A658D00A2E244 /* AppDelegate.swift in Sources */,
 				0AFD03D21C8F9FFA005AC266 /* UserMedia.swift in Sources */,
 			);
@@ -366,7 +374,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = poyo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Shakeeb.poyo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kasistores.poyo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -381,7 +389,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = poyo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Shakeeb.poyo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kasistores.poyo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

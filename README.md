@@ -13,13 +13,13 @@ The location based polling application
 - [x] Asynchronous network connection and delayed Parse update
 - [ ] As a poyoker, I can see the surrounding poyees on a map
 - [ ] Private polling (using password distributed offline)
-- [ ] Color coded answer
+- [x] Color coded answer
 - [ ] Map view
 - [ ] User accounts (Recorded poyoker, but anonymous poyee)
 - [ ] Comments section based on anonymous characters
 - [ ] Anonimity based on character
 - [ ] Animated graphs for results (Pie/Egg charts)
-- [ ] Images with options
+- [x] Images with options (add-images branch can perfrom action)
 - [ ] Sort table view based on vote count
 - [ ] Images in question
 
@@ -66,3 +66,8 @@ The location based polling application
 ##Sprint 3
 
 <img src='http://i.imgur.com/TUZTFTh.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+##Sprint 4 - optionals
+
+<img src='http://i.imgur.com/9VccgIu.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
