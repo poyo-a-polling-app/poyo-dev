@@ -34,8 +34,11 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     
     var currentUserAnswer = [Int]()
 
+<<<<<<< HEAD
+=======
     var refreshControl: UIRefreshControl?
 
+>>>>>>> develop
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,7 +50,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         self.tableView.addSubview(refreshControl!)
         
         self.locationManager.requestAlwaysAuthorization()
-//        chosenSaved = false
 
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
@@ -61,8 +63,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         } else {
             print("No location")
         }
-
         reloadAllData()
+<<<<<<< HEAD
+=======
         tableView.reloadData()
         
 
@@ -78,14 +81,21 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         //tableView.reloadData()
         self.refreshControl?.endRefreshing()
         
+>>>>>>> develop
     }
     
     
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.hidden = false
+
+        reloadAllData()
         populateChosenOption()
 
+    }
+    
+    override func viewDidAppear(animated: Bool) {
     }
 
     func reloadAllData() {
@@ -393,8 +403,13 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.option2Button.addTarget(self, action: "option1Pressed:", forControlEvents: UIControlEvents.TouchUpInside)
 
         cell.timeLabel.text = timeElapsed(date)
+<<<<<<< HEAD
+        cell.seeComments.tag = indexPath.row
+
+=======
         
         print("HEY THIS SHIT WORKED")
+>>>>>>> develop
         return cell
     }
 
@@ -687,14 +702,25 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     }
 
 
-    /*
-    // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+//    @IBAction func seeCommentsPressed(sender: AnyObject) {
+//        self.performSegueWithIdentifier("commentsSection", sender: sender)
+//    }
+    
+//     MARK: - Navigation
+//     In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
+        var vc = segue.destinationViewController as! CommentsViewController
+//        var indexPath = tableView.indexPathForCell(sender)
+//        var buttonNew = sender
+        
+        
+//        print(buttonNew)
+        print(sender!.tag)
+        let passPoyo = feed![sender!.tag]
+
+        vc.passedPoyo = passPoyo
     }
-    */
+ 
 
 }
 
@@ -705,6 +731,13 @@ class subclassedUIButton: UIButton {
     var urlString: String?
 }
 
+<<<<<<< HEAD
+//class comment{
+//    var commentString: String?
+//    var user: PFUser?
+//    var timeStamp: NSDate?
+//}
+=======
 class poyoChosen {
     var poyoID: String?
     var chosen: Int?
@@ -716,3 +749,4 @@ class poyoChosen {
         recentVote = 0
     }
 }
+>>>>>>> develop
