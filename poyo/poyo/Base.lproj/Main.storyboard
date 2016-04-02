@@ -206,7 +206,7 @@
         <!--Item-->
         <scene sceneID="kpK-GW-CkI">
             <objects>
-                <viewController id="W5R-Yb-PQz" customClass="ComposeViewController" customModule="poyo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ComposeViewController" id="W5R-Yb-PQz" customClass="ComposeViewController" customModule="poyo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xKP-bY-aWU"/>
                         <viewControllerLayoutGuide type="bottom" id="h4P-4a-Oub"/>
@@ -231,7 +231,6 @@
                                 <state key="normal" title="post"/>
                                 <connections>
                                     <action selector="onPost:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="X5q-be-325"/>
-                                    <segue destination="5T9-jw-j9d" kind="presentation" identifier="Postlist" id="AvR-zF-Nmd"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Poyo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rnj-bu-wDt">
@@ -249,14 +248,16 @@
                                 <rect key="frame" x="20" y="177" width="156" height="156"/>
                                 <state key="normal" title="Image 1"/>
                                 <connections>
-                                    <action selector="onImageOne:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="45m-BQ-N13"/>
+                                    <action selector="onImageOne:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="MgT-my-uyw"/>
+                                    <segue destination="cxY-1W-kli" kind="presentation" identifier="SegueOne" id="8Ae-ia-tcP"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-Sz-Oqn">
                                 <rect key="frame" x="199" y="177" width="156" height="156"/>
                                 <state key="normal" title="Image 2"/>
                                 <connections>
-                                    <action selector="onImageTwo:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="2mN-g6-Lia"/>
+                                    <action selector="onImageTwo:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="lh8-zJ-sMm"/>
+                                    <segue destination="cxY-1W-kli" kind="presentation" identifier="SegueTwo" id="5xD-LW-eeh"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CJV-vY-ut5">
@@ -276,7 +277,9 @@
                     <navigationItem key="navigationItem" id="Hql-sn-a5M"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="imageOneButton" destination="M2C-iL-cYY" id="BaT-IR-DiH"/>
                         <outlet property="imageOneView" destination="acJ-VC-fCz" id="1v9-Ep-ifA"/>
+                        <outlet property="imageTwoButton" destination="3c0-Sz-Oqn" id="MvI-06-aew"/>
                         <outlet property="imageTwoView" destination="CJV-vY-ut5" id="BKt-bd-HSB"/>
                         <outlet property="myDatePicker" destination="pCY-n4-kAn" id="Npr-2c-skL"/>
                         <outlet property="optionOneLabel" destination="mve-Wa-C1l" id="q3M-uS-LTG"/>
@@ -293,90 +296,10 @@
             </objects>
             <point key="canvasLocation" x="1562.5" y="1634.5"/>
         </scene>
-        <!--Image One View-->
-        <scene sceneID="gxg-w7-Epz">
-            <objects>
-                <viewController id="lsi-mk-Juc" customClass="ImageOneView" customModule="poyo" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="PAr-eM-MZe"/>
-                        <viewControllerLayoutGuide type="bottom" id="wih-GW-rw8"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="bLa-mW-747">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nnv-28-e6Z">
-                                <rect key="frame" x="0.0" y="106" width="375" height="375"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lab-0i-Eun">
-                                <rect key="frame" x="141" y="550" width="93" height="73"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="didTakeImage:" destination="cxY-1W-kli" eventType="touchUpInside" id="HMn-qd-8oX"/>
-                                    <action selector="didTakeImage:" destination="lsi-mk-Juc" eventType="touchUpInside" id="Tao-Rj-zEK"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YAk-9c-WnP">
-                                <rect key="frame" x="18" y="18" width="58" height="30"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Cancel"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j7Q-gk-cDX">
-                                <rect key="frame" x="18" y="550" width="57" height="30"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Library"/>
-                                <connections>
-                                    <action selector="didFindImage:" destination="lsi-mk-Juc" eventType="touchUpInside" id="w95-iy-As6"/>
-                                    <action selector="didFindImage:" destination="cxY-1W-kli" eventType="touchUpInside" id="xao-I7-1Ok"/>
-                                </connections>
-                            </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vn9-O9-tRl">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DIK-Y8-wPr">
-                                        <rect key="frame" x="0.0" y="106" width="375" height="375"/>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fqf-8b-kTR">
-                                        <rect key="frame" x="164" y="8" width="46" height="30"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" title="Retry"/>
-                                        <connections>
-                                            <action selector="retryButton:" destination="lsi-mk-Juc" eventType="touchUpInside" id="84l-B0-a6f"/>
-                                            <action selector="retryButton:" destination="cxY-1W-kli" eventType="touchUpInside" id="ZAT-Im-DJp"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bRF-XB-Ilo">
-                                        <rect key="frame" x="314" y="617" width="46" height="30"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Send"/>
-                                        <connections>
-                                            <action selector="doneButtonTouched:" destination="lsi-mk-Juc" eventType="touchUpInside" id="poG-Hc-vZ6"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="fmx-IZ-LAP"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <connections>
-                        <outlet property="cameraView" destination="Nnv-28-e6Z" id="WBQ-wq-HZl"/>
-                        <outlet property="newImageView" destination="vn9-O9-tRl" id="B1D-25-6R9"/>
-                        <outlet property="tempImageView" destination="DIK-Y8-wPr" id="Mm7-Zf-A8x"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Owl-Kj-ZEh" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2220.5" y="2343.5"/>
-        </scene>
         <!--Image Two View-->
         <scene sceneID="u8B-ce-bP1">
             <objects>
-                <viewController id="cxY-1W-kli" customClass="ImageTwoView" customModule="poyo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImageTwoView" id="cxY-1W-kli" customClass="ImageTwoView" customModule="poyo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XI6-aB-emM"/>
                         <viewControllerLayoutGuide type="bottom" id="i1N-CP-Jjf"/>
@@ -401,6 +324,9 @@
                                 <rect key="frame" x="18" y="18" width="58" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="dismiss:" destination="cxY-1W-kli" eventType="touchUpInside" id="no3-aM-ksV"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLW-00-FYg">
                                 <rect key="frame" x="18" y="550" width="57" height="30"/>
@@ -428,7 +354,7 @@
                                         <rect key="frame" x="321" y="624" width="46" height="30"/>
                                         <state key="normal" title="Send"/>
                                         <connections>
-                                            <action selector="onSend:" destination="cxY-1W-kli" eventType="touchUpInside" id="K8v-WI-Tk5"/>
+                                            <segue destination="Vhd-re-d6c" kind="unwind" unwindAction="unwindForSegue:towardsViewController:" id="nkn-C4-Hzy"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -446,8 +372,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qwq-8e-vK4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Vhd-re-d6c" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2692.5" y="2348.5"/>
+            <point key="canvasLocation" x="1605.5" y="2419.5"/>
         </scene>
         <!--List-->
         <scene sceneID="ImZ-w6-rbF">
@@ -604,6 +531,6 @@
         <image name="Icon-167" width="167" height="167"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AvR-zF-Nmd"/>
+        <segue reference="8Ae-ia-tcP"/>
     </inferredMetricsTieBreakers>
 </document>

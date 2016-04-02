@@ -79,7 +79,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             
         }
 
-        let query = PFQuery(className:"PoyosAnswers")
+        let query = PFQuery(className:"Poyos")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
             if let media = media {
                 self.feed = []
@@ -378,7 +378,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         let poyo = self.feed![indexPath.row]
 
 
-        let query : PFQuery = PFQuery(className: "PoyosAnswers")
+        let query : PFQuery = PFQuery(className: "Poyos")
 
         query.whereKey("objectId", equalTo: poyo.objectId!)
 
@@ -438,7 +438,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         
         let poyo = self.feed![indexPath.row]
         
-        let query : PFQuery = PFQuery(className: "PoyosAnswers")
+        let query : PFQuery = PFQuery(className: "Poyos")
         
         
         query.whereKey("objectId", equalTo: poyo.objectId!)

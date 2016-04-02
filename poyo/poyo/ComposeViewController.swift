@@ -24,6 +24,8 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var imageOneView: UIImageView!
     @IBOutlet weak var imageTwoView: UIImageView!
     
+    @IBOutlet weak var imageOneButton: UIButton!
+    @IBOutlet weak var imageTwoButton: UIButton!
     var locationManager = CLLocationManager()
     var location: CLLocation!
 
@@ -51,27 +53,25 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
             print("No location")
         }
         //Make a change make a wish
-        self.imageOneView.image = nil
-        self.imageTwoView.image = nil
         
-        print(imageOneView.image)
-        print(imageTwoView.image)
+        self.imageOneButton.tag = 1
+        self.imageTwoButton.tag = 2
         
 
         // Do any additional setup after loading the view.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    /*override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         print(imageOneView.image)
         print(imageTwoView.image)
-    }
+    }*/
     
     override func viewWillAppear(animated: Bool) {
-        imageTwoView.image = imageTwo
         imageOneView.image = imageOne
+        imageTwoView.image = imageTwo
     }
-
+ 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -89,48 +89,58 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
 
     }
 
-
     @IBAction func onPost(sender: AnyObject) {
         let secondsLeftInt = Int(myDatePicker.date.timeIntervalSinceNow)
         //let secondsLeftString = secondsLeftInt as! String
-        performSegueWithIdentifier("Postlist", sender: nil)
         UserMedia.postPoyo(withCaption: poyoField.text, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), withCompletion: nil)
         print("did something send?")
     }
-
-    @IBAction func onLogout(sender: AnyObject) {
-        PFUser.logOut()
-        PFUser.logOutInBackground()
-        self.performSegueWithIdentifier("LogoutSegue", sender: nil)
-    }
+    
     @IBAction func onTap(sender: AnyObject) {
         view.endEditing(true)
     }
     
-    
-    @IBAction func onImageOne(sender: AnyObject) {
-        let imageoneView = ImageOneView()
+    @IBAction override func unwindForSegue(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
+        print("waht")
+        let svc = unwindSegue.sourceViewController as? ImageTwoView
         
-        //self.navigationController?.pushViewController(imageoneView, animated: true)
-        // Closures :)
-        /*imageoneView.onDataAvailable = {[weak self]
-            (data: UIImage) in
-            self!.imageOneView.image = data
-            print(self!.imageOneView.image)
-        }*/
-        print("hello Mutha")
-        self.presentViewController(imageoneView, animated: true, completion: nil)
+        if (svc!.senderInt == 1){
+            self.imageOne = svc!.tempImageView.image
+        }
+        else if (svc!.senderInt == 2){
+            self.imageTwo = svc!.tempImageView.image
+        }
+        
     }
     
-     @IBAction func onImageTwo(sender: AnyObject) {
-        performSegueWithIdentifier("ImageTwoer", sender: nil)
-     }
+    @IBAction func onImageOne(sender: AnyObject) {
+        
+        print("hello Mutha")
+        performSegueWithIdentifier("SegueOne", sender: imageOneButton)
+        
+    }
+    
+    
+    @IBAction func onImageTwo(sender: AnyObject) {
+
+        print("hello MuthaTwoo")
+        
+        performSegueWithIdentifier("SegueTwo", sender: imageTwoButton)
+    
+    }
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
+    
+        var newImage = segue.destinationViewController as! ImageTwoView
+        
+        
+        print(sender!.tag)
+        
+        newImage.senderInt = sender!.tag
+        
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
     }
-
 }

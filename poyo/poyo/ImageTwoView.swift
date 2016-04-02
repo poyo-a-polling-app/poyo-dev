@@ -11,6 +11,8 @@ import AVFoundation
 
 class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    var senderInt: Int!
+    
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCaptureStillImageOutput?
     var previewLayer: AVCaptureVideoPreviewLayer?
@@ -111,7 +113,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     func imagePickerController(picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [String : AnyObject]) {
             let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
-            //let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
             
             vc.dismissViewControllerAnimated(true) { () -> Void in
                 self.tempImageView.image = editedImage
@@ -145,20 +147,21 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         
     }
     
-    @IBAction func onSend(sender: AnyObject) {
-        performSegueWithIdentifier("ImageTwoSegue", sender: nil)
-        
+    @IBAction func dismiss(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    
+    
     // MARK: - Navigation
 
      //In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        var sendImage = segue.destinationViewController as! ComposeViewController
+    /*override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //var sendImage = segue.destinationViewController as! listedPoyosViewController
         
-        sendImage.imageTwo = tempImageView.image
-        // Get the new view controller using segue.destinationViewController.
+                // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-    }
+    }*/
     
 
 }

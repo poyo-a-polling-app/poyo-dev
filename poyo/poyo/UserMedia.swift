@@ -92,7 +92,7 @@ class UserMedia: NSObject {
     }
     
     
-    class func postPoyoImage(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, imageOne: UIImage, imageTwo: UIImage, withCompletion completion: PFBooleanResultBlock?) {
+    /*class func postPoyoImage(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, imageOne: UIImage, imageTwo: UIImage, withCompletion completion: PFBooleanResultBlock?) {
         // Create Parse object PFObject
         let media = PFObject(className: "PoyosImageTest")
         let date = NSDate()
@@ -130,7 +130,7 @@ class UserMedia: NSObject {
         
         // Save object (following function will save the object in Parse asynchronously)
         media.saveInBackgroundWithBlock(completion)
-    }
+    }*/
 
 
 }

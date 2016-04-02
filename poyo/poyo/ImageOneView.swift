@@ -145,15 +145,12 @@ class ImageOneView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         
     }
     
-    func sendData(data: UIImage) {
-        // Send that thing back
-        self.onDataAvailable?(data: data)
+    @IBAction func dismissView(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func doneButtonTouched(sender: AnyObject) {
-        sendData(self.tempImageView.image!)
-            //navigationController?.popViewControllerAnimated(true)
-        dismissViewControllerAnimated(true, completion: nil)
+        performSegueWithIdentifier("ImageOneSegue", sender: nil)
     }
     
     // MARK: - Navigation
