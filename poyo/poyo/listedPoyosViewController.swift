@@ -41,7 +41,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         tableView.delegate = self
 
         self.locationManager.requestAlwaysAuthorization()
-//        chosenSaved = false
 
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
@@ -55,18 +54,19 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         } else {
             print("No location")
         }
-
         reloadAllData()
-
-
-
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.hidden = false
+
         reloadAllData()
         populateChosenOption()
 
+    }
+    
+    override func viewDidAppear(animated: Bool) {
     }
 
     func reloadAllData() {

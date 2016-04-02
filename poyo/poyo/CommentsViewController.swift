@@ -19,16 +19,25 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var sendCommentButton: UIButton!
+    @IBOutlet weak var inputFieldView: UIView!
     
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.dataSource = self
         tableView.delegate = self
         
-        commentsArray = passedPoyo["comments"] as! [NSDictionary]
+        self.tabBarController?.tabBar.hidden = true
+        
+        commentsArray = passedPoyo["comments"] as? [NSDictionary]
         
         print(passedPoyo)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+
 
         // Do any additional setup after loading the view.
     }
@@ -51,9 +60,8 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("commentCell", forIndexPath: indexPath) as! CommentViewCell
-        var newCommentString = commentInputField.text!
         
-        var colorSet = findColor(commentsArray![indexPath.row]["user"] as! PFUser)
+        let colorSet = findColor(commentsArray![indexPath.row]["user"] as! PFUser)
         switch colorSet {
         case 1:
             cell.backgroundColor = UIColor.redColor()
@@ -66,7 +74,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         
         let commentDate = commentsArray![indexPath.row]["timeStamp"]! as! NSDate
         print(commentDate)
-        cell.commentTextLabel.text = commentsArray![indexPath.row]["commentString"] as! String
+        cell.commentTextLabel.text = commentsArray![indexPath.row]["commentString"] as? String
         cell.dateLabel.text = timeElapsed(commentDate)
         
         return cell
@@ -76,7 +84,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     func findColor(user: PFUser) -> Int {
         
         //search option1Array
-        var options1Array = passedPoyo["option1Answers"] as! [String]
+        let options1Array = passedPoyo["option1Answers"] as! [String]
         
         if options1Array.contains({$0 == user.objectId}){
             print("Answered 1")
@@ -84,7 +92,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     
         //search option2Array
-        var options2Array = passedPoyo["option2Answers"] as! [String]
+        let options2Array = passedPoyo["option2Answers"] as! [String]
     
         if options2Array.contains({$0 == user.objectId}){
             print("Answered 2")
@@ -96,7 +104,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBAction func sendCommentPressed(sender: AnyObject) {
         
-        var newCommentString = commentInputField.text!
+        let newCommentString = commentInputField.text!
         
         let newComment:NSDictionary = ["commentString": newCommentString, "user": PFUser.currentUser()! , "timeStamp": NSDate()]
         
@@ -110,7 +118,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
             for object in objects! {
             
                 var tempArray = object["comments"] as! [NSDictionary]
-                tempArray.append(newComment as! NSDictionary)
+                tempArray.append(newComment)
              
                 object["comments"] = tempArray
     
@@ -133,6 +141,54 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         commentInputField.text = ""
+    }
+    
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+//            print("Keyboard gone")
+//            self.inputFieldView.frame.origin.y -= keyboardSize.height
+//        }
+        adjustingHeight(true, notification: notification)
+
+        
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+//            print("Keyboard out")
+//            self.inputFieldView.frame.origin.y += keyboardSize.height
+//        }
+        adjustingHeight(false, notification: notification)
+
+    }
+    
+    func adjustingHeight(show:Bool, notification:NSNotification) {
+        // 1
+        var userInfo = notification.userInfo!
+        // 2
+        let keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        // 3
+        let animationDurarion = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
+        // 4
+        let changeInHeight = (CGRectGetHeight(keyboardFrame) + 40) * (show ? 1 : -1)
+        //5
+        
+        UIView.setAnimationsEnabled(true)
+        
+        UIView.animateWithDuration(1.0, delay: 1.0, options: .CurveEaseOut, animations: {
+            self.bottomConstraint.constant += changeInHeight
+
+            }, completion: { finished in
+                print("Done!")
+        })
+        
+//        UIView.animateWithDuration(1.0, delay: 1.0, options: .CurveEaseOut, animations: { () -> Void in
+////            self.inputFieldView.frame.origin.y += changeInHeight
+//            self.bottomConstraint.constant += changeInHeight
+//        })
+        
     }
     
     func timeElapsed(date: NSDate) -> String {
@@ -184,6 +240,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     */
 
     @IBAction func onTap(sender: AnyObject) {
+        
         view.endEditing(true)
     }
 }
