@@ -14,9 +14,11 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     var passedPoyo: PFObject!
     var commentsArray: [NSDictionary]?
     
+    @IBOutlet weak var newCommentTextField: UITextField!
     @IBOutlet weak var commentInputField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var sendCommentButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +40,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let commentsArray = commentsArray {
+            print(commentsArray.count)
             return commentsArray.count
         } else {
             return 0
@@ -49,13 +52,115 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         
         let cell = tableView.dequeueReusableCellWithIdentifier("commentCell", forIndexPath: indexPath) as! CommentViewCell
         
-        print(commentsArray![indexPath.row])
+        var newCommentString = commentInputField.text!
+        
+        let commentDate = commentsArray![indexPath.row]["timeStamp"]! as! NSDate
+        print(commentDate)
+//            print(commentsArray![indexPath.row]["timeStamp"])
+
+
+//        let dateFromString : NSDate = dateFormatter.dateFromString(commentDate as! String)!
+        
+//        let commentDate = timeElapsed(commentsArray![indexPath.row]["timeStamp"])
+        
+//        print(commentsArray![indexPath.row])
         cell.commentTextLabel.text = commentsArray![indexPath.row]["commentString"] as! String
+        cell.dateLabel.text = timeElapsed(commentDate)
         
         return cell
         
     }
     
+    @IBAction func sendCommentPressed(sender: AnyObject) {
+        
+        
+        var newCommentString = commentInputField.text!
+        
+        let newComment:NSDictionary = ["commentString": newCommentString, "user": PFUser.currentUser()! , "timeStamp": NSDate()]
+        
+        print("Comment attempted to post: \(newComment)")
+        
+        let query : PFQuery = PFQuery(className: "PoyosAnswers")
+        
+        query.whereKey("objectId", equalTo: passedPoyo.objectId!)
+        
+        query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
+            for object in objects! {
+            
+                var tempArray = object["comments"] as! [NSDictionary]
+    
+                tempArray.append(newComment as! NSDictionary)
+             
+                object["comments"] = tempArray
+    
+                object.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                    if let error = error {
+                        print("ERROR: Comment was not added to Parse")
+                        print(error.localizedDescription)
+                        
+                    } else {
+                        print("Comment was added successfully")
+//                        self.navigationController?.popViewControllerAnimated(true)
+                        self.passedPoyo = object
+                        self.commentsArray = self.passedPoyo["comments"] as? [NSDictionary]
+
+                        print(self.passedPoyo)
+
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
+        
+
+        
+        
+        
+        
+        
+        
+        
+        
+        commentInputField.text = ""
+
+    }
+    
+    func timeElapsed(date: NSDate) -> String {
+        
+        let timeElapsed = Int(0 - date.timeIntervalSinceNow)
+        print("timeElapsed \(timeElapsed)")
+        
+        let secondsInMinute = 60
+        let secondsInHour = secondsInMinute * 60
+        let secondsInDay = secondsInHour * 24
+        let secondsInMonth = secondsInDay * 30
+        let monthsElapsed = timeElapsed/secondsInMonth
+        let daysElapsed = timeElapsed/secondsInDay
+        let hoursElapsed = timeElapsed/secondsInHour
+        let minutesElapsed = timeElapsed/secondsInMinute
+        let secondsElapsed = timeElapsed
+        var timeElapsedString: String?
+        
+        if monthsElapsed != 0 {
+            timeElapsedString = "\(monthsElapsed)mon"
+            
+        } else if daysElapsed != 0 {
+            timeElapsedString = "\(daysElapsed)d"
+            
+            
+        } else if hoursElapsed != 0 {
+            timeElapsedString = "\(hoursElapsed)h"
+            
+            
+        } else if minutesElapsed != 0 {
+            timeElapsedString = "\(minutesElapsed)m"
+            
+        } else {
+            timeElapsedString = "\(secondsElapsed)s"
+        }
+        return timeElapsedString!
+    }
+
     
 
     /*
@@ -70,9 +175,15 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
 
 }
 
-class comment{
+class poyoComment{
     var commentString: String?
     var user: PFUser?
     var timeStamp: NSDate?
+    
+    init(newCommentString: String) {
+        commentString = newCommentString
+        user = PFUser.currentUser()
+        timeStamp = NSDate()
+    }
 }
 
