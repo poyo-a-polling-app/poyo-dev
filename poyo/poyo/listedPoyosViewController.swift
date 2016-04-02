@@ -35,11 +35,15 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     var currentUserAnswer = [Int]()
 
     var refreshControl: UIRefreshControl?
+    
+//    var userWithLocation: PFObject?
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
+   
+        
         tableView.dataSource = self
         tableView.delegate = self
         self.refreshControl = UIRefreshControl()
@@ -62,6 +66,12 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
         reloadAllData()
         tableView.reloadData()
+        
+//        userWithLocation = PFObject(className: "userWithLocation")
+//        userWithLocation!["userId"] = PFUser.currentUser()?.objectId
+//        userWithLocation?.setObject((PFUser.currentUser()?.objectId)!, forKey: "userId")
+
+
 
 
 
@@ -93,9 +103,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     }
 
     func reloadAllData() {
-        //print("RELOADING DATA!!!")
-
-
 
         let query = PFQuery(className:"PoyosAnswers")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
@@ -159,9 +166,13 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 print("======Populating Checked Option Array======")
                 let poyo = item
 
+                print("LNAIFNOINCLIEWANLNCLIAWNLIFLINQWAFNCLIWANLICNWLFNALIWNLIWNFLICNWALINCLIANWLINCLINAILNWCLINWLIANCLINALIWNFLICNQWLIANCLIAWNLCINAWLINCLIANCINALWNLIANCLINLAICNAWLINCLIAWNCLINAWILCNAW")
                 var userID = PFUser.currentUser()
 
-                var options1Array = poyo["option1Answers"] as! [String]
+                var options1 = poyo["option1Answers"] as! [NSDictionary]
+                var options1Array = options1.map { $0["userId"] as! String}
+                
+                    print(options1Array)
 
                 //                print(options1Array)
                 if options1Array.contains({$0 == userID!.objectId}){
@@ -173,8 +184,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
 
 
-                var options2Array = poyo["option2Answers"] as! [String]
-
+                var options2 = poyo["option2Answers"] as! [NSDictionary]
+                var options2Array = options2.map { $0["userId"] as! String}
+                
                 //                print(options2Array)
 
                 if options2Array.contains({$0 == userID!.objectId}){
@@ -284,7 +296,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         let option2 = poyo["optionTwo"] as! String
         let poyoLatitude = poyo["latitude"].doubleValue as! CLLocationDegrees
         let poyoLongitude = poyo["longitude"].doubleValue as! CLLocationDegrees
-        print("0hey i reached this point \(indexPath.row)")
 
 
         var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
@@ -299,9 +310,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
             //            tableV
         }
-        print("1hey i reached this point \(indexPath.row)")
         cell.alreadyAnswered = chosenOption[indexPath.row].chosen!
-        print("2hey i reached this point \(indexPath.row)")
 
 //        NSThread.sleepForTimeInterval(2)
 
@@ -321,7 +330,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
         var votesOneCount = CGFloat(countVotes(indexPath, option: 1))
         var votesTwoCount = CGFloat(countVotes(indexPath, option: 2))
-        print("1hey i reached this point \(indexPath.row)")
 
         cell.votesOne.text = String(format: "\(Int(votesOneCount))")
         cell.votesTwo.text = String(format: "\(Int(votesTwoCount))")
@@ -419,20 +427,19 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 print("Remove options")
 
                 //Deleting from Option 1
-                var cleanArray = object["option1Answers"] as! [String]
-                print(cleanArray)
+              
+                var clean = object["option1Answers"] as! [NSDictionary]
+                var cleanArray = clean.map { $0["userId"] as! String}
 
                 cleanArray = cleanArray.filter() {$0 != PFUser.currentUser()?.objectId}
-                print(cleanArray)
 
                 object["option1Answers"] = cleanArray
 
                 //Deleting from Option 2
-                var clean2Array = object["option2Answers"] as! [String]
-                print(cleanArray)
-
+                var clean2 = object["option2Answers"] as! [NSDictionary]
+                var clean2Array = clean2.map { $0["userId"] as! String}
+                
                 clean2Array = clean2Array.filter() {$0 != PFUser.currentUser()?.objectId}
-                print(cleanArray)
 
                 object["option2Answers"] = clean2Array
 
@@ -478,10 +485,16 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 print("ADDING THE NEW VOTES!")
 
                 print("Remove options")
+                
+                
+                let userWithLocation:NSDictionary = ["userId": (PFUser.currentUser()?.objectId)!, "latitude": self.location.coordinate.latitude , "longitude": self.location.coordinate.longitude]
+//
+                
+
 
                 //Deleting from Option 1
-                var cleanArray = object["option1Answers"] as! [String]
-                print(cleanArray)
+                var clean = object["option1Answers"] as! [NSDictionary]
+                var cleanArray = clean.map { $0["userId"] as! String}
 
                 cleanArray = cleanArray.filter() {$0 != PFUser.currentUser()?.objectId}
                 print(cleanArray)
@@ -489,8 +502,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 object["option1Answers"] = cleanArray
 
                 //Deleting from Option 2
-                var clean2Array = object["option2Answers"] as! [String]
-                print(cleanArray)
+                var clean2 = object["option2Answers"] as! [NSDictionary]
+                var clean2Array = clean.map { $0["userId"] as! String}
 
                 clean2Array = clean2Array.filter() {$0 != PFUser.currentUser()?.objectId}
                 print(cleanArray)
@@ -501,17 +514,22 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 switch self.chosenOption[indexPathRow].chosen! {
                     case 1:
 
-                        var newArray = object["option1Answers"] as! [String]
+                        var newArray = object["option1Answers"] as! [NSDictionary]
                         print(newArray)
                         print("Option 1 Done")
-                        newArray.append(PFUser.currentUser()!.objectId!)
+                        print(userWithLocation)
+                        newArray.append(userWithLocation)
+//                        object.addUniqueObject(self.userWithLocation!, forKey: "option1Answers")
+//                        print(object)
                         object["option1Answers"] = newArray
                     case 2:
 
-                        var newArray = object["option2Answers"] as! [String]
+                        var newArray = object["option2Answers"] as! [NSDictionary]
                         print(newArray)
                         print("Option 2 Done")
-                        newArray.append(PFUser.currentUser()!.objectId!)
+                        newArray.append(userWithLocation)
+//                        object.addUniqueObject(self.userWithLocation!, forKey: "option2Answers")
+
                         object["option2Answers"] = newArray
 
                     default:
@@ -631,6 +649,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         if location == nil {
             location = latestLocation as! CLLocation
         }
+//        
+//        userWithLocation!["latitude"] = location.coordinate.latitude
+//        userWithLocation!["longitude"] = location.coordinate.longitude
+//  
+//        print("pooop")
+//        
+//        print(userWithLocation)
+
 
         var kennedy = CLLocation(latitude: 28.572646, longitude: -80.649024)
         var distanceFromKennedy: CLLocationDistance = location.distanceFromLocation(kennedy)
