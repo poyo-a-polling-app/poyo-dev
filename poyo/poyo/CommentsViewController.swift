@@ -53,6 +53,17 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCellWithIdentifier("commentCell", forIndexPath: indexPath) as! CommentViewCell
         var newCommentString = commentInputField.text!
         
+        var colorSet = findColor(commentsArray![indexPath.row]["user"] as! PFUser)
+        switch colorSet {
+        case 1:
+            cell.backgroundColor = UIColor.redColor()
+        case 2:
+            cell.backgroundColor = UIColor.blueColor()
+        default:
+            cell.backgroundColor = UIColor.whiteColor()
+        }
+        
+        
         let commentDate = commentsArray![indexPath.row]["timeStamp"]! as! NSDate
         print(commentDate)
         cell.commentTextLabel.text = commentsArray![indexPath.row]["commentString"] as! String
@@ -60,6 +71,27 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         
         return cell
         
+    }
+    
+    func findColor(user: PFUser) -> Int {
+        
+        //search option1Array
+        var options1Array = passedPoyo["option1Answers"] as! [String]
+        
+        if options1Array.contains({$0 == user.objectId}){
+            print("Answered 1")
+            return 1
+        }
+    
+        //search option2Array
+        var options2Array = passedPoyo["option2Answers"] as! [String]
+    
+        if options2Array.contains({$0 == user.objectId}){
+            print("Answered 2")
+            return 2
+        }
+        print("None answered")
+        return 0
     }
     
     @IBAction func sendCommentPressed(sender: AnyObject) {
