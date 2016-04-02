@@ -51,19 +51,10 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("commentCell", forIndexPath: indexPath) as! CommentViewCell
-        
         var newCommentString = commentInputField.text!
         
         let commentDate = commentsArray![indexPath.row]["timeStamp"]! as! NSDate
         print(commentDate)
-//            print(commentsArray![indexPath.row]["timeStamp"])
-
-
-//        let dateFromString : NSDate = dateFormatter.dateFromString(commentDate as! String)!
-        
-//        let commentDate = timeElapsed(commentsArray![indexPath.row]["timeStamp"])
-        
-//        print(commentsArray![indexPath.row])
         cell.commentTextLabel.text = commentsArray![indexPath.row]["commentString"] as! String
         cell.dateLabel.text = timeElapsed(commentDate)
         
@@ -72,7 +63,6 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func sendCommentPressed(sender: AnyObject) {
-        
         
         var newCommentString = commentInputField.text!
         
@@ -88,7 +78,6 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
             for object in objects! {
             
                 var tempArray = object["comments"] as! [NSDictionary]
-    
                 tempArray.append(newComment as! NSDictionary)
              
                 object["comments"] = tempArray
@@ -100,7 +89,6 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
                         
                     } else {
                         print("Comment was added successfully")
-//                        self.navigationController?.popViewControllerAnimated(true)
                         self.passedPoyo = object
                         self.commentsArray = self.passedPoyo["comments"] as? [NSDictionary]
 
@@ -112,17 +100,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         
-
-        
-        
-        
-        
-        
-        
-        
-        
         commentInputField.text = ""
-
     }
     
     func timeElapsed(date: NSDate) -> String {
@@ -173,6 +151,9 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     */
 
+    @IBAction func onTap(sender: AnyObject) {
+        view.endEditing(true)
+    }
 }
 
 class poyoComment{

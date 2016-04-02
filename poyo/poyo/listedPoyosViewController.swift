@@ -64,6 +64,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        reloadAllData()
         populateChosenOption()
 
     }
