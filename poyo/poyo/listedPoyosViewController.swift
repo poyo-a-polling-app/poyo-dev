@@ -34,13 +34,18 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     
     var currentUserAnswer = [Int]()
 
+    var refreshControl: UIRefreshControl?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
         tableView.dataSource = self
         tableView.delegate = self
-
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl!.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl!)
+        
         self.locationManager.requestAlwaysAuthorization()
 //        chosenSaved = false
 
@@ -59,10 +64,23 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         reloadAllData()
         tableView.reloadData()
+        
 
-
-
+        
     }
+    
+    func refresh(sender: AnyObject) {
+        
+        chosenSaved = false
+        reloadAllData()
+        print("hey after reload all data ")
+        
+        //tableView.reloadData()
+        self.refreshControl?.endRefreshing()
+        
+    }
+    
+    
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -71,34 +89,37 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     }
 
     func reloadAllData() {
-        print("RELOADING DATA!!!")
+        //print("RELOADING DATA!!!")
         
-        if chosenOption.count != 0 {
-            print("Chosen saved: \(chosenOption)")
-            chosenSaved = true
-            
-        }
+    
 
-        let query = PFQuery(className:"PoyosAnswers")
+        let query = PFQuery(className:"Poyos")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
             if let media = media {
                 self.feed = []
+                
 
-
-                for medium in media {
-                    print("hey work you piece of shit \(medium)")
+                for (index, medium) in media.enumerate() {
+                    if index >= self.chosenOption.count {
+                        print("Extra option has been created \(self.chosenOption.count) ++++++++++++++++++++++++++++++++++++++++++++++")
+                        self.chosenOption.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0))
+                    }
+                    print("hey work you piece of shit \(index)")
                     let timeLimit = Int(medium["timeLimit"] as! String)
                     let date = medium["time"] as! NSDate
                     let timeElapsed = Int(0 - date.timeIntervalSinceNow)
                     if(timeElapsed > timeLimit!) {
                         UserMedia.killPoyo(medium)
                     } else {
-                        print("hey you yeah you")
+                        //print("hey you yeah you")
                         self.feed!.append(medium)
                         if !self.chosenSaved {
-                            print("Populated the Chosen Option Array")
+                            print("Populated the Chosen Option Array!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                             self.populateChosenOption()
 
+                        } else {
+                            print("POPULATED DID NOT HAPPEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                            
                         }
                     }
 
@@ -117,8 +138,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
 
         }
+        
+        if chosenOption.count != 0 {
+            //print("Chosen saved: \(chosenOption)")
+            chosenSaved = true
+            
+        }
  
-
+        
     }
 
     func populateChosenOption() {
@@ -170,7 +197,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         // Dispose of any resources that can be recreated.
     }
 
-    func refresh(sender: AnyObject) {
+   /* func refresh(sender: AnyObject) {
         let query = PFQuery(className: "UserMedia")
         query.orderByDescending("createdAt")
         query.includeKey("author")
@@ -195,12 +222,13 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         }
 
-    }
+    } */
 
 
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let feed = feed {
+            print("FEED COUNT: \(feed.count)")
             return feed.count
         } else {
             return 0
@@ -242,10 +270,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ListedPoyoViewCell", forIndexPath: indexPath) as! ListedPoyoViewCell
-
-
-
+        
         let poyo = self.feed![indexPath.row]
+        
         cell.poyo = poyo
         let date = poyo["time"] as! NSDate
         let question = poyo["caption"] as! String
@@ -253,7 +280,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         let option2 = poyo["optionTwo"] as! String
         let poyoLatitude = poyo["latitude"].doubleValue as! CLLocationDegrees
         let poyoLongitude = poyo["longitude"].doubleValue as! CLLocationDegrees
-
+        print("0hey i reached this point \(indexPath.row)")
 
 
         var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
@@ -268,12 +295,13 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
             //            tableV
         }
-
+        print("1hey i reached this point \(indexPath.row)")
         cell.alreadyAnswered = chosenOption[indexPath.row].chosen!
+        print("2hey i reached this point \(indexPath.row)")
 
 //        NSThread.sleepForTimeInterval(2)
-
-        print("alreadyAnswered Value: \(cell.alreadyAnswered)")
+        
+        //print("alreadyAnswered Value: \(cell.alreadyAnswered)")
         if(cell.alreadyAnswered == 0){
             cell.backgroundColor = UIColor.clearColor()
             cell.option1Button.backgroundColor = UIColor.clearColor()
@@ -287,10 +315,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             cell.option1Button.backgroundColor = UIColor.clearColor()
             cell.option2Button.backgroundColor = UIColor.blueColor()
         }
-        
         var votesOneCount = CGFloat(countVotes(indexPath, option: 1))
         var votesTwoCount = CGFloat(countVotes(indexPath, option: 2))
-        
+        print("1hey i reached this point \(indexPath.row)")
         
         cell.votesOne.text = String(format: "\(Int(votesOneCount))")
         cell.votesTwo.text = String(format: "\(Int(votesTwoCount))")
@@ -310,7 +337,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         } else {
             cell.votesLabel.text = String(format: "\(totalCount) votes")
         }
-        
     //calculating percentage of votes
         var votesOnePercent = CGFloat(votesOneCount/(votesOneCount + votesTwoCount))
         var votesTwoPercent = CGFloat(votesTwoCount/(votesOneCount + votesTwoCount))
@@ -318,8 +344,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var voteOneHeight = 25 * votesOnePercent
         var voteTwoHeight = 25 * votesTwoPercent
         
-        print("votesOnePercent: \(votesOnePercent)")
-        print("votesTwoPercent: \(votesTwoPercent)")
+        //print("votesOnePercent: \(votesOnePercent)")
+        //print("votesTwoPercent: \(votesTwoPercent)")
         
 //        cell.voteOverlayOne.layer.anchorPoint = CGPointMake(0.5, 1)
         
@@ -346,7 +372,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(1,votesTwoPercent)
         
         // MARK: CELL EDITING
-
+        
         cell.questionLabel.text = question
         cell.option1Button.setTitle(option1, forState: UIControlState.Normal)
         cell.option2Button.setTitle(option2, forState: UIControlState.Normal)
@@ -367,7 +393,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.option2Button.addTarget(self, action: "option1Pressed:", forControlEvents: UIControlEvents.TouchUpInside)
 
         cell.timeLabel.text = timeElapsed(date)
-
+        
+        print("HEY THIS SHIT WORKED")
         return cell
     }
 
@@ -622,7 +649,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     func timeElapsed(date: NSDate) -> String {
 
         let timeElapsed = Int(0 - date.timeIntervalSinceNow)
-        print("timeElapsed \(timeElapsed)")
+        //print("timeElapsed \(timeElapsed)")
 
         let secondsInMinute = 60
         let secondsInHour = secondsInMinute * 60
