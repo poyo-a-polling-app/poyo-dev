@@ -12,6 +12,7 @@ import UIKit
 class CommentsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var passedPoyo: PFObject!
+    var commentsArray: [NSDictionary]?
     
     @IBOutlet weak var commentInputField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
@@ -23,7 +24,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         
-        
+        commentsArray = passedPoyo["comments"] as! [NSDictionary]
         
         print(passedPoyo)
 
@@ -36,14 +37,20 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        if let commentsArray = commentsArray {
+            return commentsArray.count
+        } else {
+            return 0
+        }
+
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("commentCell", forIndexPath: indexPath) as! CommentViewCell
         
-
+        print(commentsArray![indexPath.row])
+        cell.commentTextLabel.text = commentsArray![indexPath.row]["commentString"] as! String
         
         return cell
         
