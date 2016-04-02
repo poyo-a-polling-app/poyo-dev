@@ -12,7 +12,7 @@ import Parse
 class UserMedia: NSObject {
     class func postPoyo(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, withCompletion completion: PFBooleanResultBlock?) {
         // Create Parse object PFObject
-        let media = PFObject(className: "PoyosAnswers")
+        let media = PFObject(className: "Poyos")
         let date = NSDate()
 
         // Add relevant fields to the object
@@ -39,7 +39,7 @@ class UserMedia: NSObject {
 
     class func postPoyoWithEndTime(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, withCompletion completion: PFBooleanResultBlock?) {
         // Create Parse object PFObject
-        let media = PFObject(className: "PoyosAnswers")
+        let media = PFObject(className: "Poyos")
         let date = NSDate()
 
         // Add relevant fields to the object
@@ -77,11 +77,11 @@ class UserMedia: NSObject {
         deadMedia["optionTwo"] = poyo!["optionTwo"]
         deadMedia["time"] = poyo!["time"]
 
-        print("hey kill was accessed")
+        //print("hey kill was accessed")
 
         deadMedia.saveInBackgroundWithBlock { (success: Bool, error:NSError?) -> Void in
             if(success) {
-                print("sucess bitch")
+                //print("sucess bitch")
                 poyo?.deleteInBackground()
 
             } else {
