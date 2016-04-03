@@ -14,6 +14,8 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     
     var imageTwo: UIImage?
     var imageOne: UIImage?
+    
+    var imageObject: PFObject?
 
     @IBOutlet weak var myDatePicker: UIDatePicker!
     @IBOutlet weak var poyoField: UITextField!
@@ -57,7 +59,6 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         self.imageOneButton.tag = 1
         self.imageTwoButton.tag = 2
         
-
         // Do any additional setup after loading the view.
     }
     
@@ -93,9 +94,18 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         let secondsLeftInt = Int(myDatePicker.date.timeIntervalSinceNow)
         //let secondsLeftString = secondsLeftInt as! String
         performSegueWithIdentifier("postSegue", sender: nil)
-        UserMedia.postPoyoImage(withCaption: poyoField.text, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), imageOne: imageOne!, imageTwo: imageTwo!, withCompletion: nil)
+        UserMedia.postPoyoImage(withCaption: poyoField.text, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), imageOne: imageOne, imageTwo: imageTwo, withCompletion: nil)
         print("did something send?")
     }
+    
+    func nilToNull(value : AnyObject?) -> AnyObject? {
+        if value == nil {
+            return NSNull()
+        } else {
+            return value
+        }
+    }
+
     
     @IBAction func onTap(sender: AnyObject) {
         view.endEditing(true)

@@ -112,14 +112,10 @@ class UserMedia: NSObject {
         media["timeLimit"] = timeLimit
         media["time"] = date
         
-            //let imageOneData = UIImagePNGRepresentation(imageOne)
-            //let imageOneFile = PFFile(name: "imageOne.png", data: imageOneData!)
-            media["optionImageOne"] = getPFFileFromImage(imageOne)
         
-        
-            //let imageTwoData = UIImagePNGRepresentation(imageTwo)
-            //let imageTwoFile = PFFile(name: "imageTwo.png", data: imageTwoData!)
-            media["optionImageTwo"] = getPFFileFromImage(imageTwo)
+        media["optionImageOne"] = getPFFileFromImage(imageOne)
+    
+        media["optionImageTwo"] = getPFFileFromImage(imageTwo)
         
         print("did it work?")
         
