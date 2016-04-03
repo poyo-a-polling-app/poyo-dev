@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import CoreLocation
 
-class ComposeViewController: UIViewController, CLLocationManagerDelegate {
+class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageTwoViewDelegate {
     
     var imageTwo: UIImage?
     var imageOne: UIImage?
@@ -61,11 +61,11 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
         // Do any additional setup after loading the view.
     }
     
-    /*override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         print(imageOneView.image)
         print(imageTwoView.image)
-    }*/
+    }
     
     override func viewWillAppear(animated: Bool) {
         imageOneView.image = imageOne
@@ -92,6 +92,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func onPost(sender: AnyObject) {
         let secondsLeftInt = Int(myDatePicker.date.timeIntervalSinceNow)
         //let secondsLeftString = secondsLeftInt as! String
+        performSegueWithIdentifier("postSegue", sender: nil)
         UserMedia.postPoyo(withCaption: poyoField.text, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), withCompletion: nil)
         print("did something send?")
     }
@@ -100,45 +101,33 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
         view.endEditing(true)
     }
     
-    @IBAction override func unwindForSegue(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
-        print("waht")
-        let svc = unwindSegue.sourceViewController as? ImageTwoView
-        
-        if (svc!.senderInt == 1){
-            self.imageOne = svc!.tempImageView.image
+    func setImage(image: UIImage, int: Int) {
+        if (int == 1){
+            imageOne = image
         }
-        else if (svc!.senderInt == 2){
-            self.imageTwo = svc!.tempImageView.image
+        else if (int == 2){
+            imageTwo = image
         }
-        
-    }
-    
-    @IBAction func onImageOne(sender: AnyObject) {
-        
-        print("hello Mutha")
-        performSegueWithIdentifier("SegueOne", sender: imageOneButton)
-        
     }
     
     
-    @IBAction func onImageTwo(sender: AnyObject) {
-
-        print("hello MuthaTwoo")
-        
-        performSegueWithIdentifier("SegueTwo", sender: imageTwoButton)
-    
-    }
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    
-        var newImage = segue.destinationViewController as! ImageTwoView
         
-        
-        print(sender!.tag)
-        
-        newImage.senderInt = sender!.tag
+        if(segue.identifier == "onImageOne"){
+            print(sender!.tag)
+                var newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
+                newImage.delegate = self
+            newImage.senderInt = sender!.tag
+        }
+        else if (segue.identifier == "onImageTwo"){
+            print(sender!.tag)
+                var newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
+                newImage.delegate = self
+            newImage.senderInt = sender!.tag
+        }
         
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.

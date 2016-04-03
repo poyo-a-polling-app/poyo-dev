@@ -231,6 +231,7 @@
                                 <state key="normal" title="post"/>
                                 <connections>
                                     <action selector="onPost:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="X5q-be-325"/>
+                                    <segue destination="5T9-jw-j9d" kind="presentation" identifier="postSegue" id="2oD-Ql-z0z"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Poyo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rnj-bu-wDt">
@@ -248,16 +249,14 @@
                                 <rect key="frame" x="20" y="177" width="156" height="156"/>
                                 <state key="normal" title="Image 1"/>
                                 <connections>
-                                    <action selector="onImageOne:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="MgT-my-uyw"/>
-                                    <segue destination="cxY-1W-kli" kind="presentation" identifier="SegueOne" id="8Ae-ia-tcP"/>
+                                    <segue destination="cxY-1W-kli" kind="show" identifier="onImageOne" id="cQ7-cQ-8h7"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-Sz-Oqn">
                                 <rect key="frame" x="199" y="177" width="156" height="156"/>
                                 <state key="normal" title="Image 2"/>
                                 <connections>
-                                    <action selector="onImageTwo:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="lh8-zJ-sMm"/>
-                                    <segue destination="cxY-1W-kli" kind="presentation" identifier="SegueTwo" id="5xD-LW-eeh"/>
+                                    <segue destination="cxY-1W-kli" kind="show" identifier="onImageTwo" id="ZIM-DP-Alx"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CJV-vY-ut5">
@@ -354,7 +353,7 @@
                                         <rect key="frame" x="321" y="624" width="46" height="30"/>
                                         <state key="normal" title="Send"/>
                                         <connections>
-                                            <segue destination="Vhd-re-d6c" kind="unwind" unwindAction="unwindForSegue:towardsViewController:" id="nkn-C4-Hzy"/>
+                                            <action selector="onSend:" destination="cxY-1W-kli" eventType="touchUpInside" id="xZN-zR-Zpi"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -372,9 +371,8 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qwq-8e-vK4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="Vhd-re-d6c" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1605.5" y="2419.5"/>
+            <point key="canvasLocation" x="1382.5" y="2514.5"/>
         </scene>
         <!--List-->
         <scene sceneID="ImZ-w6-rbF">
@@ -531,6 +529,7 @@
         <image name="Icon-167" width="167" height="167"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8Ae-ia-tcP"/>
+        <segue reference="2oD-Ql-z0z"/>
+        <segue reference="cQ7-cQ-8h7"/>
     </inferredMetricsTieBreakers>
 </document>

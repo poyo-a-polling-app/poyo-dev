@@ -9,9 +9,13 @@
 import UIKit
 import AVFoundation
 
+protocol ImageTwoViewDelegate {
+    func setImage(image: UIImage, int: Int);
+}
+
 class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    var senderInt: Int!
+    var senderInt: Int! = nil
     
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCaptureStillImageOutput?
@@ -20,6 +24,9 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var tempImageView: UIImageView!
     @IBOutlet weak var newImageView: UIView!
+    
+    var delegate : ImageTwoViewDelegate! = nil
+    
     
     let vc = UIImagePickerController()
     
@@ -151,14 +158,25 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    @IBAction func onSend(sender: AnyObject) {
+        delegate.setImage(tempImageView.image!, int: senderInt)
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     
     
     // MARK: - Navigation
 
      //In a storyboard-based application, you will often want to do a little preparation before navigation
     /*override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        //var sendImage = segue.destinationViewController as! listedPoyosViewController
+        var sendImage : ComposeViewController = segue.destinationViewController as! ComposeViewController
         
+        if senderInt == 1{
+            sendImage.imageOne = tempImageView.image
+        }
+        else if senderInt == 2{
+            sendImage.imageTwo = tempImageView.image
+        }
                 // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }*/
