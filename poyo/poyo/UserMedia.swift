@@ -92,7 +92,7 @@ class UserMedia: NSObject {
     }
     
     
-    /*class func postPoyoImage(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, imageOne: UIImage, imageTwo: UIImage, withCompletion completion: PFBooleanResultBlock?) {
+    class func postPoyoImage(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, imageOne: UIImage, imageTwo: UIImage, withCompletion completion: PFBooleanResultBlock?) {
         // Create Parse object PFObject
         let media = PFObject(className: "PoyosImageTest")
         let date = NSDate()
@@ -111,26 +111,25 @@ class UserMedia: NSObject {
         media["option2Answers"] = []
         media["timeLimit"] = timeLimit
         media["time"] = date
-        
-        if imageOne = "nil"{
+        /*if imageOne == "nil"{
             media["optionImageOne"] = "nil"
         }
-        else{
-            media["optionImageOne"] = getPFFileFromImage(imageOne)
-        }
+        else if imageOne != "nil"{*/
+            media["optionImageOne"] = imageOne
+        /*}
         
-        if imageTwo = "nil"{
+        if imageTwo == "nil"{
             media["optionImageTwo"] = "nil"
         }
-        else{
-            media["optionImageOne"] = getPFFileFromImage(imageTwo)
-        }
+        else if imageTwo != "nil"{*/
+            media["optionImageTwo"] = imageTwo
+        //}
         
         //        print("did it work?")
         
         // Save object (following function will save the object in Parse asynchronously)
         media.saveInBackgroundWithBlock(completion)
-    }*/
+    }
 
 
 }

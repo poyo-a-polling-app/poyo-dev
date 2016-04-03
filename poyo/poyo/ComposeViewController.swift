@@ -93,7 +93,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         let secondsLeftInt = Int(myDatePicker.date.timeIntervalSinceNow)
         //let secondsLeftString = secondsLeftInt as! String
         performSegueWithIdentifier("postSegue", sender: nil)
-        UserMedia.postPoyo(withCaption: poyoField.text, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), withCompletion: nil)
+        UserMedia.postPoyoImage(withCaption: poyoField.text, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), imageOne: imageOneView.image!, imageTwo: imageTwoView.image!, withCompletion: nil)
         print("did something send?")
     }
     
