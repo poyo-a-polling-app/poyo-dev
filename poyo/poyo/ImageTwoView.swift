@@ -107,13 +107,14 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
                     
                     var image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
                     
+                    
                     self.tempImageView.autoresizingMask = UIViewAutoresizing.FlexibleBottomMargin
                     self.tempImageView.autoresizingMask = UIViewAutoresizing.FlexibleHeight
                     self.tempImageView.autoresizingMask = UIViewAutoresizing.FlexibleLeftMargin
                     self.tempImageView.autoresizingMask = UIViewAutoresizing.FlexibleRightMargin
                     self.tempImageView.autoresizingMask = UIViewAutoresizing.FlexibleWidth
                     self.tempImageView.autoresizingMask = UIViewAutoresizing.FlexibleTopMargin
-                    self.tempImageView.contentMode = .ScaleAspectFill
+                    self.tempImageView.contentMode = .ScaleAspectFit
                     self.tempImageView.image = image
                     self.newImageView.hidden = false
                 }

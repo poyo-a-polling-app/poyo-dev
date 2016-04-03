@@ -92,7 +92,7 @@ class UserMedia: NSObject {
     }
     
     
-    class func postPoyoImage(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, imageOne: UIImage, imageTwo: UIImage, withCompletion completion: PFBooleanResultBlock?) {
+    class func postPoyoImage(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, imageOne: UIImage?, imageTwo: UIImage?, withCompletion completion: PFBooleanResultBlock?) {
         // Create Parse object PFObject
         let media = PFObject(className: "PoyosImageTest")
         let date = NSDate()
@@ -111,24 +111,31 @@ class UserMedia: NSObject {
         media["option2Answers"] = []
         media["timeLimit"] = timeLimit
         media["time"] = date
-        /*if imageOne == "nil"{
-            media["optionImageOne"] = "nil"
-        }
-        else if imageOne != "nil"{*/
-            media["optionImageOne"] = imageOne
-        /*}
         
-        if imageTwo == "nil"{
-            media["optionImageTwo"] = "nil"
-        }
-        else if imageTwo != "nil"{*/
-            media["optionImageTwo"] = imageTwo
-        //}
+            //let imageOneData = UIImagePNGRepresentation(imageOne)
+            //let imageOneFile = PFFile(name: "imageOne.png", data: imageOneData!)
+            media["optionImageOne"] = getPFFileFromImage(imageOne)
         
-        //        print("did it work?")
+        
+            //let imageTwoData = UIImagePNGRepresentation(imageTwo)
+            //let imageTwoFile = PFFile(name: "imageTwo.png", data: imageTwoData!)
+            media["optionImageTwo"] = getPFFileFromImage(imageTwo)
+        
+        print("did it work?")
         
         // Save object (following function will save the object in Parse asynchronously)
         media.saveInBackgroundWithBlock(completion)
+    }
+    
+    class func getPFFileFromImage(image: UIImage?) -> PFFile? {
+        // check if image is not nil
+        if let image = image {
+            // get image data and check if that is not nil
+            if let imageData = UIImagePNGRepresentation(image) {
+                return PFFile(name: "image.png", data: imageData)
+            }
+        }
+        return nil
     }
 
 
