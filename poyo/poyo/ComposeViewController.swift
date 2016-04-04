@@ -10,8 +10,11 @@ import UIKit
 import Parse
 import CoreLocation
 
-class ComposeViewController: UIViewController, CLLocationManagerDelegate {
+class ComposeViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDelegate  {
 
+    @IBOutlet weak var optionTwoCounter: UILabel!
+    @IBOutlet weak var optionOneCounter: UILabel!
+    @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var myDatePicker: UIDatePicker!
     @IBOutlet weak var poyoField: UITextField!
     @IBOutlet weak var optionOneLabel: UITextField!
@@ -28,10 +31,15 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
     var latitudeLabel = ""
 
     var timer = "";
+    
+    var limitLength = 100
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.hidden = false
+        poyoField.delegate = self
+        optionOneLabel.delegate = self
+        optionTwoLabel.delegate = self
 
         self.locationManager.requestAlwaysAuthorization()
 
@@ -49,6 +57,8 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
         }
         //Make a change make a wish
 
+        var timer =  NSTimer()
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "characterCounter", userInfo: nil, repeats: true)
         // Do any additional setup after loading the view.
     }
 
@@ -77,11 +87,55 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate {
         UserMedia.postPoyo(withCaption: poyoField.text, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), withCompletion: nil)
         print("did something send?")
     }
-
-    @IBAction func onLogout(sender: AnyObject) {
-        PFUser.logOut()
-        PFUser.logOutInBackground()
-        self.performSegueWithIdentifier("LogoutSegue", sender: nil)
+    
+    func characterCounter() {
+        var characterCount = poyoField.text!.characters.count
+        var characterOneCount = optionOneLabel.text!.characters.count
+        var characterTwoCount = optionTwoLabel.text!.characters.count
+        
+        var charactersLeft = 80 - characterCount
+        var charactersOneLeft = 40 - characterOneCount
+        var charactersTwoLeft = 40 - characterTwoCount
+        
+        countLabel.text = String(charactersLeft)
+        optionOneCounter.text = String(charactersOneLeft)
+        optionTwoCounter.text = String(charactersTwoLeft)
+        
+        //caption counter color
+        if charactersLeft < 10 {
+            countLabel.textColor = UIColor.redColor()
+        }
+        else if charactersLeft >= 10 {
+            countLabel.textColor = UIColor.grayColor()
+        }
+        
+        //option 1 counter color
+        if charactersOneLeft < 10 {
+            optionOneCounter.textColor = UIColor.redColor()
+        }
+        else if charactersOneLeft >= 10 {
+            optionOneCounter.textColor = UIColor.grayColor()
+        }
+        
+        //option 2 counter color
+        if charactersTwoLeft < 10 {
+            optionTwoCounter.textColor = UIColor.redColor()
+        }
+        else if charactersTwoLeft >= 10 {
+            optionTwoCounter.textColor = UIColor.grayColor()
+        }
+        
+        
+        //delete if past 0 characters
+        if charactersLeft < 0 {
+            poyoField.deleteBackward()
+        }
+        if charactersOneLeft < 0 {
+            optionOneLabel.deleteBackward()
+        }
+        if charactersTwoLeft < 0 {
+            optionTwoLabel.deleteBackward()
+        }
     }
     @IBAction func onTap(sender: AnyObject) {
         view.endEditing(true)
