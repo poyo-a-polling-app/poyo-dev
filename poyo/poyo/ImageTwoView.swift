@@ -13,6 +13,16 @@ protocol ImageTwoViewDelegate {
     func setImage(image: UIImage, int: Int);
 }
 
+
+extension UIImage {
+    var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
+    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)!  }
+    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)! }
+    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)!  }
+    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)! }
+    var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
+}
+
 class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var senderInt: Int! = nil
@@ -102,19 +112,16 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
                 
                 if sampleBuffer != nil {
                     var imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+                    
                     var dataProvider = CGDataProviderCreateWithCFData(imageData)
                     var cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, .RenderingIntentDefault)
                     
                     var image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
                     
+                   
                     
-                    self.tempImageView.autoresizingMask = UIViewAutoresizing.FlexibleBottomMargin
-                    self.tempImageView.autoresizingMask = UIViewAutoresizing.FlexibleHeight
-                    self.tempImageView.autoresizingMask = UIViewAutoresizing.FlexibleLeftMargin
-                    self.tempImageView.autoresizingMask = UIViewAutoresizing.FlexibleRightMargin
-                    self.tempImageView.autoresizingMask = UIViewAutoresizing.FlexibleWidth
-                    self.tempImageView.autoresizingMask = UIViewAutoresizing.FlexibleTopMargin
-                    self.tempImageView.contentMode = .ScaleAspectFit
+                    self.tempImageView.contentMode = .ScaleAspectFill
+                    self.tempImageView.clipsToBounds = true
                     self.tempImageView.image = image
                     self.newImageView.hidden = false
                 }
@@ -168,10 +175,9 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     }
     
     @IBAction func onSend(sender: AnyObject) {
-        delegate.setImage(tempImageView.image!, int: senderInt)
+        delegate.setImage(self.tempImageView.image!, int: senderInt)
         dismissViewControllerAnimated(true, completion: nil)
     }
-    
     
     
     // MARK: - Navigation

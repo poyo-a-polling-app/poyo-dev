@@ -15,6 +15,9 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     var imageTwo: UIImage?
     var imageOne: UIImage?
     
+    var resizeImage: UIImage?
+    var resizeImageTwo: UIImage?
+    
     var imageObject: PFObject?
 
     @IBOutlet weak var myDatePicker: UIDatePicker!
@@ -59,6 +62,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         self.imageOneButton.tag = 1
         self.imageTwoButton.tag = 2
         
+        
         // Do any additional setup after loading the view.
     }
     
@@ -94,6 +98,13 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         let secondsLeftInt = Int(myDatePicker.date.timeIntervalSinceNow)
         //let secondsLeftString = secondsLeftInt as! String
         performSegueWithIdentifier("postSegue", sender: nil)
+        
+        /*let sizeOne = CGSize(width: 200.0, height: 200.0)
+        resize(imageOne!, newSize: sizeOne)
+        
+        let sizeTwo = CGSize(width: 200.0, height: 200.0)
+        resize(imageTwo!, newSize: sizeTwo)
+        */
         UserMedia.postPoyoImage(withCaption: poyoField.text, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), imageOne: imageOne, imageTwo: imageTwo, withCompletion: nil)
         print("did something send?")
     }
@@ -113,11 +124,27 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     
     func setImage(image: UIImage, int: Int) {
         if (int == 1){
-            imageOne = image
+            let sizeOne = CGSize(width: 500.0, height: 500.0)
+            let resizeImage = resize(image, newSize: sizeOne)
+            imageOne = resizeImage
         }
         else if (int == 2){
-            imageTwo = image
+            let sizeTwo = CGSize(width: 500.0, height: 500.0)
+            let resizeImageTwo = resize(image, newSize: sizeTwo)
+            imageTwo = resizeImageTwo
         }
+    }
+    
+    func resize(image: UIImage, newSize: CGSize) -> UIImage {
+        let resizeImageView = UIImageView(frame: CGRectMake(0, 0, newSize.width, newSize.height))
+        resizeImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        resizeImageView.image = image
+        
+        UIGraphicsBeginImageContext(resizeImageView.frame.size)
+        resizeImageView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
     }
     
     
