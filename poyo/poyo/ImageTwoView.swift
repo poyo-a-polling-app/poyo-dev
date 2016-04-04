@@ -9,7 +9,23 @@
 import UIKit
 import AVFoundation
 
+protocol ImageTwoViewDelegate {
+    func setImage(image: UIImage, int: Int);
+}
+
+
+extension UIImage {
+    var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
+    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)!  }
+    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)! }
+    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)!  }
+    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)! }
+    var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
+}
+
 class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    var senderInt: Int! = nil
     
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCaptureStillImageOutput?
@@ -18,6 +34,9 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var tempImageView: UIImageView!
     @IBOutlet weak var newImageView: UIView!
+    
+    var delegate : ImageTwoViewDelegate! = nil
+    
     
     let vc = UIImagePickerController()
     
@@ -51,7 +70,8 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         super.viewWillAppear(animated)
         
         captureSession = AVCaptureSession()
-        captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
+        captureSession?.accessibilityFrame = cameraView.bounds
+        captureSession?.sessionPreset = AVCaptureSessionPresetPhoto
         
         var backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         
@@ -70,8 +90,9 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
             if ((captureSession?.canAddOutput(stillImageOutput)) != nil){
                 captureSession?.addOutput(stillImageOutput)
                 
+                previewLayer?.frame = cameraView.bounds
                 previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspect
+                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
                 previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
                 cameraView.layer.addSublayer(previewLayer!)
                 captureSession?.startRunning()
@@ -91,11 +112,16 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
                 
                 if sampleBuffer != nil {
                     var imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+                    
                     var dataProvider = CGDataProviderCreateWithCFData(imageData)
                     var cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, .RenderingIntentDefault)
                     
                     var image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
                     
+                   
+                    
+                    self.tempImageView.contentMode = .ScaleAspectFill
+                    self.tempImageView.clipsToBounds = true
                     self.tempImageView.image = image
                     self.newImageView.hidden = false
                 }
@@ -103,16 +129,17 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
             })
         }
     }
+
     
     var didTakePhoto = Bool()
     
     func imagePickerController(picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-            //let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
-            let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
+        
             
             vc.dismissViewControllerAnimated(true) { () -> Void in
-                self.tempImageView.image = originalImage
+                self.tempImageView.image = editedImage
                 self.newImageView.hidden = false
                 self.didTakePhoto = true
             }
@@ -142,14 +169,32 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         }
         
     }
-    /*
+    
+    @IBAction func dismiss(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func onSend(sender: AnyObject) {
+        delegate.setImage(self.tempImageView.image!, int: senderInt)
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
+     //In a storyboard-based application, you will often want to do a little preparation before navigation
+    /*override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        var sendImage : ComposeViewController = segue.destinationViewController as! ComposeViewController
+        
+        if senderInt == 1{
+            sendImage.imageOne = tempImageView.image
+        }
+        else if senderInt == 2{
+            sendImage.imageTwo = tempImageView.image
+        }
+                // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-    }
-    */
+    }*/
+    
 
 }

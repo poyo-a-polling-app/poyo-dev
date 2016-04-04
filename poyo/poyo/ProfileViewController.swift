@@ -85,26 +85,26 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         var query1 = PFQuery(className: "PoyoGrave")
         //query.includeKey("author")
         query1.whereKey("author", equalTo: PFUser.currentUser()!)
-        
+
         query1.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
-            
+
             if error == nil {
                 // The find succeeded.
                 print("Successfully retrieved \(objects!.count) scores.")
                 self.graves = []
                 // Do something with the found objects
                 if let objects = objects {
-                    
+
                     for object in objects {
-                     
+
                         self.graves!.append(object)
-                        
-                        
+
+
                         print(object.objectId)
-                        
+
                     }
-                    
+
                 }
             } else {
                 // Log details of the failure
@@ -132,12 +132,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 print("poyos count: \(poyos.count)")
                 return poyos.count
             }
-            
+
         } else if let graves = graves {
             print("graves count: \(graves.count)")
 
             return graves.count
-        
+
         } else {
             print("count: 0")
 
@@ -150,7 +150,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         var cell = tableView.dequeueReusableCellWithIdentifier("ProfileCell", forIndexPath: indexPath) as! ListedPoyoViewCell
-        
+
         var poyo: PFObject?
         //print("zeroth")
         print("index row: \(indexPath.row)")
@@ -159,7 +159,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             if rowNum < poyos.count {
                 print("first")
                 poyo = poyos[rowNum] as! PFObject
-                
+
             } else if rowNum == poyos.count {
                 cell.questionLabel.text = "hey these are your old poyos :]"
                 cell.votesLabel.hidden = true
@@ -167,23 +167,23 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 cell.distanceLabel.hidden = true
                 print("second")
             } else {
-            
+
                 print("third")
                 print("index \(rowNum-poyos.count-1)")
                 poyo = graves![rowNum-poyos.count-1]
                 //print("infiniti")
 
             }
-            
-            
-        
+
+
+
         } else if let graves = self.graves {
             poyo = graves[rowNum] as! PFObject
             print("fourth")
 
         }
         print("fifth")
-        
+
         if poyo != nil {
             print("sixth")
             let date = poyo!["time"] as! NSDate
@@ -197,7 +197,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
             cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
         }
-        
+
 
         return cell
     }

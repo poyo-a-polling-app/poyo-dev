@@ -124,7 +124,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HMW-7O-gW7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="591.5" y="1239.5"/>
+            <point key="canvasLocation" x="397.5" y="1393.5"/>
         </scene>
         <!--Location-->
         <scene sceneID="aFD-e8-yOG">
@@ -203,10 +203,10 @@
             </objects>
             <point key="canvasLocation" x="1373.5" y="-223.5"/>
         </scene>
-        <!--Post-->
+        <!--Item-->
         <scene sceneID="kpK-GW-CkI">
             <objects>
-                <viewController id="W5R-Yb-PQz" customClass="ComposeViewController" customModule="poyo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ComposeViewController" id="W5R-Yb-PQz" customClass="ComposeViewController" customModule="poyo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xKP-bY-aWU"/>
                         <viewControllerLayoutGuide type="bottom" id="h4P-4a-Oub"/>
@@ -231,7 +231,7 @@
                                 <state key="normal" title="post"/>
                                 <connections>
                                     <action selector="onPost:" destination="W5R-Yb-PQz" eventType="touchUpInside" id="X5q-be-325"/>
-                                    <segue destination="5T9-jw-j9d" kind="presentation" identifier="Postlist" id="AvR-zF-Nmd"/>
+                                    <segue destination="5T9-jw-j9d" kind="presentation" identifier="postSegue" id="2oD-Ql-z0z"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Poyo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rnj-bu-wDt">
@@ -249,20 +249,20 @@
                                 <rect key="frame" x="20" y="177" width="156" height="156"/>
                                 <state key="normal" title="Image 1"/>
                                 <connections>
-                                    <segue destination="lsi-mk-Juc" kind="show" id="4Hi-5c-e4f"/>
+                                    <segue destination="cxY-1W-kli" kind="show" identifier="onImageOne" id="cQ7-cQ-8h7"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-Sz-Oqn">
                                 <rect key="frame" x="199" y="177" width="156" height="156"/>
                                 <state key="normal" title="Image 2"/>
                                 <connections>
-                                    <segue destination="cxY-1W-kli" kind="show" id="I9X-ar-Khc"/>
+                                    <segue destination="cxY-1W-kli" kind="show" identifier="onImageTwo" id="ZIM-DP-Alx"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CJV-vY-ut5">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CJV-vY-ut5">
                                 <rect key="frame" x="196" y="177" width="159" height="156"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="acJ-VC-fCz">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="acJ-VC-fCz">
                                 <rect key="frame" x="20" y="177" width="156" height="156"/>
                             </imageView>
                         </subviews>
@@ -272,10 +272,13 @@
                             <outletCollection property="gestureRecognizers" destination="Hjk-Vu-3fK" appends="YES" id="vY1-0B-YkX"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Post" id="x9j-5e-aMr"/>
+                    <tabBarItem key="tabBarItem" title="Item" id="m3k-H3-e0S"/>
+                    <navigationItem key="navigationItem" id="Hql-sn-a5M"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="imageOneButton" destination="M2C-iL-cYY" id="BaT-IR-DiH"/>
                         <outlet property="imageOneView" destination="acJ-VC-fCz" id="1v9-Ep-ifA"/>
+                        <outlet property="imageTwoButton" destination="3c0-Sz-Oqn" id="MvI-06-aew"/>
                         <outlet property="imageTwoView" destination="CJV-vY-ut5" id="BKt-bd-HSB"/>
                         <outlet property="myDatePicker" destination="pCY-n4-kAn" id="Npr-2c-skL"/>
                         <outlet property="optionOneLabel" destination="mve-Wa-C1l" id="q3M-uS-LTG"/>
@@ -290,91 +293,12 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="887.5" y="2185.5"/>
-        </scene>
-        <!--Image One View-->
-        <scene sceneID="gxg-w7-Epz">
-            <objects>
-                <viewController id="lsi-mk-Juc" customClass="ImageOneView" customModule="poyo" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="PAr-eM-MZe"/>
-                        <viewControllerLayoutGuide type="bottom" id="wih-GW-rw8"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="bLa-mW-747">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nnv-28-e6Z">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lab-0i-Eun">
-                                <rect key="frame" x="141" y="550" width="93" height="73"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="didTakeImage:" destination="cxY-1W-kli" eventType="touchUpInside" id="HMn-qd-8oX"/>
-                                    <action selector="didTakeImage:" destination="lsi-mk-Juc" eventType="touchUpInside" id="Tao-Rj-zEK"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YAk-9c-WnP">
-                                <rect key="frame" x="18" y="18" width="58" height="30"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Cancel"/>
-                                <connections>
-                                    <segue destination="W5R-Yb-PQz" kind="show" id="AZj-5U-PRT"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j7Q-gk-cDX">
-                                <rect key="frame" x="18" y="550" width="57" height="30"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Library"/>
-                                <connections>
-                                    <action selector="didFindImage:" destination="lsi-mk-Juc" eventType="touchUpInside" id="w95-iy-As6"/>
-                                    <action selector="didFindImage:" destination="cxY-1W-kli" eventType="touchUpInside" id="xao-I7-1Ok"/>
-                                </connections>
-                            </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vn9-O9-tRl">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DIK-Y8-wPr">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fqf-8b-kTR">
-                                        <rect key="frame" x="164" y="8" width="46" height="30"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" title="Retry"/>
-                                        <connections>
-                                            <action selector="retryButton:" destination="lsi-mk-Juc" eventType="touchUpInside" id="84l-B0-a6f"/>
-                                            <action selector="retryButton:" destination="cxY-1W-kli" eventType="touchUpInside" id="ZAT-Im-DJp"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bRF-XB-Ilo">
-                                        <rect key="frame" x="299" y="593" width="46" height="30"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Send"/>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <connections>
-                        <outlet property="cameraView" destination="Nnv-28-e6Z" id="WBQ-wq-HZl"/>
-                        <outlet property="newImageView" destination="vn9-O9-tRl" id="B1D-25-6R9"/>
-                        <outlet property="tempImageView" destination="DIK-Y8-wPr" id="Mm7-Zf-A8x"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Owl-Kj-ZEh" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1757.5" y="1727.5"/>
+            <point key="canvasLocation" x="1158.5" y="1428.5"/>
         </scene>
         <!--Image Two View-->
         <scene sceneID="u8B-ce-bP1">
             <objects>
-                <viewController id="cxY-1W-kli" customClass="ImageTwoView" customModule="poyo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImageTwoView" id="cxY-1W-kli" customClass="ImageTwoView" customModule="poyo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XI6-aB-emM"/>
                         <viewControllerLayoutGuide type="bottom" id="i1N-CP-Jjf"/>
@@ -384,7 +308,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QDU-Hr-7qe">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="106" width="375" height="375"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RMx-zy-oza">
@@ -400,7 +324,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Cancel"/>
                                 <connections>
-                                    <segue destination="W5R-Yb-PQz" kind="show" id="Lqo-w5-7nB"/>
+                                    <action selector="dismiss:" destination="cxY-1W-kli" eventType="touchUpInside" id="no3-aM-ksV"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLW-00-FYg">
@@ -414,15 +338,22 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LgJ-Ty-UI2">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G2t-Cv-SIl">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jpa-1q-Zny">
-                                        <rect key="frame" x="164" y="8" width="46" height="30"/>
+                                        <rect key="frame" x="164" y="15" width="46" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Retry"/>
                                         <connections>
                                             <action selector="retryButton:" destination="cxY-1W-kli" eventType="touchUpInside" id="DgD-Qw-fnn"/>
+                                        </connections>
+                                    </button>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G2t-Cv-SIl">
+                                        <rect key="frame" x="0.0" y="106" width="375" height="375"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ft5-qi-p2N">
+                                        <rect key="frame" x="321" y="624" width="46" height="30"/>
+                                        <state key="normal" title="Send"/>
+                                        <connections>
+                                            <action selector="onSend:" destination="cxY-1W-kli" eventType="touchUpInside" id="xZN-zR-Zpi"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -431,6 +362,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="UXq-ow-aKZ"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="cameraView" destination="QDU-Hr-7qe" id="tGl-N2-eqJ"/>
@@ -440,7 +372,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qwq-8e-vK4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1840.5" y="2548.5"/>
+            <point key="canvasLocation" x="1672.5" y="1814.5"/>
         </scene>
         <!--Listed Poyos View Controller-->
         <scene sceneID="ImZ-w6-rbF">
@@ -690,8 +622,8 @@
                     <connections>
                         <segue destination="gEh-60-q1o" kind="relationship" relationship="viewControllers" id="Y6h-oj-skV"/>
                         <segue destination="817-Dv-9po" kind="relationship" relationship="viewControllers" id="s17-dB-slv"/>
-                        <segue destination="W5R-Yb-PQz" kind="relationship" relationship="viewControllers" id="Z1B-f6-Ts8"/>
                         <segue destination="eGb-10-XJ2" kind="relationship" relationship="viewControllers" id="oUS-ww-Uoz"/>
+                        <segue destination="W5R-Yb-PQz" kind="relationship" relationship="viewControllers" id="Fhd-0U-NNx"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JVL-cO-rVn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -723,7 +655,7 @@
         <image name="Icon-167" width="167" height="167"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AZj-5U-PRT"/>
-        <segue reference="AvR-zF-Nmd"/>
+        <segue reference="2oD-Ql-z0z"/>
+        <segue reference="cQ7-cQ-8h7"/>
     </inferredMetricsTieBreakers>
 </document>
