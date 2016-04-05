@@ -13,6 +13,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
 
     var passedPoyo: PFObject!
     var commentsArray: [NSDictionary]?
+    var userAnswer: Int?
     
     @IBOutlet weak var newCommentTextField: UITextField!
     @IBOutlet weak var commentInputField: UITextField!
@@ -61,15 +62,33 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         
         let cell = tableView.dequeueReusableCellWithIdentifier("commentCell", forIndexPath: indexPath) as! CommentViewCell
         
-        let colorSet = findColor(commentsArray![indexPath.row]["user"] as! PFUser)
-        switch colorSet {
-        case 1:
-            cell.backgroundColor = UIColor.redColor()
-        case 2:
-            cell.backgroundColor = UIColor.blueColor()
-        default:
-            cell.backgroundColor = UIColor.whiteColor()
+        print("User = \(commentsArray![indexPath.row]["user"]?.objectId)")
+        print("Current User --asd-- \(PFUser.currentUser()?.objectId)")
+        if commentsArray![indexPath.row]["user"]?.objectId == PFUser.currentUser()?.objectId {
+            print("ANSWER FROM CURRENT USER")
+            switch userAnswer! {
+            case 1:
+                cell.backgroundColor = UIColor.greenColor()
+            case 2:
+                cell.backgroundColor = UIColor.blueColor()
+            default:
+                cell.backgroundColor = UIColor.whiteColor()
+            }
+        } else {
+            print("ANSWER FROM NOTN NOTNONOTNOTNOT CURRENT USER")
+
+            let colorSet = findColor(commentsArray![indexPath.row]["user"] as! PFUser)
+            switch colorSet {
+            case 1:
+                cell.backgroundColor = UIColor.greenColor()
+            case 2:
+                cell.backgroundColor = UIColor.blueColor()
+            default:
+                cell.backgroundColor = UIColor.whiteColor()
+            }
         }
+        
+ 
         
         
         let commentDate = commentsArray![indexPath.row]["timeStamp"]! as! NSDate
@@ -194,7 +213,6 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     func timeElapsed(date: NSDate) -> String {
         
         let timeElapsed = Int(0 - date.timeIntervalSinceNow)
-        print("timeElapsed \(timeElapsed)")
         
         let secondsInMinute = 60
         let secondsInHour = secondsInMinute * 60
