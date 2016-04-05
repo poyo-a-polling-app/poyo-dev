@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import CoreLocation
 
-class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageTwoViewDelegate {
+class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageTwoViewDelegate, UITextFieldDelegate {
 
     var imageTwo: UIImage?
     var imageOne: UIImage?
