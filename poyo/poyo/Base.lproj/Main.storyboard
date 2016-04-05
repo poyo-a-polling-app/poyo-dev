@@ -565,14 +565,18 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1K-lj-eJ5">
-                                                                    <rect key="frame" x="8" y="29" width="359" height="29"/>
+                                                                    <rect key="frame" x="112" y="27" width="359" height="29"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AFy-xL-7Nf">
+                                                                    <rect key="frame" x="8" y="0.0" width="57" height="56.5"/>
+                                                                </imageView>
                                                             </subviews>
                                                         </tableViewCellContentView>
                                                         <connections>
+                                                            <outlet property="anonCharacterImage" destination="AFy-xL-7Nf" id="nMs-JL-f16"/>
                                                             <outlet property="commentTextLabel" destination="h1K-lj-eJ5" id="CjA-C5-By1"/>
                                                             <outlet property="dateLabel" destination="jAe-95-5Ae" id="AqF-Y9-JtT"/>
                                                         </connections>
@@ -616,9 +620,6 @@
                         <outlet property="bottomConstraint" destination="Xgp-J0-5AY" id="9vS-HP-2kg"/>
                         <outlet property="commentInputField" destination="QeW-e6-pFz" id="Xdd-Xe-zLy"/>
                         <outlet property="inputFieldView" destination="Lrl-jO-VQL" id="GPz-O3-ZUM"/>
-                        <outlet property="newCommentTextField" destination="QeW-e6-pFz" id="Fnd-Zw-8Z9"/>
-                        <outlet property="sendButton" destination="Mrk-iQ-CbT" id="SnS-BC-MDa"/>
-                        <outlet property="sendCommentButton" destination="Mrk-iQ-CbT" id="020-V9-w3n"/>
                         <outlet property="tableView" destination="Xa5-P8-FYg" id="NpU-Hz-D17"/>
                     </connections>
                 </viewController>

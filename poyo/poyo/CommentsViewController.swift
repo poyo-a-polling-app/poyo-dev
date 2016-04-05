@@ -9,26 +9,27 @@
 import Parse
 import UIKit
 
-class CommentsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class CommentsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
     var passedPoyo: PFObject!
     var commentsArray: [NSDictionary]?
     var userAnswer: Int?
     
-    @IBOutlet weak var newCommentTextField: UITextField!
+
     @IBOutlet weak var commentInputField: UITextField!
-    @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var sendCommentButton: UIButton!
     @IBOutlet weak var inputFieldView: UIView!
     
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    
+    var animalFarm = ["ant-eater", "badger", "bear", "buffalo", "deer", "elephant", "fennec", "fox", "giraffe", "gorilla", "hedgehog", "hippopotamus", "hog", "jaguar", "koala", "lion", "monkey", "moose", "panda", "rabbit", " racoon", "rhinoceros", "sloth", "snake", "squirrel", "tiger", "turtle", "wild-horse", "wolf", "zebra"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.dataSource = self
         tableView.delegate = self
+        commentInputField.delegate = self
         
         self.tabBarController?.tabBar.hidden = true
         
@@ -41,6 +42,10 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
 
 
         // Do any additional setup after loading the view.
+    }
+    
+    func randomChar() {
+        //check if they have already answered
     }
 
     override func didReceiveMemoryWarning() {
@@ -96,6 +101,9 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         cell.commentTextLabel.text = commentsArray![indexPath.row]["commentString"] as? String
         cell.dateLabel.text = timeElapsed(commentDate)
         
+        var animalString = commentsArray![indexPath.row]["anonCharacter"] as! String
+        cell.anonCharacterImage.image = UIImage(named: animalString)
+        
         return cell
         
     }
@@ -121,42 +129,87 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         return 0
     }
     
+    func assignCharacter(commentsArray: [NSDictionary]) -> String {
+        if commentsArray.contains({$0["user"]!.objectId == PFUser.currentUser()?.objectId}){
+            print("User has already been assigned")
+            return commentsArray[0]["anonCharacter"] as! String
+        }
+        
+        while true{
+            var randomInt = Int(arc4random_uniform(28))
+            print("RandomInt: \(randomInt)")
+            if commentsArray.contains({$0["anonCharacter"] as! String == animalFarm[randomInt]}) {
+                print("Animal already used")
+                continue
+            } else {
+                return animalFarm[randomInt]
+            }
+        }
+        
+
+    }
+    
     @IBAction func sendCommentPressed(sender: AnyObject) {
         
         let newCommentString = commentInputField.text!
         
-        let newComment:NSDictionary = ["commentString": newCommentString, "user": PFUser.currentUser()! , "timeStamp": NSDate()]
         
-        print("Comment attempted to post: \(newComment)")
         
-        let query : PFQuery = PFQuery(className: "PoyosAnswers")
         
-        query.whereKey("objectId", equalTo: passedPoyo.objectId!)
+        if newCommentString != "" {
         
-        query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
-            for object in objects! {
             
-                var tempArray = object["comments"] as! [NSDictionary]
-                tempArray.append(newComment)
-             
-                object["comments"] = tempArray
-    
-                object.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                    if let error = error {
-                        print("ERROR: Comment was not added to Parse")
-                        print(error.localizedDescription)
-                        
+            
+            let query : PFQuery = PFQuery(className: "PoyosImageTest")
+            
+            query.whereKey("objectId", equalTo: passedPoyo.objectId!)
+            
+            query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
+                
+                
+                
+
+                for object in objects! {
+                    
+                    var tempArray: [NSDictionary]
+                    if object["comments"] != nil {
+                        tempArray = object["comments"] as! [NSDictionary]
                     } else {
-                        print("Comment was added successfully")
-                        self.passedPoyo = object
-                        self.commentsArray = self.passedPoyo["comments"] as? [NSDictionary]
-
-                        print(self.passedPoyo)
-
-                        self.tableView.reloadData()
+                        tempArray = []
                     }
+                    
+                    var animalString = self.assignCharacter(tempArray)
+                    
+                    
+                    let newComment:NSDictionary = ["commentString": newCommentString, "user": PFUser.currentUser()! , "timeStamp": NSDate(), "anonCharacter": animalString]
+                    print("Comment attempted to post: \(newComment)")
+                    
+                    
+                    
+                    
+                    tempArray.append(newComment)
+                    object["comments"] = tempArray
+                    
+                    object.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                        if let error = error {
+                            print("ERROR: Comment was not added to Parse")
+                            print(error.localizedDescription)
+                            
+                        } else {
+                            print("Comment was added successfully")
+                            self.passedPoyo = object
+                            self.commentsArray = self.passedPoyo["comments"] as? [NSDictionary]
+                            
+                            print(self.passedPoyo)
+                            
+                            self.tableView.reloadData()
+                        }
+                    }
+                    
                 }
+                
             }
+
         }
         
         commentInputField.text = ""
@@ -165,22 +218,12 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func keyboardWillShow(notification: NSNotification) {
         
-//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-//            print("Keyboard gone")
-//            self.inputFieldView.frame.origin.y -= keyboardSize.height
-//        }
         adjustingHeight(true, notification: notification)
-
-        
     }
     
     func keyboardWillHide(notification: NSNotification) {
-//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-//            print("Keyboard out")
-//            self.inputFieldView.frame.origin.y += keyboardSize.height
-//        }
+        
         adjustingHeight(false, notification: notification)
-
     }
     
     func adjustingHeight(show:Bool, notification:NSNotification) {
@@ -191,7 +234,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         // 3
         let animationDurarion = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
         // 4
-        let changeInHeight = (CGRectGetHeight(keyboardFrame) + 40) * (show ? 1 : -1)
+        let changeInHeight = (keyboardFrame.height + 40) * (show ? 1 : -1)
         //5
         
         UIView.setAnimationsEnabled(true)
@@ -244,6 +287,11 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         return timeElapsedString!
     }
+//    
+//    func textFieldShouldReturn(textField: UITextField) -> Bool {
+//        txtField.resignFirstResponder()
+//        return true;
+//    }
 
     
 
@@ -258,7 +306,6 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     */
 
     @IBAction func onTap(sender: AnyObject) {
-        
         view.endEditing(true)
     }
 }
@@ -267,11 +314,13 @@ class poyoComment{
     var commentString: String?
     var user: PFUser?
     var timeStamp: NSDate?
+    var anonCharacter: UIImage
     
     init(newCommentString: String) {
         commentString = newCommentString
         user = PFUser.currentUser()
         timeStamp = NSDate()
+        anonCharacter = UIImage(named: "anteater")!
     }
 }
 
