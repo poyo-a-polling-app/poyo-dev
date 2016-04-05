@@ -91,7 +91,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     override func viewDidAppear(animated: Bool) {
     }
     
-    func popularity(indexPathRow: Int, date: NSDate) {
+    func popularity(indexPathRow: Int, date: NSDate) -> Double {
         var votesOneCount = CGFloat(countVotes(indexPathRow, option: 1))
         var votesTwoCount = CGFloat(countVotes(indexPathRow, option: 2))
         var totalCount = Int(votesOneCount + votesTwoCount)
@@ -99,6 +99,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var order = log10(Double(max(abs(totalCount), 1)))
         var secondsElapsed = Double(date.timeIntervalSinceNow)
         print("Score: \(order + secondsElapsed/45000)")
+        
+        return order + secondsElapsed/45000
         
 //        s = score(ups, downs)
 //        order = log(max(abs(s), 1), 10)
@@ -112,7 +114,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         
 
         let query = PFQuery(className:"PoyosImageTest")
-        query.orderByDescending("createdAt")
+        query.orderByDescending("popularity")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
             
             if let media = media {
@@ -129,7 +131,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                         UserMedia.killPoyo(medium)
                     } else {
                         self.feed!.append(medium)
-                        self.popularity(index, date: medium["time"] as! NSDate)
+                        medium["popularity"] = self.popularity(index, date: medium["time"] as! NSDate)
+                        medium.saveInBackground()
+
                     }
                     
                     var tempPoyoImage = poyoImages(index: index)
