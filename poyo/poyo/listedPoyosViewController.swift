@@ -33,15 +33,15 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     var currentUserAnswer = [Int]()
 
     var refreshControl: UIRefreshControl?
-    
-    
+
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.dataSource = self
         tableView.delegate = self
-        
+
         self.refreshControl = UIRefreshControl()
         self.refreshControl!.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl!)
@@ -62,7 +62,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
         reloadAllData()
         tableView.reloadData()
-        
+
     }
 
     func refresh(sender: AnyObject) {
@@ -91,7 +91,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     func reloadAllData() {
 
-        let query = PFQuery(className:"PoyosAnswers")
+        let query = PFQuery(className:"PoyosImageTest")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
             if let media = media {
                 self.feed = []
@@ -138,7 +138,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 //populate for Option 1
                 var options1 = poyo["option1Answers"] as! [NSDictionary]
                 var options1Array = options1.map { $0["userId"] as! String}
-                
+
                 if options1Array.contains({$0 == userID!.objectId}){
                     print("Already answered 1")
                     let newPoyoChosen = poyoChosen(poyoObjectID: userID!.objectId!, chosenNumber: 1)
@@ -149,14 +149,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 //populate for option 2
                 var options2 = poyo["option2Answers"] as! [NSDictionary]
                 var options2Array = options2.map { $0["userId"] as! String}
-            
+
                 if options2Array.contains({$0 == userID!.objectId}){
                     print("Already answered 2")
                     let newPoyoChosen = poyoChosen(poyoObjectID: userID!.objectId!, chosenNumber: 2)
                     tempArray.append(newPoyoChosen)
                     continue
                 }
-                
+
                 //if no answer option
                 print("None answered")
                 tempArray.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0))
@@ -183,7 +183,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let feed = feed {
-            print("FEED COUNT: \(feed.count)")
             return feed.count
         } else {
             return 0
@@ -352,7 +351,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         let poyo = self.feed![indexPath.row]
 
 
-        let query : PFQuery = PFQuery(className: "PoyosAnswers")
+        let query : PFQuery = PFQuery(className: "PoyosImageTest")
 
         query.whereKey("objectId", equalTo: poyo.objectId!)
 
@@ -362,7 +361,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 print("Remove options")
 
                 //Deleting from Option 1
-              
+
                 var clean = object["option1Answers"] as! [NSDictionary]
                 var cleanArray = clean.map { $0["userId"] as! String}
 
@@ -373,7 +372,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 //Deleting from Option 2
                 var clean2 = object["option2Answers"] as! [NSDictionary]
                 var clean2Array = clean2.map { $0["userId"] as! String}
-                
+
                 clean2Array = clean2Array.filter() {$0 != PFUser.currentUser()?.objectId}
 
                 object["option2Answers"] = clean2Array
@@ -403,7 +402,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         let poyo = self.feed![indexPathRow]
 
-        let query : PFQuery = PFQuery(className: "PoyosAnswers")
+        let query : PFQuery = PFQuery(className: "PoyosImageTest")
 
         query.whereKey("objectId", equalTo: poyo.objectId!)
 
@@ -412,12 +411,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 print("ADDING THE NEW VOTES:")
 
                 print("Remove options")
-                
-                
-                let userWithLocation:NSDictionary = ["userId": (PFUser.currentUser()?.objectId)!, "latitude": self.location.coordinate.latitude , "longitude": self.location.coordinate.longitude]
-//
-                
 
+
+                let userWithLocation:NSDictionary = ["userId": (PFUser.currentUser()?.objectId)!, "latitude": self.location.coordinate.latitude , "longitude": self.location.coordinate.longitude]
 
                 //Deleting from Option 1
                 var clean = object["option1Answers"] as! [NSDictionary]
@@ -551,7 +547,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         if location == nil {
             location = latestLocation as! CLLocation
         }
-        
+
         var kennedy = CLLocation(latitude: 28.572646, longitude: -80.649024)
         var distanceFromKennedy: CLLocationDistance = location.distanceFromLocation(kennedy)
         var distanceMiles = distanceFromKennedy * 0.621371 / 1000

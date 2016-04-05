@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0AC221C21CAB3CA800203C72 /* ImageOneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC221C11CAB3CA800203C72 /* ImageOneView.swift */; };
 		0AC221C41CAB3CBB00203C72 /* ImageTwoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC221C31CAB3CBB00203C72 /* ImageTwoView.swift */; };
+		0AD76F941CB0389B00DF597C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AD76F921CB0389B00DF597C /* Main.storyboard */; };
 		0AFD03D21C8F9FFA005AC266 /* UserMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD03D11C8F9FFA005AC266 /* UserMedia.swift */; };
 		0AFD03D41C8FA067005AC266 /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD03D31C8FA067005AC266 /* ComposeViewController.swift */; };
 		165647941C8A921B00C73859 /* listedPoyosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165647931C8A921B00C73859 /* listedPoyosViewController.swift */; };
@@ -16,7 +16,6 @@
 		165647991C8AA0D400C73859 /* ListedPoyoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165647981C8AA0D400C73859 /* ListedPoyoViewCell.swift */; };
 		16AF95B01C8A658D00A2E244 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF95AF1C8A658D00A2E244 /* AppDelegate.swift */; };
 		16AF95B21C8A658D00A2E244 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF95B11C8A658D00A2E244 /* ViewController.swift */; };
-		16AF95B51C8A658D00A2E244 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16AF95B31C8A658D00A2E244 /* Main.storyboard */; };
 		16AF95B71C8A658D00A2E244 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16AF95B61C8A658D00A2E244 /* Assets.xcassets */; };
 		16AF95BA1C8A658D00A2E244 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16AF95B81C8A658D00A2E244 /* LaunchScreen.storyboard */; };
 		16AF95C21C8A897000A2E244 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF95C11C8A897000A2E244 /* LoginViewController.swift */; };
@@ -28,8 +27,8 @@
 
 /* Begin PBXFileReference section */
 		04FA1A34DF97DBE152E64C2B /* Pods_poyo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_poyo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0AC221C11CAB3CA800203C72 /* ImageOneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageOneView.swift; sourceTree = "<group>"; };
 		0AC221C31CAB3CBB00203C72 /* ImageTwoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTwoView.swift; sourceTree = "<group>"; };
+		0AD76F931CB0389B00DF597C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0AFD03D11C8F9FFA005AC266 /* UserMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMedia.swift; sourceTree = "<group>"; };
 		0AFD03D31C8FA067005AC266 /* ComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
 		165647931C8A921B00C73859 /* listedPoyosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = listedPoyosViewController.swift; sourceTree = "<group>"; };
@@ -38,7 +37,6 @@
 		16AF95AC1C8A658D00A2E244 /* poyo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = poyo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16AF95AF1C8A658D00A2E244 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		16AF95B11C8A658D00A2E244 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		16AF95B41C8A658D00A2E244 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		16AF95B61C8A658D00A2E244 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		16AF95B91C8A658D00A2E244 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		16AF95BB1C8A658D00A2E244 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -101,6 +99,7 @@
 				16EB4E861CAF44260076CCF6 /* CommentViewCell.swift */,
 				0AC221C11CAB3CA800203C72 /* ImageOneView.swift */,
 				0AC221C31CAB3CBB00203C72 /* ImageTwoView.swift */,
+				0AD76F921CB0389B00DF597C /* Main.storyboard */,
 				0AFD03D11C8F9FFA005AC266 /* UserMedia.swift */,
 				16AF95C11C8A897000A2E244 /* LoginViewController.swift */,
 				165647931C8A921B00C73859 /* listedPoyosViewController.swift */,
@@ -191,9 +190,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AD76F941CB0389B00DF597C /* Main.storyboard in Resources */,
 				16AF95BA1C8A658D00A2E244 /* LaunchScreen.storyboard in Resources */,
 				16AF95B71C8A658D00A2E244 /* Assets.xcassets in Resources */,
-				16AF95B51C8A658D00A2E244 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,7 +260,6 @@
 				16AF95B21C8A658D00A2E244 /* ViewController.swift in Sources */,
 				165647991C8AA0D400C73859 /* ListedPoyoViewCell.swift in Sources */,
 				1FDBDE901C98622C00745801 /* ProfileViewController.swift in Sources */,
-				0AC221C21CAB3CA800203C72 /* ImageOneView.swift in Sources */,
 				16AF95B01C8A658D00A2E244 /* AppDelegate.swift in Sources */,
 				16EB4E851CADE1F80076CCF6 /* CommentsViewController.swift in Sources */,
 				0AFD03D21C8F9FFA005AC266 /* UserMedia.swift in Sources */,
@@ -271,10 +269,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		16AF95B31C8A658D00A2E244 /* Main.storyboard */ = {
+		0AD76F921CB0389B00DF597C /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				16AF95B41C8A658D00A2E244 /* Base */,
+				0AD76F931CB0389B00DF597C /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -381,6 +379,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = poyo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kasistores.poyo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -396,6 +395,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = poyo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kasistores.poyo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
