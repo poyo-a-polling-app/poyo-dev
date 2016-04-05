@@ -21,7 +21,7 @@ The location based polling application
     - [ ] Credentials: Author Username and Distribution Key
 - [ ] Map view of Answers to Poyos
 - [x] User accounts (Recorded poyoker, but anonymous poyee)
-- [ ] Images in question
+- [x] Images in question
 - [ ] Auto-fill question based on answer
     - [ ] Have a switch for custom question text
 - [ ] Push notifications for comment on your Poyo
