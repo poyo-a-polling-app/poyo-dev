@@ -90,6 +90,23 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     override func viewDidAppear(animated: Bool) {
     }
+    
+    func popularity(indexPathRow: Int, date: NSDate) {
+        var votesOneCount = CGFloat(countVotes(indexPathRow, option: 1))
+        var votesTwoCount = CGFloat(countVotes(indexPathRow, option: 2))
+        var totalCount = Int(votesOneCount + votesTwoCount)
+        
+        var order = log10(Double(max(abs(totalCount), 1)))
+        var secondsElapsed = Double(date.timeIntervalSinceNow)
+        print("Score: \(order + secondsElapsed/45000)")
+        
+//        s = score(ups, downs)
+//        order = log(max(abs(s), 1), 10)
+//        sign = 1 if s > 0 else -1 if s < 0 else 0
+//        seconds = epoch_seconds(date) - 1134028003
+//        return round(sign * order + seconds / 45000, 7)
+    }
+  
 
     func reloadAllData() {
         
@@ -112,6 +129,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                         UserMedia.killPoyo(medium)
                     } else {
                         self.feed!.append(medium)
+                        self.popularity(index, date: medium["time"] as! NSDate)
                     }
                     
                     var tempPoyoImage = poyoImages(index: index)
@@ -237,13 +255,13 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
     }
 
-    func countVotes(indexPath: NSIndexPath, option: Int) -> Int {
-        let poyo = self.feed![indexPath.row]
+    func countVotes(indexPathrow: Int, option: Int) -> Int {
+        let poyo = self.feed![indexPathrow]
         var chosen1vote = 0
         var chosen2vote = 0
-        if chosenOption[indexPath.row].recentVote == 1 {
+        if chosenOption[indexPathrow].recentVote == 1 {
             chosen1vote = 1
-        } else if chosenOption[indexPath.row].recentVote == 2 {
+        } else if chosenOption[indexPathrow].recentVote == 2 {
             chosen2vote = 1
         }
         switch option {
@@ -335,8 +353,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             cell.option1Button.backgroundColor = UIColor.clearColor()
             cell.option2Button.backgroundColor = UIColor.blueColor()
         }
-        var votesOneCount = CGFloat(countVotes(indexPath, option: 1))
-        var votesTwoCount = CGFloat(countVotes(indexPath, option: 2))
+        var votesOneCount = CGFloat(countVotes(indexPath.row, option: 1))
+        var votesTwoCount = CGFloat(countVotes(indexPath.row, option: 2))
 
         cell.votesOne.text = String(format: "\(Int(votesOneCount))")
         cell.votesTwo.text = String(format: "\(Int(votesTwoCount))")
@@ -492,19 +510,23 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
                 //Deleting from Option 1
                 var clean = object["option1Answers"] as! [NSDictionary]
-                var cleanArray = clean.map { $0["userId"] as! String}
+//                var cleanArray = clean.map { $0["userId"] as! String}
 
-                cleanArray = cleanArray.filter() {$0 != PFUser.currentUser()?.objectId}
+//                cleanArray = cleanArray.filter() {$0["userId"] != PFUser.currentUser()?.objectId}
+                clean = clean.filter() {$0["userId"] as! String != PFUser.currentUser()?.objectId}
 
-                object["option1Answers"] = cleanArray
+
+                object["option1Answers"] = clean
 
                 //Deleting from Option 2
                 var clean2 = object["option2Answers"] as! [NSDictionary]
-                var clean2Array = clean.map { $0["userId"] as! String}
+//                var clean2Array = clean.map { $0["userId"] as! String}
 
-                clean2Array = clean2Array.filter() {$0 != PFUser.currentUser()?.objectId}
+//                clean2Array = clean2Array.filter() {$0 != PFUser.currentUser()?.objectId}
+                clean2 = clean2.filter() {$0["userId"] as! String != PFUser.currentUser()?.objectId}
 
-                object["option2Answers"] = clean2Array
+
+                object["option2Answers"] = clean2
 
                 switch self.chosenOption[indexPathRow].chosen! {
                     case 1:
@@ -513,6 +535,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                         print("Option 1 Done")
                         newArray.append(userWithLocation)
                         object["option1Answers"] = newArray
+
                     case 2:
 
                         var newArray = object["option2Answers"] as! [NSDictionary]
