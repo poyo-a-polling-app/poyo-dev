@@ -177,10 +177,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                     
                     
                 }
-                if !self.chosenSaved {
+//                if !self.chosenSaved {
                     print("Populated the Chosen Option Array")
                     self.populateChosenOption()
-                }
+//                }
                 self.tableView.reloadData()
                 print("IT ACCESSED THE DATA!!!!!")
       
@@ -259,29 +259,43 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         let poyo = self.feed![indexPathrow]
         var chosen1vote = 0
         var chosen2vote = 0
-        if chosenOption[indexPathrow].recentVote == 1 {
-            chosen1vote = 1
+        var alreadyChosen1 = 0
+        var alreadyChosen2 = 0
+  
+        if chosenOption[indexPathrow].recentVote == 1{
+            print(chosenOption[indexPathrow].chosen)
+            if chosenOption[indexPathrow].chosen == 1 {
+//                alreadyChosen1 = -1
+                alreadyChosen2 = 1
+                chosen1vote = 1
+            }
+
         } else if chosenOption[indexPathrow].recentVote == 2 {
+            print(chosenOption[indexPathrow].chosen)
+
+            if chosenOption[indexPathrow].chosen == 2 {
+                alreadyChosen1 = 1
+            }
             chosen2vote = 1
         }
         switch option {
             case 1:
-                if poyo["option1Answers"].count == 1 && chosen1vote == 1 {
-                    return 1
-                } else if poyo["option1Answers"].count == 1 && chosen2vote == 1{
-                    return 0
-                } else {
-                    return poyo["option1Answers"].count + chosen1vote
-                }
+//                if poyo["option1Answers"].count == 1 && chosen1vote == 1 {
+//                    return 1
+//                } else if poyo["option1Answers"].count == 1 && chosen2vote == 1{
+//                    return 0
+//                } else {
+                    return poyo["option1Answers"].count + chosen1vote - alreadyChosen1
+//                }
 
             case 2:
-                if poyo["option2Answers"].count == 1 && chosen2vote == 1 {
-                    return 1
-                } else if poyo["option2Answers"].count == 1 && chosen1vote == 1{
-                    return 0
-                } else {
-                    return poyo["option2Answers"].count + chosen2vote
-                }
+//                if poyo["option2Answers"].count == 1 && chosen2vote == 1 {
+//                    return 1
+//                } else if poyo["option2Answers"].count == 1 && chosen1vote == 1{
+//                    return 0
+//                } else {
+                    return poyo["option2Answers"].count + chosen2vote - alreadyChosen2
+//                }
             default:
                 return 0
         }
