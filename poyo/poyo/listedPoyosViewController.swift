@@ -71,7 +71,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         chosenSaved = false
         reloadAllData()
-
+        populateChosenOption()
         tableView.reloadData()
         self.refreshControl?.endRefreshing()
 
@@ -85,18 +85,22 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         reloadAllData()
         populateChosenOption()
-
+        tableView.reloadData()
     }
 
     override func viewDidAppear(animated: Bool) {
     }
 
     func reloadAllData() {
+        
 
         let query = PFQuery(className:"PoyosImageTest")
+        query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
+            
             if let media = media {
                 self.feed = []
+
                 for (index, medium) in media.enumerate() {
                     if index >= self.chosenOption.count {
                         self.chosenOption.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0))
@@ -108,13 +112,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                         UserMedia.killPoyo(medium)
                     } else {
                         self.feed!.append(medium)
-                        if !self.chosenSaved {
-                            print("Populated the Chosen Option Array")
-                            self.populateChosenOption()
-                        }
                     }
-                    
-                    
                     
                     var tempPoyoImage = poyoImages(index: index)
                     
@@ -122,8 +120,12 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                     
                     options1ImageLink.getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) in
                         if (error == nil) {
-                            print("Changed that image!!")
-                            tempPoyoImage.imageOptionOne = UIImage(data:imageData!)
+                            
+                            if(self.images[index].imageOptionOne != nil && self.images[index].imageOptionOne!.isEqual(UIImage(data: imageData!))){
+                                //checks if image is equal to current image
+                            } else {
+                                tempPoyoImage.imageOptionOne = UIImage(data:imageData!)
+                            }
                             
                         } else {
                             print("Connection failed to be made!!")
@@ -134,9 +136,11 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                     
                     options2ImageLink.getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) in
                         if (error == nil) {
-                            print("Changed that image!!")
-                            tempPoyoImage.imageOptionTwo = UIImage(data:imageData!)
-                            
+                            if(self.images[index].imageOptionTwo != nil && self.images[index].imageOptionTwo!.isEqual(UIImage(data: imageData!))){
+                                //checks if image is equal to current image
+                            } else {
+                                tempPoyoImage.imageOptionTwo = UIImage(data:imageData!)
+                            }
                         } else {
                             print("Connection failed to be made!!")
                         }
@@ -148,14 +152,23 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                     if self.images.count == tempPoyoImage.indexPathRow {
                         print("Added Image to images")
                         self.images.append(tempPoyoImage)
+                    } else {
+                        print("Replaced the old image")
+                        self.images[index] = tempPoyoImage
                     }
                     
                     
                 }
+                if !self.chosenSaved {
+                    print("Populated the Chosen Option Array")
+                    self.populateChosenOption()
+                }
                 self.tableView.reloadData()
                 print("IT ACCESSED THE DATA!!!!!")
+      
             } else {
                 print("COULD NOT ACCESS THE DATA")
+                
             }
         }
 
@@ -203,6 +216,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             }
             chosenOption = tempArray
             print("Chosen Option: \(chosenOption)")
+            tableView.reloadData()
         } else {
             print("Chosen did not occur!")
         }
@@ -287,8 +301,12 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 //            }
 //        }
     
-        cell.option1Button.setBackgroundImage(images[indexPath.row].imageOptionOne, forState: UIControlState.Normal)
-        cell.option2Button.setBackgroundImage(images[indexPath.row].imageOptionTwo, forState: UIControlState.Normal)
+        if images[indexPath.row].imageOptionOne != UIImage(named: "Icon-167") {
+            cell.option1Button.setBackgroundImage(images[indexPath.row].imageOptionOne, forState: UIControlState.Normal)
+        }
+        if images[indexPath.row].imageOptionTwo != UIImage(named: "Icon-167") {
+            cell.option2Button.setBackgroundImage(images[indexPath.row].imageOptionTwo, forState: UIControlState.Normal)
+        }
         
         
         
