@@ -170,35 +170,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         // Dispose of any resources that can be recreated.
     }
 
-    func refresh(sender: AnyObject) {
-        let query = PFQuery(className: "UserMedia")
-        query.orderByDescending("createdAt")
-        query.includeKey("author")
-        query.limit = 20
-
-
-        query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
-            if let media = media {
-
-
-                self.feed = media
-                self.tableView.reloadData()
-                //print(self.feed!)
-                // do something with the data fetched
-
-                //                self.refreshControl?.endRefreshing()
-            } else {
-                //                self.refreshControl?.endRefreshing()
-                // handle error
-            }
-
-
-        }
-
-    }
-
-
-
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let feed = feed {
             return feed.count
@@ -295,8 +266,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.votesOne.text = String(format: "\(Int(votesOneCount))")
         cell.votesTwo.text = String(format: "\(Int(votesTwoCount))")
 
-        
-        
     // MARK: EDITING LIVE RESULTS
     //calculating total votes
         
@@ -435,6 +404,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     func addChosenToParse(indexPath: NSIndexPath) {
         
         print("########ADDING THE OPTIONS TO PARSE##########")
+        
+        chosenOption[indexPath.row].recentVote = 0;
         
         let poyo = self.feed![indexPath.row]
         
