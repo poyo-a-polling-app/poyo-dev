@@ -16,7 +16,7 @@ The location based polling application
     - [ ] Selfie feature
 - [x] Comments section
     - [x] Comments identified with anonymous characters
-- [ ] Sort table view based on vote count
+- [x] Sort table view based on popularity
 - [ ] Private polling (using password distributed offline) {1}
     - [ ] Credentials: Author Username and Distribution Key
 - [ ] Map view of Answers to Poyos
