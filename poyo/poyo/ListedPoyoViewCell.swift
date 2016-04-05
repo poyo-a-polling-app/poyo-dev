@@ -33,6 +33,7 @@ class ListedPoyoViewCell: UITableViewCell {
     @IBOutlet weak var voteOverlayOne: UIView!
     @IBOutlet weak var voteOverlayTwo: UIView!
     
+    @IBOutlet weak var seeComments: UIButton!
     
     var poyo: PFObject?
     

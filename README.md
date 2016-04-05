@@ -10,25 +10,39 @@ The location based polling application
 
 
 ##Optionals
-- [ ] As a poyoker, I can see the surrounding poyees on a map
-- [ ] Private polling (using password distributed offline)
-- [ ] Color coded answer
-- [ ] Map view
-- [ ] User accounts (Recorded poyoker, but anonymous poyee)
-- [ ] Comments section based on anonymous characters
-- [ ] Anonimity based on character
-- [ ] Animated graphs for results (Pie/Egg charts)
-- [ ] Images with options
+- [x] Asynchronous network connection and delayed Parse update
+- [x] Color coded answer
+- [x] Images with options (add-images branch can perfrom action)
+- [x] Comments section
+    - [ ] Comments identified with anonymous characters
 - [ ] Sort table view based on vote count
+- [ ] Private polling (using password distributed offline)
+- [ ] Map view of Answers to Poyos
+- [ ] As a poyoker, I can see the surrounding poyees on a map
+- [ ] User accounts (Recorded poyoker, but anonymous poyee)
 - [ ] Images in question
+- [ ] Auto-fill question based on answer
+    - [ ] Have a switch for custom question text
+- [ ] User defaults for option colors
+= [ ] Overall user statistics
+- [ ] Push notifications for comment on your Poyo
+- [ ] Push notifications for votes on Poyo (occasional total)
+- [ ] Push notifications for closed Poyo
+
+## UI Optionals
+- [ ] Launch screen loader
+- [ ] Blank screen for main feed
+- [ ] Blank screen for user account
+- [ ] Animated bar for resulting bar graph
+- [ ] Color of answer based on image (might not be best)
 
 ###Date Recording
 * Per User
-  * Answer to poll
-  * Datetime
-  * Location
+* Answer to poll
+* Datetime
+* Location
 * General
-  * Amount of votes recently (per time)
+* Amount of votes recently (per time)
 
 ##Data Fields:
 
@@ -43,9 +57,9 @@ The location based polling application
 ###Poyo
 * Question
 * Options ([NSDictionary])
-  * text
-  * amount_of_votes
-  * image
+* text
+* amount_of_votes
+* image
 * created_at
 * creator_id
 * poyo_id
@@ -65,3 +79,7 @@ The location based polling application
 ##Sprint 3
 
 <img src='http://i.imgur.com/TUZTFTh.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+##Sprint 4 - optionals
+
+<img src='http://i.imgur.com/9VccgIu.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />

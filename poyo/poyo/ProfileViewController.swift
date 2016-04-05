@@ -14,6 +14,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tableview: UITableView!
     var user: PFUser?
     var poyos: [PFObject]?
+    var graves: [PFObject]?
 
     var locationManager = CLLocationManager()
     var location: CLLocation!
@@ -81,6 +82,36 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.tableview.reloadData()
         }
 
+        var query1 = PFQuery(className: "PoyoGrave")
+        //query.includeKey("author")
+        query1.whereKey("author", equalTo: PFUser.currentUser()!)
+
+        query1.findObjectsInBackgroundWithBlock {
+            (objects: [PFObject]?, error: NSError?) -> Void in
+
+            if error == nil {
+                // The find succeeded.
+                print("Successfully retrieved \(objects!.count) scores.")
+                self.graves = []
+                // Do something with the found objects
+                if let objects = objects {
+
+                    for object in objects {
+
+                        self.graves!.append(object)
+
+
+                        print(object.objectId)
+
+                    }
+
+                }
+            } else {
+                // Log details of the failure
+                print("Error: \(error!) \(error!.userInfo)")
+            }
+            self.tableview.reloadData()
+        }
 
 
         // Do any additional setup after loading the view.
@@ -94,8 +125,22 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         if let poyos = poyos {
-            return poyos.count
+            if let graves = graves {
+                print("both count: \(poyos.count + graves.count + 1)")
+                return (poyos.count + graves.count + 1)
+            } else {
+                print("poyos count: \(poyos.count)")
+                return poyos.count
+            }
+
+        } else if let graves = graves {
+            print("graves count: \(graves.count)")
+
+            return graves.count
+
         } else {
+            print("count: 0")
+
             return 0
         }
 
@@ -106,35 +151,65 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         var cell = tableView.dequeueReusableCellWithIdentifier("ProfileCell", forIndexPath: indexPath) as! ListedPoyoViewCell
 
-        var poyo = poyos![indexPath.row] as! PFObject
-        let date = poyo["time"] as! NSDate
-        
-        cell.poyo = poyo
+        var poyo: PFObject?
+        //print("zeroth")
+        print("index row: \(indexPath.row)")
+        let rowNum = indexPath.row
+        if let poyos = self.poyos{
+            if rowNum < poyos.count {
+                print("first")
+                poyo = poyos[rowNum] as! PFObject
 
-        cell.questionLabel.text = poyo["caption"] as! String
-        cell.votesLabel.text = "800"
-        cell.timeLabel.text = timeElapsed(date)
+            } else if rowNum == poyos.count {
+                cell.questionLabel.text = "hey these are your old poyos :]"
+                cell.votesLabel.hidden = true
+                cell.timeLabel.hidden = true
+                cell.distanceLabel.hidden = true
+                print("second")
+            } else {
 
-        let poyoLatitude = poyo["latitude"].doubleValue as! CLLocationDegrees
-        let poyoLongitude = poyo["longitude"].doubleValue as! CLLocationDegrees
+                print("third")
+                print("index \(rowNum-poyos.count-1)")
+                poyo = graves![rowNum-poyos.count-1]
+                //print("infiniti")
+
+            }
 
 
 
-        var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
-        var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
+        } else if let graves = self.graves {
+            poyo = graves[rowNum] as! PFObject
+            print("fourth")
 
+        }
+        print("fifth")
 
-
-        cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
+        if poyo != nil {
+            print("sixth")
+            let date = poyo!["time"] as! NSDate
+            cell.poyo = poyo!
+            cell.questionLabel.text = poyo!["caption"] as! String
+            cell.votesLabel.text = "800"
+            cell.timeLabel.text = timeElapsed(date)
+            let poyoLatitude = poyo!["latitude"].doubleValue as! CLLocationDegrees
+            let poyoLongitude = poyo!["longitude"].doubleValue as! CLLocationDegrees
+            var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
+            var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
+            cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
+        }
 
 
         return cell
     }
-    
+
     func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
         return "Close"
     }
-    
+
+    /*func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+        return "Close"
+    } */
+
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
             var something = tableview.cellForRowAtIndexPath(indexPath) as! ListedPoyoViewCell
             something.killCell()
