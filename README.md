@@ -15,7 +15,7 @@ The location based polling application
 - [x] Images with options (add-images branch can perfrom action)
     - [ ] Selfie feature
 - [x] Comments section
-    - [ ] Comments identified with anonymous characters
+    - [x] Comments identified with anonymous characters
 - [ ] Sort table view based on vote count
 - [ ] Private polling (using password distributed offline) {1}
     - [ ] Credentials: Author Username and Distribution Key
