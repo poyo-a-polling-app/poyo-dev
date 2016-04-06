@@ -83,7 +83,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     }
 
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        var latestLocation: AnyObject = locations[locations.count - 1]
+        let latestLocation: AnyObject = locations[locations.count - 1]
 
         latitudeLabel = String(format: "%.4f", latestLocation.coordinate.latitude)
         longitudeLabel = String(format: "%.4f", latestLocation.coordinate.longitude)
@@ -157,13 +157,13 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         
         if(segue.identifier == "onImageOne"){
             print(sender!.tag)
-                var newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
+                let newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
                 newImage.delegate = self
             newImage.senderInt = sender!.tag
         }
         else if (segue.identifier == "onImageTwo"){
             print(sender!.tag)
-                var newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
+                let newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
                 newImage.delegate = self
             newImage.senderInt = sender!.tag
         }

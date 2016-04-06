@@ -16,13 +16,12 @@ protocol ImageTwoViewDelegate {
 class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var senderInt: Int! = nil
-    var cameraInt: Int! = nil
     
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCaptureStillImageOutput?
     var previewLayer: AVCaptureVideoPreviewLayer?
     
-    var captureDevice : AVCaptureDevice? = nil
+    var captureDevice : AVCaptureDevice?
 
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var tempImageView: UIImageView!
@@ -35,17 +34,22 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     let vc = UIImagePickerController()
     
+    let flerror : NSError? = nil
+    
+    var input : AVCaptureDeviceInput?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.newImageView.hidden = true
-        cameraInt = 1
-        reloadCamera()
+        let cameraInte = 1
+        //reloadCamera()
         vc.delegate = self
         vc.allowsEditing = true
         vc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         BackAction.hidden = true
         FrontAction.hidden = false
+        loadCamera(cameraInte)
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -63,45 +67,81 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     }
     
     override func viewWillAppear(animated: Bool) {
-        
-        print(cameraInt)
-        
         super.viewWillAppear(animated)
-        //captureSession?.stopRunning()
-        //captureDevice
-        reloadCamera()
+    }
+    
+    
+    func loadCamera(inte: Int){
+        captureSession?.startRunning()
+        reloadCamera(inte)
         
         
+        captureSession = AVCaptureSession()
         captureSession?.accessibilityFrame = cameraView.bounds
         captureSession?.sessionPreset = AVCaptureSessionPresetPhoto
         
         
-        var flerror : NSError?
+                do{
+                    input = try AVCaptureDeviceInput(device: captureDevice)
         
-        do{
-            var input = try AVCaptureDeviceInput(device: captureDevice)
+                if (flerror == nil && captureSession?.canAddInput(input) != nil){
+                    captureSession?.addInput(input)
         
-        if (flerror == nil && captureSession?.canAddInput(input) != nil){
-            captureSession?.addInput(input)
+                    stillImageOutput = AVCaptureStillImageOutput()
+        
+                    stillImageOutput?.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
+        
+                    if ((captureSession?.canAddOutput(stillImageOutput)) != nil){
+                        
+                        captureSession?.addOutput(stillImageOutput)
+                        previewLayer?.frame = cameraView.bounds
+                        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+                        previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+                        previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
+                        cameraView.layer.addSublayer(previewLayer!)
+                        captureSession?.startRunning()
+                    }
+                }
+                }
+                catch{
+                    fatalError("Could not create capture device input.")
+                }
+
+    }
+    
+    
+    
+    func reloadCamera(int: Int) {
+        if (int == 2) {
+            let videoDevices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
             
-            stillImageOutput = AVCaptureStillImageOutput()
-            
-            stillImageOutput?.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
-            
-            if ((captureSession?.canAddOutput(stillImageOutput)) != nil){
-                captureSession?.addOutput(stillImageOutput)
-                previewLayer?.frame = cameraView.bounds
-                previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
-                previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
-                cameraView.layer.addSublayer(previewLayer!)
-                captureSession?.startRunning()
+            for device in videoDevices{
+                let device = device as! AVCaptureDevice
+                if device.position == AVCaptureDevicePosition.Front {
+                    captureDevice = device
+                }
             }
         }
+        else if (int == 1) {
+            captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         }
-        catch{
-            fatalError("Could not create capture device input.")
-        }
+    }
+    
+    @IBAction func takeFront(sender: AnyObject) {
+        BackAction.hidden = false
+        FrontAction.hidden = true
+        let cameraInte = 2
+        loadCamera(cameraInte)
+        //didPressTakeAnother()
+    }
+    
+    
+    @IBAction func takeBack(sender: AnyObject) {
+        FrontAction.hidden = false
+        BackAction.hidden = true
+        let cameraInte = 1
+        loadCamera(cameraInte)
+        //didPressTakeAnother()
     }
     
     func didPressTakePhoto(){
@@ -111,12 +151,13 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
                     (sampleBuffer, error) in
                 
                 if sampleBuffer != nil {
-                    var imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+                    let
+                    imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
                     
-                    var dataProvider = CGDataProviderCreateWithCFData(imageData)
-                    var cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, .RenderingIntentDefault)
+                    let dataProvider = CGDataProviderCreateWithCFData(imageData)
+                    let cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, .RenderingIntentDefault)
                     
-                    var image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
+                    let image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
                     
                    
                     
@@ -128,21 +169,6 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
                 
             })
         }
-    }
-    
-    @IBAction func takeFront(sender: AnyObject) {
-        FrontAction.hidden = true
-        BackAction.hidden = false
-        cameraInt = 2
-        viewWillAppear(true)
-    }
-    
-   
-    @IBAction func takeBack(sender: AnyObject) {
-        FrontAction.hidden = false
-        BackAction.hidden = true
-        cameraInt = 1
-        viewWillAppear(true)
     }
 
     
@@ -192,26 +218,6 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     @IBAction func onSend(sender: AnyObject) {
         delegate.setImage(self.tempImageView.image!, int: senderInt)
         dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func reloadCamera() {
-        captureSession = AVCaptureSession()
-        //captureSession?.stopRunning()
-        //captureSession?.delete(previewLayer)
-        // camera loading code
-        // var backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-        if (cameraInt == 2) {
-            let videoDevices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
-            
-            for device in videoDevices{
-                let device = device as! AVCaptureDevice
-                if device.position == AVCaptureDevicePosition.Front {
-                    captureDevice = device
-                }
-            }
-        } else {
-            captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-        }
     }
     
     

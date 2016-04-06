@@ -62,7 +62,7 @@ class UserMedia: NSObject {
 
 
     class func killPoyo(poyo: PFObject?) {
-        var deadMedia = PFObject(className: "PoyoGrave")
+        let deadMedia = PFObject(className: "PoyoGrave")
         //deadMedia = poyo!
 
         // Add relevant fields to the object
