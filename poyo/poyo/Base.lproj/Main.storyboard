@@ -96,16 +96,9 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Distance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cEi-9h-0zJ">
-                                                    <rect key="frame" x="220" y="19" width="147" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="distanceLabel" destination="cEi-9h-0zJ" id="zPT-Ac-iKO"/>
                                             <outlet property="questionLabel" destination="fpD-kU-HFn" id="RgX-bO-5m9"/>
                                             <outlet property="timeLabel" destination="uwJ-rc-0Is" id="M2v-ny-yWK"/>
                                             <outlet property="votesLabel" destination="E9l-VG-YQh" id="p19-zD-WhV"/>
@@ -460,7 +453,7 @@
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u8e-cE-ZlI" customClass="subclassedUIButton" customModule="poyo" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="-1" width="187.5" height="187.5"/>
                                                             <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="27"/>
-                                                            <state key="normal" title="Button" backgroundImage="Icon-167">
+                                                            <state key="normal" backgroundImage="Icon-167">
                                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <color key="titleShadowColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                                             </state>
@@ -468,15 +461,11 @@
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Fh-xM-n8Q" customClass="subclassedUIButton" customModule="poyo" customModuleProvider="target">
                                                             <rect key="frame" x="188" y="-1" width="187.5" height="187.5"/>
                                                             <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="27"/>
-                                                            <state key="normal" title="Button" backgroundImage="Icon-167">
+                                                            <state key="normal" backgroundImage="Icon-167">
                                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <color key="titleShadowColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                                             </state>
                                                         </button>
-                                                        <view alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u6G-Rs-7Th">
-                                                            <rect key="frame" x="0.0" y="0.0" width="187.5" height="186.5"/>
-                                                            <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        </view>
                                                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pcs-sd-7lh">
                                                             <rect key="frame" x="188" y="-1" width="3" height="189"/>
                                                             <color key="backgroundColor" red="0.92311463635384616" green="0.92311463635384616" blue="0.92311463635384616" alpha="1" colorSpace="calibratedRGB"/>
@@ -485,10 +474,26 @@
                                                             <rect key="frame" x="0.0" y="-1" width="375" height="5"/>
                                                             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>
-                                                        <view alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ye-k7-qKm">
-                                                            <rect key="frame" x="191" y="-1" width="184" height="186.5"/>
-                                                            <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <view alpha="0.69999999999999996" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u6G-Rs-7Th">
+                                                            <rect key="frame" x="94" y="-1" width="187.5" height="187.5"/>
+                                                            <color key="backgroundColor" red="0.45031540310000001" green="1" blue="0.61892449439999997" alpha="1" colorSpace="calibratedRGB"/>
                                                         </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Yes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ym2-8w-SHp">
+                                                            <rect key="frame" x="51" y="83" width="86" height="21"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="31"/>
+                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <view alpha="0.69999999999999996" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ye-k7-qKm">
+                                                            <rect key="frame" x="98" y="-1" width="184" height="187.5"/>
+                                                            <color key="backgroundColor" red="1" green="0.1371812506" blue="0.12408846649999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ETF-fp-JP8">
+                                                            <rect key="frame" x="239" y="83" width="86" height="21"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="31"/>
+                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>

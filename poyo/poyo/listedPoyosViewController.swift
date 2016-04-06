@@ -47,7 +47,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         self.refreshControl = UIRefreshControl()
         self.refreshControl!.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl!)
-
+        
         self.locationManager.requestAlwaysAuthorization()
 
         // For use in foreground
@@ -95,7 +95,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var votesOneCount = CGFloat(countVotes(indexPathRow, option: 1))
         var votesTwoCount = CGFloat(countVotes(indexPathRow, option: 2))
         var totalCount = Int(votesOneCount + votesTwoCount)
-        
+
         var order = log10(Double(max(abs(totalCount), 1)))
         var secondsElapsed = Double(date.timeIntervalSinceNow)
         print("Score: \(order + secondsElapsed/45000)")
@@ -119,7 +119,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             
             if let media = media {
                 self.feed = []
-
+                var indexCount = 0
                 for (index, medium) in media.enumerate() {
                     if index >= self.chosenOption.count {
                         self.chosenOption.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0))
@@ -129,10 +129,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                     let timeElapsed = Int(0 - date.timeIntervalSinceNow)
                     if(timeElapsed > timeLimit!) {
                         UserMedia.killPoyo(medium)
+                        continue
                     } else {
                         self.feed!.append(medium)
-                        medium["popularity"] = self.popularity(index, date: medium["time"] as! NSDate)
+                        print("Index: \(indexCount)")
+                        medium["popularity"] = self.popularity(indexCount, date: medium["time"] as! NSDate)
                         medium.saveInBackground()
+                        indexCount++
+
 
                     }
                     
@@ -260,7 +264,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     }
 
     func countVotes(indexPathrow: Int, option: Int) -> Int {
+        print("POOPOPOPPPOPO")
+
         let poyo = self.feed![indexPathrow]
+
         var chosen1vote = 0
         var chosen2vote = 0
         var alreadyChosen1 = 0
@@ -270,7 +277,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             print(chosenOption[indexPathrow].chosen)
             if chosenOption[indexPathrow].chosen == 1 {
 //                alreadyChosen1 = -1
-                alreadyChosen2 = 1
+//                alreadyChosen2 = 1
                 chosen1vote = 1
             }
 
@@ -278,7 +285,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             print(chosenOption[indexPathrow].chosen)
 
             if chosenOption[indexPathrow].chosen == 2 {
-                alreadyChosen1 = 1
+//                alreadyChosen1 = 1
             }
             chosen2vote = 1
         }
@@ -308,7 +315,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ListedPoyoViewCell", forIndexPath: indexPath) as! ListedPoyoViewCell
-
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        
         let poyo = self.feed![indexPath.row]
 
         cell.poyo = poyo
@@ -374,8 +382,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var votesOneCount = CGFloat(countVotes(indexPath.row, option: 1))
         var votesTwoCount = CGFloat(countVotes(indexPath.row, option: 2))
 
-        cell.votesOne.text = String(format: "\(Int(votesOneCount))")
-        cell.votesTwo.text = String(format: "\(Int(votesTwoCount))")
+//        cell.votesOne.text = String(format: "\(Int(votesOneCount))")
+//        cell.votesTwo.text = String(format: "\(Int(votesTwoCount))")
 
     // MARK: EDITING LIVE RESULTS
     //calculating total votes
@@ -390,17 +398,30 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         } else {
             cell.votesLabel.text = String(format: "\(totalCount) votes")
         }
+        
+        
+        var votesOnePercent = CGFloat(0)
+        var votesTwoPercent = CGFloat(0)
     //calculating percentage of votes
-        var votesOnePercent = CGFloat(votesOneCount/(votesOneCount + votesTwoCount))
-        var votesTwoPercent = CGFloat(votesTwoCount/(votesOneCount + votesTwoCount))
+        if votesOneCount == 0 && votesTwoCount == 0 {
+    
+        } else {
+            votesOnePercent = CGFloat(votesOneCount/(votesOneCount + votesTwoCount))
+            votesTwoPercent = CGFloat(votesTwoCount/(votesOneCount + votesTwoCount))
+        }
 
         var voteOneHeight = 25 * votesOnePercent
         var voteTwoHeight = 25 * votesTwoPercent
 
         //print("votesOnePercent: \(votesOnePercent)")
         //print("votesTwoPercent: \(votesTwoPercent)")
+        
+        cell.votesOne.text = String(format: "\(Int(votesOnePercent*100))")
+        cell.votesTwo.text = String(format: "\(Int(votesTwoPercent*100))")
 
-//        cell.voteOverlayOne.layer.anchorPoint = CGPointMake(0.5, 1)
+        cell.voteOverlayOne.layer.anchorPoint = CGPointMake(1, 0.5)
+        cell.voteOverlayTwo.layer.anchorPoint = CGPointMake(0, 0.5)
+
 
 //        cell.voteOverlayOne.frame.height / 2
 
@@ -420,15 +441,24 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 //                }
 //        })
 //
-        cell.voteOverlayOne.transform = CGAffineTransformMakeScale(1,votesOnePercent)
+        UIView.animateWithDuration(0.6, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+            cell.voteOverlayOne.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
+            cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(votesTwoPercent + 0.001, 1)
+        }) { (finished: Bool) in
+                print("Animatioed")
+        }
+//        UIView.animateWithDuration(0.4, delay: 1.0, options: UIViewAnimationTransition.None) {
+//            cell.voteOverlayOne.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
+//            cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(votesTwoPercent + 0.001, 1)
+//
+//        }
 
-        cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(1,votesTwoPercent)
 
         // MARK: CELL EDITING
 
         cell.questionLabel.text = question
-        cell.option1Button.setTitle(option1, forState: UIControlState.Normal)
-        cell.option2Button.setTitle(option2, forState: UIControlState.Normal)
+//        cell.option1Button.setTitle(option1, forState: UIControlState.Normal)
+//        cell.option2Button.setTitle(option2, forState: UIControlState.Normal)
 
         cell.option1Button.tag = indexPath.row
         cell.option2Button.tag = indexPath.row
