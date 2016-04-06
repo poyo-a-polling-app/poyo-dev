@@ -8,9 +8,11 @@
 
 import Parse
 import UIKit
+import MapKit
 
-class CommentsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class CommentsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate {
 
+    @IBOutlet weak var mapView: MKMapView!
     var passedPoyo: PFObject!
     var commentsArray: [NSDictionary]?
     var userAnswer: Int?
@@ -30,6 +32,68 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         
+        let poyoLat = Double(passedPoyo["latitude"] as! String)
+        
+        let poyoLong = Double(passedPoyo["longitude"] as! String)
+        
+        let sfRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(poyoLat!, poyoLong!), MKCoordinateSpanMake(0.1, 0.1))
+        mapView.delegate = self
+        
+        mapView.setRegion(sfRegion, animated: false)
+        
+        let sanFranLocation = CLLocationCoordinate2DMake(poyoLat!, poyoLong!)
+        //let pin = MKPinAnnotationView()
+        //pin.pinColor = .Green
+        
+        let dropPin = MKPointAnnotation()
+        dropPin.coordinate = sanFranLocation
+        dropPin.title = "San Francisco"
+        mapView.addAnnotation(dropPin)
+        
+        
+        let poyo1Answers = passedPoyo["option1Answers"] as! [NSDictionary]
+        let poyo2Answers = passedPoyo["option2Answers"] as! [NSDictionary]
+        var poyo1Lats = [] as! [Double]
+        var poyo2Lats = [] as! [Double]
+        var poyo1Longs = [] as! [Double]
+        var poyo2Longs = [] as! [Double]
+        
+        for answer in poyo1Answers {
+            let poyo1Lat = answer["latitude"] as! Double
+            let poyo1Long = answer["longitude"] as! Double
+            poyo1Lats.append(poyo1Lat)
+            poyo1Longs.append(poyo1Long)
+            
+            let answerLocation = CLLocationCoordinate2DMake(poyo1Lat, poyo1Long)
+            //let pin = MKPinAnnotationView()
+            //pin.pinColor = .Green
+            
+            let dropPin = MKPointAnnotation()
+            dropPin.coordinate = answerLocation
+            dropPin.title = "Blue"
+            mapView.addAnnotation(dropPin)
+            
+        }
+        
+       
+        for answer in poyo2Answers {
+            let poyo2Lat = answer["latitude"] as! Double
+            let poyo2Long = answer["longitude"] as! Double
+            poyo2Lats.append(poyo2Lat)
+            poyo2Longs.append(poyo2Long)
+            
+            let answerLocation = CLLocationCoordinate2DMake(poyo2Lat, poyo2Long)
+            //let pin = MKPinAnnotationView()
+            //pin.pinColor = .Green
+            
+            let dropPin = MKPointAnnotation()
+            dropPin.coordinate = answerLocation
+            dropPin.title = "Red"
+            mapView.addAnnotation(dropPin)
+
+        }
+        
+        
         self.tabBarController?.tabBar.hidden = true
         
         commentsArray = passedPoyo["comments"] as? [NSDictionary]
@@ -47,6 +111,24 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let reuseID = "myAnnotationView"
+        
+        var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseID)
+        if (annotationView == nil) {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+            annotationView!.canShowCallout = true
+            annotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
+        }
+        
+        //let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
+        //imageView.image = UIImage(named: "camera")
+        annotationView!.image = UIImage(named: "Icon")
+        
+        return annotationView
+    }
+    
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let commentsArray = commentsArray {
