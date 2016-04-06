@@ -40,7 +40,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         // Do any additional setup after loading the view.
         self.newImageView.hidden = true
         cameraInt = 1
-        //reloadCamera()
+        reloadCamera()
         vc.delegate = self
         vc.allowsEditing = true
         vc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
@@ -66,36 +66,14 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         
         print(cameraInt)
         
-        //super.viewWillAppear(animated)
+        super.viewWillAppear(animated)
         //captureSession?.stopRunning()
         //captureDevice
-        //reloadCamera()
+        reloadCamera()
         
-        captureSession = AVCaptureSession()
+        
         captureSession?.accessibilityFrame = cameraView.bounds
         captureSession?.sessionPreset = AVCaptureSessionPresetPhoto
-        captureSession?.sessionPreset = AVCaptureSessionPresetPhoto
-        
-        
-        
-        let devices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
-        for device in devices {
-            // Make sure this particular device supports video
-            if (device.hasMediaType(AVMediaTypeVideo)) {
-                // Finally check the position and confirm we've got the back camera
-                if(device.position == AVCaptureDevicePosition.Back && cameraInt == 1) {
-                    captureDevice = device as? AVCaptureDevice
-                    print("yas")
-                    viewWillAppear(true)
-                }
-                else if(device.position == AVCaptureDevicePosition.Front && cameraInt == 2) {
-                    captureDevice = device as? AVCaptureDevice
-                    print("noo")
-                    viewWillAppear(true)
-                }
-                
-            }
-        }
         
         
         var flerror : NSError?
@@ -124,32 +102,6 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         catch{
             fatalError("Could not create capture device input.")
         }
-    }
-    
-    func configureDevice() {
-        if let device = captureDevice {
-            device.lockForConfiguration(nil)
-            device.focusMode = .Locked
-            device.unlockForConfiguration()
-        }
-        
-    }
-    
-    func beginSession() {
-        
-        configureDevice()
-        
-        var err : NSError? = nil
-        captureSession.addInput(AVCaptureDeviceInput(device: captureDevice, error: &err))
-        
-        if err != nil {
-            println("error: \(err?.localizedDescription)")
-        }
-        
-        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        self.view.layer.addSublayer(previewLayer)
-        previewLayer?.frame = self.view.layer.frame
-        captureSession.startRunning()
     }
     
     func didPressTakePhoto(){
@@ -182,7 +134,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         FrontAction.hidden = true
         BackAction.hidden = false
         cameraInt = 2
-        //viewWillAppear(true)
+        viewWillAppear(true)
     }
     
    
@@ -190,7 +142,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         FrontAction.hidden = false
         BackAction.hidden = true
         cameraInt = 1
-        //viewWillAppear(true)
+        viewWillAppear(true)
     }
 
     
@@ -243,6 +195,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     }
     
     func reloadCamera() {
+        captureSession = AVCaptureSession()
         //captureSession?.stopRunning()
         //captureSession?.delete(previewLayer)
         // camera loading code
@@ -254,12 +207,10 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
                 let device = device as! AVCaptureDevice
                 if device.position == AVCaptureDevicePosition.Front {
                     captureDevice = device
-                    break
                 }
             }
         } else {
             captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-            captureSession?.startRunning()
         }
     }
     
