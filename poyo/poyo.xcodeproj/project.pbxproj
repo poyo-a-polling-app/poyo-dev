@@ -94,10 +94,8 @@
 				16AF95AF1C8A658D00A2E244 /* AppDelegate.swift */,
 				16AF95B11C8A658D00A2E244 /* ViewController.swift */,
 				0AFD03D31C8FA067005AC266 /* ComposeViewController.swift */,
-				16AF95B31C8A658D00A2E244 /* Main.storyboard */,
 				16EB4E841CADE1F80076CCF6 /* CommentsViewController.swift */,
 				16EB4E861CAF44260076CCF6 /* CommentViewCell.swift */,
-				0AC221C11CAB3CA800203C72 /* ImageOneView.swift */,
 				0AC221C31CAB3CBB00203C72 /* ImageTwoView.swift */,
 				0AD76F921CB0389B00DF597C /* Main.storyboard */,
 				0AFD03D11C8F9FFA005AC266 /* UserMedia.swift */,
@@ -163,7 +161,7 @@
 				TargetAttributes = {
 					16AF95AB1C8A658D00A2E244 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 2K89K4HSF6;
+						DevelopmentTeam = WVUW59QX7W;
 					};
 				};
 			};
@@ -381,7 +379,7 @@
 				INFOPLIST_FILE = poyo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.takashiw.poyo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kasistores.poyo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -397,7 +395,7 @@
 				INFOPLIST_FILE = poyo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.takashiw.poyo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kasistores.poyo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

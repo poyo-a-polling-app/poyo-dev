@@ -13,23 +13,16 @@ protocol ImageTwoViewDelegate {
     func setImage(image: UIImage, int: Int);
 }
 
-
-extension UIImage {
-    var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
-    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)!  }
-    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)! }
-    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)!  }
-    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)! }
-    var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
-}
-
 class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var senderInt: Int! = nil
+    var cameraInt: Int! = nil
     
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCaptureStillImageOutput?
     var previewLayer: AVCaptureVideoPreviewLayer?
+    
+    var captureDevice : AVCaptureDevice? = nil
 
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var tempImageView: UIImageView!
@@ -37,6 +30,8 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     var delegate : ImageTwoViewDelegate! = nil
     
+    @IBOutlet weak var BackAction: UIButton!
+    @IBOutlet weak var FrontAction: UIButton!
     
     let vc = UIImagePickerController()
     
@@ -44,10 +39,13 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.newImageView.hidden = true
-        
+        cameraInt = 1
+        //reloadCamera()
         vc.delegate = self
         vc.allowsEditing = true
         vc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        BackAction.hidden = true
+        FrontAction.hidden = false
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -56,7 +54,6 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
         previewLayer?.frame = cameraView.bounds
     }
 
@@ -67,18 +64,44 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     override func viewWillAppear(animated: Bool) {
         
-        super.viewWillAppear(animated)
+        print(cameraInt)
+        
+        //super.viewWillAppear(animated)
+        //captureSession?.stopRunning()
+        //captureDevice
+        //reloadCamera()
         
         captureSession = AVCaptureSession()
         captureSession?.accessibilityFrame = cameraView.bounds
         captureSession?.sessionPreset = AVCaptureSessionPresetPhoto
+        captureSession?.sessionPreset = AVCaptureSessionPresetPhoto
         
-        var backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        
+        
+        let devices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+        for device in devices {
+            // Make sure this particular device supports video
+            if (device.hasMediaType(AVMediaTypeVideo)) {
+                // Finally check the position and confirm we've got the back camera
+                if(device.position == AVCaptureDevicePosition.Back && cameraInt == 1) {
+                    captureDevice = device as? AVCaptureDevice
+                    print("yas")
+                    viewWillAppear(true)
+                }
+                else if(device.position == AVCaptureDevicePosition.Front && cameraInt == 2) {
+                    captureDevice = device as? AVCaptureDevice
+                    print("noo")
+                    viewWillAppear(true)
+                }
+                
+            }
+        }
+        
         
         var flerror : NSError?
         
         do{
-            var input = try AVCaptureDeviceInput(device: backCamera!)
+            var input = try AVCaptureDeviceInput(device: captureDevice)
         
         if (flerror == nil && captureSession?.canAddInput(input) != nil){
             captureSession?.addInput(input)
@@ -89,7 +112,6 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
             
             if ((captureSession?.canAddOutput(stillImageOutput)) != nil){
                 captureSession?.addOutput(stillImageOutput)
-                
                 previewLayer?.frame = cameraView.bounds
                 previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
                 previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
@@ -102,6 +124,32 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         catch{
             fatalError("Could not create capture device input.")
         }
+    }
+    
+    func configureDevice() {
+        if let device = captureDevice {
+            device.lockForConfiguration(nil)
+            device.focusMode = .Locked
+            device.unlockForConfiguration()
+        }
+        
+    }
+    
+    func beginSession() {
+        
+        configureDevice()
+        
+        var err : NSError? = nil
+        captureSession.addInput(AVCaptureDeviceInput(device: captureDevice, error: &err))
+        
+        if err != nil {
+            println("error: \(err?.localizedDescription)")
+        }
+        
+        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        self.view.layer.addSublayer(previewLayer)
+        previewLayer?.frame = self.view.layer.frame
+        captureSession.startRunning()
     }
     
     func didPressTakePhoto(){
@@ -128,6 +176,21 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
                 
             })
         }
+    }
+    
+    @IBAction func takeFront(sender: AnyObject) {
+        FrontAction.hidden = true
+        BackAction.hidden = false
+        cameraInt = 2
+        //viewWillAppear(true)
+    }
+    
+   
+    @IBAction func takeBack(sender: AnyObject) {
+        FrontAction.hidden = false
+        BackAction.hidden = true
+        cameraInt = 1
+        //viewWillAppear(true)
     }
 
     
@@ -177,6 +240,27 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     @IBAction func onSend(sender: AnyObject) {
         delegate.setImage(self.tempImageView.image!, int: senderInt)
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func reloadCamera() {
+        //captureSession?.stopRunning()
+        //captureSession?.delete(previewLayer)
+        // camera loading code
+        // var backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        if (cameraInt == 2) {
+            let videoDevices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+            
+            for device in videoDevices{
+                let device = device as! AVCaptureDevice
+                if device.position == AVCaptureDevicePosition.Front {
+                    captureDevice = device
+                    break
+                }
+            }
+        } else {
+            captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+            captureSession?.startRunning()
+        }
     }
     
     
