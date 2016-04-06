@@ -39,8 +39,7 @@ The location based polling application
 - [ ] Launch screen loader
 - [ ] Blank screen for main feed
 - [ ] Blank screen for user account
-- [ ] Animated bar for resulting bar graph
-- [ ] Color of answer based on image (might not be best)
+- [x] Animated bar for resulting bar graph
 
 ###Date Recording
 * Per User
