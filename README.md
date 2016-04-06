@@ -22,7 +22,7 @@ The location based polling application
 - [ ] Map view of Answers to Poyos
 - [x] User accounts (Recorded poyoker, but anonymous poyee)
 - [x] Images in question
-- [ ] Auto-fill question based on answer
+- [x] Auto-fill question based on answer
     - [ ] Have a switch for custom question text
 - [ ] Push notifications for comment on your Poyo
 - [ ] Push notifications for votes on Poyo (occasional total)
