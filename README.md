@@ -13,7 +13,7 @@ The location based polling application
 - [x] Asynchronous network connection and delayed Parse update
 - [x] Color coded answer
 - [x] Images with options (add-images branch can perfrom action)
-    - [ ] Selfie feature
+    - [x] Selfie feature
 - [x] Comments section
     - [x] Comments identified with anonymous characters
 - [x] Sort table view based on popularity
