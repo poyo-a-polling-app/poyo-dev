@@ -347,7 +347,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         
         
         
-        cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
+//        cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
 
         //checks radius
         if radius < distanceFromPoyo {
@@ -358,19 +358,19 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.alreadyAnswered = chosenOption[indexPath.row].chosen!
 
         //changes color based on chosen
-        if(cell.alreadyAnswered == 0){
-            cell.backgroundColor = UIColor.clearColor()
-            cell.option1Button.backgroundColor = UIColor.clearColor()
-            cell.option2Button.backgroundColor = UIColor.clearColor()
-        } else if cell.alreadyAnswered == 1 {
-            cell.backgroundColor = UIColor.greenColor()
-            cell.option1Button.backgroundColor = UIColor.greenColor()
-            cell.option2Button.backgroundColor = UIColor.clearColor()
-        } else {
-            cell.backgroundColor = UIColor.blueColor()
-            cell.option1Button.backgroundColor = UIColor.clearColor()
-            cell.option2Button.backgroundColor = UIColor.blueColor()
-        }
+//        if(cell.alreadyAnswered == 0){
+//            cell.backgroundColor = UIColor.clearColor()
+//            cell.option1Button.backgroundColor = UIColor.clearColor()
+//            cell.option2Button.backgroundColor = UIColor.clearColor()
+//        } else if cell.alreadyAnswered == 1 {
+//            cell.backgroundColor = UIColor.greenColor()
+//            cell.option1Button.backgroundColor = UIColor.greenColor()
+//            cell.option2Button.backgroundColor = UIColor.clearColor()
+//        } else {
+//            cell.backgroundColor = UIColor.blueColor()
+//            cell.option1Button.backgroundColor = UIColor.clearColor()
+//            cell.option2Button.backgroundColor = UIColor.blueColor()
+//        }
         var votesOneCount = CGFloat(countVotes(indexPath.row, option: 1))
         var votesTwoCount = CGFloat(countVotes(indexPath.row, option: 2))
 
