@@ -45,7 +45,6 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.newImageView.hidden = true
-        let cameraInte = 1
         //reloadCamera()
         vc.delegate = self
         vc.allowsEditing = true
@@ -76,6 +75,8 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     }
     
     
+    
+    //loads the camera in in order to crop to whatever the image view is
     func loadCamera(){
         
         
@@ -111,25 +112,8 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
                 }
 
     }
-//
-//    
-//    
-//    func reloadCamera(int: Int) {
-//        if (int == 2) {
-//            let videoDevices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
-//            
-//            for device in videoDevices{
-//                let device = device as! AVCaptureDevice
-//                if device.position == AVCaptureDevicePosition.Front {
-//                    captureDevice = device
-//                }
-//            }
-//        }
-//        else if (int == 1) {
-//            captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-//        }
-//    }
     
+    //sets the device to either front or back
     func videoDeviceWithPosition(position: AVCaptureDevicePosition) -> AVCaptureDevice? {
         if (position == .Front) {
             let videoDevices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
@@ -149,6 +133,8 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         return nil
     }
     
+    
+    //toggles the camera
     func toggleCamera() {
         let newPosition: AVCaptureDevicePosition = self.currentCameraPosition == .Back ? .Front : .Back
         let sessionPreset = AVCaptureSessionPreset640x480
@@ -200,25 +186,26 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         captureSession.commitConfiguration()
     }
     
+    //switch to the front camera
     @IBAction func takeFront(sender: AnyObject) {
         BackAction.hidden = false
         FrontAction.hidden = true
         frontInt = nil
         frontInt = 1
         toggleCamera()
-        //didPressTakeAnother()
     }
     
-    
+    //switch back to the back camera from the front camera
     @IBAction func takeBack(sender: AnyObject) {
         FrontAction.hidden = false
         BackAction.hidden = true
         frontInt = nil
         frontInt = 2
         toggleCamera()
-        //didPressTakeAnother()
     }
     
+    
+    //takes a photo of preview layer
     func didPressTakePhoto(){
         if let videoConnection = stillImageOutput?.connectionWithMediaType(AVMediaTypeVideo){
             videoConnection.videoOrientation = AVCaptureVideoOrientation.Portrait
@@ -238,8 +225,9 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
                         self.tempImageView.image = image
                         self.tempImageView.transform = CGAffineTransformMakeScale(-1, 1)
                     }
-                    else {
+                    else if self.frontInt == 2{
                         self.tempImageView.image = image
+                        self.tempImageView.transform = CGAffineTransformIdentity
                     }
                     
                     self.tempImageView.contentMode = .ScaleAspectFill
