@@ -11,7 +11,9 @@ import UIKit
 import MapKit
 
 class CommentsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate {
-
+    
+    
+    
     @IBOutlet weak var mapView: MKMapView!
     var passedPoyo: PFObject!
     var commentsArray: [NSDictionary]?
@@ -28,50 +30,49 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("here")
         tableView.dataSource = self
         tableView.delegate = self
-        
-        let poyoLat = Double(passedPoyo["latitude"] as! String)
-        
-        let poyoLong = Double(passedPoyo["longitude"] as! String)
-        
-        let sfRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(poyoLat!, poyoLong!), MKCoordinateSpanMake(0.1, 0.1))
         mapView.delegate = self
+        let poyoLat = Double(passedPoyo["latitude"] as! String)
+        let poyoLong = Double(passedPoyo["longitude"] as! String)
+        print("........poyoLat: \(poyoLat!) poyoLong: \(poyoLong!) hey bitch this working")
+        let sfRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(poyoLat!, poyoLong!), MKCoordinateSpanMake(0.1, 0.1))
+        
         
         mapView.setRegion(sfRegion, animated: false)
         
-        let sanFranLocation = CLLocationCoordinate2DMake(poyoLat!, poyoLong!)
+        let poyoLocation = CLLocationCoordinate2DMake(poyoLat!, poyoLong!)
         //let pin = MKPinAnnotationView()
         //pin.pinColor = .Green
         
         let dropPin = MKPointAnnotation()
-        dropPin.coordinate = sanFranLocation
-        dropPin.title = "San Francisco"
+        dropPin.coordinate = poyoLocation
+        dropPin.title = "Poyo"
         mapView.addAnnotation(dropPin)
         
         
         let poyo1Answers = passedPoyo["option1Answers"] as! [NSDictionary]
         let poyo2Answers = passedPoyo["option2Answers"] as! [NSDictionary]
-        var poyo1Lats = [] as! [Double]
+        /*var poyo1Lats = [] as! [Double]
         var poyo2Lats = [] as! [Double]
         var poyo1Longs = [] as! [Double]
         var poyo2Longs = [] as! [Double]
-        
+        */
         for answer in poyo1Answers {
             let poyo1Lat = answer["latitude"] as! Double
             let poyo1Long = answer["longitude"] as! Double
-            poyo1Lats.append(poyo1Lat)
-            poyo1Longs.append(poyo1Long)
+            //poyo1Lats.append(poyo1Lat)
+            //poyo1Longs.append(poyo1Long)
             
             let answerLocation = CLLocationCoordinate2DMake(poyo1Lat, poyo1Long)
             //let pin = MKPinAnnotationView()
             //pin.pinColor = .Green
             
-            let dropPin = MKPointAnnotation()
-            dropPin.coordinate = answerLocation
-            dropPin.title = "Blue"
-            mapView.addAnnotation(dropPin)
+            let pin = MKPointAnnotation()
+            pin.coordinate = answerLocation
+            pin.title = "Blue"
+            mapView.addAnnotation(pin)
             
         }
         
@@ -79,20 +80,20 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         for answer in poyo2Answers {
             let poyo2Lat = answer["latitude"] as! Double
             let poyo2Long = answer["longitude"] as! Double
-            poyo2Lats.append(poyo2Lat)
-            poyo2Longs.append(poyo2Long)
+            //poyo2Lats.append(poyo2Lat)
+            //poyo2Longs.append(poyo2Long)
             
             let answerLocation = CLLocationCoordinate2DMake(poyo2Lat, poyo2Long)
             //let pin = MKPinAnnotationView()
             //pin.pinColor = .Green
             
-            let dropPin = MKPointAnnotation()
-            dropPin.coordinate = answerLocation
-            dropPin.title = "Red"
-            mapView.addAnnotation(dropPin)
+            let pin = MKPointAnnotation()
+            pin.coordinate = answerLocation
+            pin.title = "Red"
+            mapView.addAnnotation(pin)
 
         }
-        
+ 
         
         self.tabBarController?.tabBar.hidden = true
         
@@ -102,8 +103,8 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
-
-
+        
+ 
         // Do any additional setup after loading the view.
     }
 
@@ -121,11 +122,11 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
             annotationView!.canShowCallout = true
             annotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
         }
-        
+ 
         //let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
         //imageView.image = UIImage(named: "camera")
-        annotationView!.image = UIImage(named: "Icon")
-        
+        annotationView!.image = UIImage(named: "Icon")!
+        print("....................hey.....................")
         return annotationView
     }
     
