@@ -13,19 +13,11 @@ protocol ImageTwoViewDelegate {
     func setImage(image: UIImage, int: Int);
 }
 
-
-extension UIImage {
-    var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
-    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)!  }
-    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)! }
-    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)!  }
-    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)! }
-    var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
-}
-
 class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var senderInt: Int! = nil
+    
+    @IBOutlet weak var didTake: UIButton!
     
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCaptureStillImageOutput?
@@ -44,7 +36,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.newImageView.hidden = true
-        
+        self.didTake.hidden = true
         vc.delegate = self
         vc.allowsEditing = true
         vc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
@@ -65,6 +57,8 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
@@ -73,7 +67,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         captureSession?.accessibilityFrame = cameraView.bounds
         captureSession?.sessionPreset = AVCaptureSessionPresetPhoto
         
-        var backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        let backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         
         var flerror : NSError?
         
@@ -111,12 +105,12 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
                     (sampleBuffer, error) in
                 
                 if sampleBuffer != nil {
-                    var imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
                     
-                    var dataProvider = CGDataProviderCreateWithCFData(imageData)
-                    var cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, .RenderingIntentDefault)
+                    let dataProvider = CGDataProviderCreateWithCFData(imageData)
+                    let cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, .RenderingIntentDefault)
                     
-                    var image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
+                    let image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
                     
                    
                     
@@ -124,6 +118,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
                     self.tempImageView.clipsToBounds = true
                     self.tempImageView.image = image
                     self.newImageView.hidden = false
+                    self.didTake.hidden = false
                 }
                 
             })
@@ -141,6 +136,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
             vc.dismissViewControllerAnimated(true) { () -> Void in
                 self.tempImageView.image = editedImage
                 self.newImageView.hidden = false
+                self.didTake.hidden = false
                 self.didTakePhoto = true
             }
     }
@@ -160,6 +156,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     func didPressTakeAnother(){
         if didTakePhoto == true{
             self.newImageView.hidden = true
+            self.didTake.hidden = true
             didTakePhoto = false
         }
         else {
@@ -169,14 +166,9 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         }
         
     }
-    
-    @IBAction func dismiss(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
     @IBAction func onSend(sender: AnyObject) {
         delegate.setImage(self.tempImageView.image!, int: senderInt)
-        dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     

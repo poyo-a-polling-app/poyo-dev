@@ -10,7 +10,13 @@ import UIKit
 import Parse
 import CoreLocation
 
-class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageTwoViewDelegate, UITextFieldDelegate {
+//protocol ComposeViewDelegate {
+//    
+//}
+
+class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageTwoViewDelegate, UITextFieldDelegate, SettingsViewDelegate{
+    
+    var passedDater: NSDate? = nil
 
     var imageTwo: UIImage?
     var imageOne: UIImage?
@@ -19,6 +25,12 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     var resizeImageTwo: UIImage?
 
     var imageObject: PFObject?
+    
+    var setPrivate: Bool?
+    var privatePassword: String? = ""
+    
+    var setDateBool: Bool?
+    var datePick: Int? = 75600
 
     @IBOutlet weak var optionTwoCounter: UILabel!
     @IBOutlet weak var optionOneCounter: UILabel!
@@ -50,12 +62,14 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         poyoField.delegate = self
         optionOneLabel.delegate = self
         optionTwoLabel.delegate = self
-
+        setPrivate = false
         self.locationManager.requestAlwaysAuthorization()
 
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
 
+        datePick = 75600
+        
         if CLLocationManager.locationServicesEnabled() {
             print("Location Successful")
             locationManager.delegate = self
@@ -69,23 +83,23 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         var timer =  NSTimer()
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "characterCounter", userInfo: nil, repeats: true)
 
+        
         self.imageOneButton.tag = 1
         self.imageTwoButton.tag = 2
 
         
-        print(poyoField.text)
+       
         // Do any additional setup after loading the view.
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        print(imageOneView.image)
-        print(imageTwoView.image)
     }
 
     override func viewWillAppear(animated: Bool) {
         imageOneView.image = imageOne
         imageTwoView.image = imageTwo
+        print(String(datePick!))
     }
 
     override func didReceiveMemoryWarning() {
@@ -106,7 +120,6 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     }
 
     @IBAction func onPost(sender: AnyObject) {
-        let secondsLeftInt = Int(myDatePicker.date.timeIntervalSinceNow)
         //let secondsLeftString = secondsLeftInt as! String
         performSegueWithIdentifier("postSegue", sender: nil)
         var poyotext = String()
@@ -117,18 +130,33 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
             poyotext = poyoField.text!
         }
         
-        UserMedia.postPoyoImage(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), imageOne: imageOne, imageTwo: imageTwo, withCompletion: nil)
-        print("did something send?")
+        if (setPrivate == false){
+            UserMedia.postPoyoImage(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCompletion: nil)
+            print("did something send?")
+        }
+        else if (setPrivate == true){
+            UserMedia.postPrivatePoyo(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCaption: privatePassword, withCompletion: nil)
+            print("did something private send?")
+        }
+        
+        poyoField.text = ""
+        optionOneLabel.text = ""
+        optionOneLabel.text = ""
+        imageOne = nil
+        imageTwo = nil
+        setPrivate = false
+        privatePassword = ""
+        datePick = 75600
     }
 
     func characterCounter() {
-        var characterCount = poyoField.text!.characters.count
-        var characterOneCount = optionOneLabel.text!.characters.count
-        var characterTwoCount = optionTwoLabel.text!.characters.count
+        let characterCount = poyoField.text!.characters.count
+        let characterOneCount = optionOneLabel.text!.characters.count
+        let characterTwoCount = optionTwoLabel.text!.characters.count
 
-        var charactersLeft = 80 - characterCount
-        var charactersOneLeft = 40 - characterOneCount
-        var charactersTwoLeft = 40 - characterTwoCount
+        let charactersLeft = 80 - characterCount
+        let charactersOneLeft = 40 - characterOneCount
+        let charactersTwoLeft = 40 - characterTwoCount
 
         countLabel.text = String(charactersLeft)
         optionOneCounter.text = String(charactersOneLeft)
@@ -195,6 +223,29 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
             imageTwo = resizeImageTwo
         }
     }
+    
+    func didPrivate(flag: Bool, password: String!) {
+        if (flag == true){
+            privatePassword = password
+            setPrivate = true
+        }
+        else {
+            privatePassword = nil;
+            setPrivate = false
+        }
+    }
+    
+    func didDate(flag: Bool, date: Int!, dater: NSDate){
+        if (flag == true){
+            datePick = date
+            setDateBool = true
+            passedDater = dater
+            
+        }
+        else {
+            setDateBool = false
+        }
+    }
 
     func resize(image: UIImage, newSize: CGSize) -> UIImage {
         let resizeImageView = UIImageView(frame: CGRectMake(0, 0, newSize.width, newSize.height))
@@ -215,16 +266,25 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         if(segue.identifier == "onImageOne"){
-            print(sender!.tag)
-                var newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
+                let newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
                 newImage.delegate = self
             newImage.senderInt = sender!.tag
         }
         else if (segue.identifier == "onImageTwo"){
-            print(sender!.tag)
-                var newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
+                let newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
                 newImage.delegate = self
             newImage.senderInt = sender!.tag
+        }
+        else if (segue.identifier == "backSegue"){
+            let settings :SettingsViewController = segue.destinationViewController as! SettingsViewController
+            print("OH NOOOO")
+            settings.delegate = self
+            settings.passedPassword = privatePassword
+            settings.passedPrivate = setPrivate
+            settings.passedDate = setDateBool
+            if (setDateBool == true){
+                settings.passerDate = passedDater
+            }
         }
 
         // Get the new view controller using segue.destinationViewController.
