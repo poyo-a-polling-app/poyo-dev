@@ -39,9 +39,7 @@ class locationFinderViewController: UIViewController, CLLocationManagerDelegate 
         }
         
         
-        
-        
-        
+               
         
         
         // Do any additional setup after loading the view.
