@@ -12,18 +12,40 @@ import Parse
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
 
     @IBOutlet weak var tableview: UITableView!
+    
+    @IBOutlet weak var poyoCount: UILabel!
+    
+    @IBOutlet weak var voteCount: UILabel!
+    
+    @IBOutlet weak var ageCount: UILabel!
+    
     var user: PFUser?
     var poyos: [PFObject]?
     var graves: [PFObject]?
 
     var locationManager = CLLocationManager()
     var location: CLLocation!
-
+    var poyoCounter = 0
+    var voteCounter = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.dataSource = self
         tableview.delegate = self
-
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSS'Z'"
+        
+        
+        /*find out and place date format from http://userguide.icu-project.org/formatparse/datetime
+         */
+        let createdAt = PFUser.currentUser()!.createdAt!
+        print("sdfsdkfljf........\(createdAt)")
+     
+        let timeElapsedString = timeElapsed(createdAt)
+        
+        ageCount.text = timeElapsedString
+        
+        
         self.locationManager.requestAlwaysAuthorization()
 
         // For use in foreground
@@ -55,6 +77,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 // The find succeeded.
                 print("Successfully retrieved \(objects!.count) scores.")
                 self.poyos = []
+                
+                
                 // Do something with the found objects
                 if let objects = objects {
 
@@ -66,6 +90,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                             UserMedia.killPoyo(object)
                             objects
                         } else {
+                            self.poyoCounter++
+                            self.voteCounter += (object["option1Answers"] as! [NSDictionary]).count + (object["option2Answers"] as! [NSDictionary]).count
+                            
                             self.poyos!.append(object)
                         }
 
@@ -73,6 +100,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                         print(object.objectId)
 
                     }
+                    self.poyoCount.text = "\(self.poyoCounter)"
+                    self.voteCount.text = "\(self.voteCounter)" 
+                    
 
                 }
             } else {
@@ -97,14 +127,19 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 if let objects = objects {
 
                     for object in objects {
-
+                        self.poyoCounter++
+                       // self.voteCounter += (object["option1Answers"] as! [NSDictionary]).count + (object["option2Answers"] as! [NSDictionary]).count
+                        
+                        //DHFSFHSDFH
                         self.graves!.append(object)
-
+                        
 
                         print(object.objectId)
 
                     }
-
+                    self.poyoCount.text = "\(self.poyoCounter)"
+                    self.voteCount.text = "\(self.voteCounter)"
+                    
                 }
             } else {
                 // Log details of the failure

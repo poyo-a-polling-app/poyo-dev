@@ -76,7 +76,9 @@ class UserMedia: NSObject {
         deadMedia["optionOne"] = poyo!["optionOne"]
         deadMedia["optionTwo"] = poyo!["optionTwo"]
         deadMedia["time"] = poyo!["time"]
-
+        deadMedia["option1Answers"] = poyo!["option1Answers"]
+        deadMedia["option2Answers"] = poyo!["option2Answers"]
+        
         //print("hey kill was accessed")
 
         deadMedia.saveInBackgroundWithBlock { (success: Bool, error:NSError?) -> Void in
