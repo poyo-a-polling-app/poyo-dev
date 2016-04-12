@@ -48,7 +48,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             let dropPin = MKPointAnnotation()
             dropPin.coordinate = sanFranLocation
-            dropPin.title = "San Francisco"
+            dropPin.title = "CurrentLocation"
             mapView.addAnnotation(dropPin)
             
         }
@@ -167,7 +167,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         
         
-        annotationView!.image = UIImage(named: "Icon")
+        if annotation.title! == "CurrentLocation" {
+            annotationView!.image = UIImage(named: "moose")
+            
+        } else {
+            annotationView!.image = UIImage(named: "Icon")
+        }
+        
         return annotationView
     }
     

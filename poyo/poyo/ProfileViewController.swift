@@ -70,10 +70,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
              let sanFranLocation = CLLocationCoordinate2DMake(poyoLat, poyoLong)
              //let pin = MKPinAnnotationView()
              //pin.pinColor = .Green
-             
+            
              let dropPin = MKPointAnnotation()
              dropPin.coordinate = sanFranLocation
-             dropPin.title = "San Francisco"
+             dropPin.title = "CurrentLocation"
              mapView.addAnnotation(dropPin) 
             
         }
@@ -318,8 +318,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             annotationView!.annotation = annotation
         }
         
+        if annotation.title! == "CurrentLocation" {
+            annotationView!.image = UIImage(named: "moose")
+            
+        } else {
+            annotationView!.image = UIImage(named: "Icon")
+        }
         
-        annotationView!.image = UIImage(named: "Icon")
         return annotationView
     }
     
