@@ -103,7 +103,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
             case 2:
                 cell.iconBackView.backgroundColor = UIColor(red:0.87, green:0.2, blue:0.15, alpha:1.0)
             default:
-                cell.iconBackView.backgroundColor = UIColor.whiteColor()
+                cell.iconBackView.backgroundColor = UIColor.lightGrayColor()
             }
         } else {
             print("ANSWER FROM NOTN NOTNONOTNOTNOT CURRENT USER")
@@ -116,7 +116,7 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
             case 2:
                 cell.iconBackView.backgroundColor = UIColor(red:0.87, green:0.2, blue:0.15, alpha:1.0)
             default:
-                cell.iconBackView.backgroundColor = UIColor.whiteColor()
+                cell.iconBackView.backgroundColor = UIColor.lightGrayColor()
             }
         }
         

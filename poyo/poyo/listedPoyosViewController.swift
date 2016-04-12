@@ -35,8 +35,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     var images = [poyoImages]()
 
     var refreshControl: UIRefreshControl?
-
-
+    
+    var reloadPopular = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,6 +102,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     }
     
     func popularity(indexPathRow: Int, date: NSDate) -> Double {
+        
         var votesOneCount = CGFloat(countVotes(indexPathRow, option: 1))
         var votesTwoCount = CGFloat(countVotes(indexPathRow, option: 2))
         var totalCount = Int(votesOneCount + votesTwoCount)
@@ -122,7 +123,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     func reloadAllData() {
         
-
+        
         let query = PFQuery(className:"PoyosImageTest")
         query.orderByDescending("popularity")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
@@ -143,9 +144,15 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                     } else {
                         self.feed!.append(medium)
                         ////print("Index: \(indexCount)")
-                        medium["popularity"] = self.popularity(indexCount, date: medium["time"] as! NSDate)
-                        medium.saveInBackground()
+                        
+                        var popularityRating = self.popularity(indexCount, date: medium["time"] as! NSDate)
+                        if medium["popularity"] == nil || self.reloadPopular {
+                            medium["popularity"] =
+                                medium.saveInBackground()
+                        }
                         indexCount++
+
+
 
 
                     }
@@ -201,6 +208,12 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                     self.populateChosenOption()
 //                }
                 self.tableView.reloadData()
+                
+                
+                
+                
+                
+                
                 ////print("IT ACCESSED THE DATA!!!!!")
       
             } else {
@@ -212,6 +225,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         if chosenOption.count != 0 {
             chosenSaved = true
         }
+        
+        reloadPopular = false
 
 
     }
@@ -253,7 +268,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             }
             chosenOption = tempArray
             ////print("Chosen Option: \(chosenOption)")
-            tableView.reloadData()
+//            tableView.reloadData()
         } else {
             ////print("Chosen did not occur!")
         }
@@ -335,7 +350,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        ////print("ASDNALKSNLFNSKLNKN")
         
         let cell = tableView.dequeueReusableCellWithIdentifier("ListedPoyoViewCell", forIndexPath: indexPath) as! ListedPoyoViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
@@ -352,21 +366,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
         var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
-//        var options1ImageLink = poyo["optionImageOne"] as! PFFile
-        
-//        let options1ImageLink = poyo.valueForKey("optionImageOne") as! PFFile
-//        
-//        ////print("Accessed new image \(options1ImageLink)")
-//
-//        options1ImageLink.getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) in
-//            if (error == nil) {
-//                ////print("Changed that image!!")
-//                let image = UIImage(data:imageData!)
-//                cell.option1Button.setBackgroundImage(image, forState: UIControlState.Normal)
-//            } else {
-//                ////print("Connection failed to be made!!")
-//            }
-//        }
+
     
         if images[indexPath.row].imageOptionOne != UIImage(named: "Icon-167") {
             cell.option1Button.setBackgroundImage(images[indexPath.row].imageOptionOne, forState: UIControlState.Normal)
@@ -376,6 +376,62 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
         
         
+        //COMMENTS
+        cell.commentPreviewColorOne.hidden = true
+        cell.commentPreviewOne.hidden = true
+        cell.commentPreviewColorTwo.hidden = true
+        cell.commentPreviewTwo.hidden = true
+        cell.commentPreviewColorThree.hidden = true
+        cell.commentPreviewThree.hidden = true
+
+        
+        let poyoComments = poyo["comments"] as? [NSDictionary]
+        print("Row: \(indexPath.row)  =====  \(poyoComments)")
+        if poyoComments != nil {
+            for (index, comments) in poyoComments!.enumerate() {
+                if index >= 3 {
+                    break
+                }
+               
+                cell.commentPreviewColorOne.layer.cornerRadius = cell.commentPreviewColorOne.frame.height / 2
+                cell.commentPreviewColorTwo.layer.cornerRadius = cell.commentPreviewColorTwo.frame.height / 2
+                cell.commentPreviewColorThree.layer.cornerRadius = cell.commentPreviewColorThree.frame.height / 2
+                
+                var commentColor = UIColor.lightGrayColor()
+                let colorSet = findColor(poyoComments![index]["user"] as! PFUser, indexPath: indexPath)
+                switch colorSet {
+                case 1:
+                    commentColor = UIColor(red:0.09, green:0.7, blue:0.43, alpha:1.0)
+                case 2:
+                    commentColor = UIColor(red:0.87, green:0.2, blue:0.15, alpha:1.0)
+                default:
+                    commentColor = UIColor.lightGrayColor()
+                }
+                    
+                switch index {
+                case 0:
+                    cell.commentPreviewColorOne.hidden = false
+                    cell.commentPreviewOne.hidden = false
+                    cell.commentPreviewColorOne.backgroundColor = commentColor
+                     cell.commentPreviewOne.text = poyoComments![index]["commentString"] as? String
+                case 1:
+                    cell.commentPreviewColorTwo.hidden = false
+                    cell.commentPreviewTwo.hidden = false
+                    cell.commentPreviewColorTwo.backgroundColor = commentColor
+                    cell.commentPreviewTwo.text = poyoComments![index]["commentString"] as? String
+                case 2:
+                    cell.commentPreviewColorThree.hidden = false
+                    cell.commentPreviewThree.hidden = false
+                    cell.commentPreviewColorThree.backgroundColor = commentColor
+                    cell.commentPreviewThree.text = poyoComments![index]["commentString"] as? String
+                default:
+                    print("INDEX ERROR")
+                }
+            }
+
+        } else {
+        
+        }
         
         
 //        cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
@@ -548,7 +604,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                         //print("Vote was deleted successfully")
                         self.navigationController?.popViewControllerAnimated(true)
                         self.reloadAllData()
-                        self.tableView.reloadData()
+//                        self.tableView.reloadData()
                     }
                 }
             }
@@ -626,7 +682,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                     } else {
                         print("Vote was added successfully")
                         self.reloadAllData()
-                        self.tableView.reloadData()
+//                        self.tableView.reloadData()
                     }
                 }
             }
@@ -769,6 +825,71 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         return timeElapsedString!
 
     }
+        
+//    func findColor(user: PFUser, indexPath: NSIndexPath) -> Int {
+//        
+//        //search option1Array
+//        print(" Finding colors for \(feed![indexPath.row])")
+//        
+//        let options1Array = feed![indexPath.row]["option1Answers"] as! [String]
+//        
+//        if options1Array.contains({$0 == user.objectId}){
+//            print("Answered 1")
+//            return 1
+//        }
+//        
+//        //search option2Array
+//        let options2Array = feed![indexPath.row]["option2Answers"] as! [String]
+//        
+//        if options2Array.contains({$0 == user.objectId}){
+//            print("Answered 2")
+//            return 2
+//        }
+//        print("None answered")
+//        return 0
+//    }
+//    
+    func findColor(user: PFUser, indexPath: NSIndexPath) -> Int {
+        
+        //search option1Array
+        //        let options1Array = passedPoyo["option1Answers"] as! [NSDictionary]
+        print("POPOPOPOPOPOPOPOPOPOPOPO")
+        
+        var options1 = feed![indexPath.row]["option1Answers"] as! [NSDictionary]
+        var options1Array = options1.map { $0["userId"] as! String}
+        
+        if options1Array.contains({$0 == user.objectId}){
+            print("Answered 1")
+            return 1
+        }
+        
+        
+        
+        
+        var options2 = feed![indexPath.row]["option2Answers"] as! [NSDictionary]
+        var options2Array = options2.map { $0["userId"] as! String}
+        
+        if options2Array.contains({$0 == user.objectId}){
+            print("Answered 2")
+            return 2
+        }
+        
+        
+        //        if options1Array.contains({$0 == user.objectId}){
+        //            print("Answered 1")
+        //            return 1
+        //        }
+        
+        //search option2Array
+        //        let options2Array = passedPoyo["option2Answers"] as! [NSDictionary]
+        //
+        //        if options2Array.contains({$0 == user.objectId}){
+        //            print("Answered 2")
+        //            return 2
+        //        }
+        print("None answered")
+        return 0
+    }
 
 
 //    @IBAction func seeCommentsPressed(sender: AnyObject) {
@@ -779,7 +900,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 //     In a storyboard-based application, you will often want to do a little preparation before navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        reloadAllData()
+//        reloadAllData()
         populateChosenOption()
         tableView.reloadData()
         
@@ -827,3 +948,17 @@ class poyoImages {
         imageOptionTwo = UIImage(named: "Icon-167")
     }
 }
+
+//class poyoComment{
+//    var commentString: String?
+//    var user: PFUser?
+//    var timeStamp: NSDate?
+//    var anonCharacter: UIImage
+//    
+//    init(newCommentString: String) {
+//        commentString = newCommentString
+//        user = PFUser.currentUser()
+//        timeStamp = NSDate()
+//        anonCharacter = UIImage(named: "anteater")!
+//    }
+//}

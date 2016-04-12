@@ -19,6 +19,7 @@ class CommentViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         commentTextLabel.preferredMaxLayoutWidth = commentTextLabel.frame.size.width
+        
 
     }
 

@@ -24,6 +24,12 @@ class ListedPoyoViewCell: UITableViewCell {
     
     @IBOutlet weak var option2Button: subclassedUIButton!
     
+    @IBOutlet weak var commentPreviewColorOne: UIView!
+    @IBOutlet weak var commentPreviewOne: UILabel!
+    @IBOutlet weak var commentPreviewColorTwo: UIView!
+    @IBOutlet weak var commentPreviewTwo: UILabel!
+    @IBOutlet weak var commentPreviewColorThree: UIView!
+    @IBOutlet weak var commentPreviewThree: UILabel!
 //    @IBOutlet weak var distanceLabel: UILabel!
     
     
