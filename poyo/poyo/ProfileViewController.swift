@@ -8,17 +8,21 @@
 
 import UIKit
 import Parse
+import MapKit
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate {
 
     @IBOutlet weak var tableview: UITableView!
+    
+    @IBOutlet weak var mapView: MKMapView!
+    
     var user: PFUser?
     var poyos: [PFObject]?
     var graves: [PFObject]?
-
     var locationManager = CLLocationManager()
     var location: CLLocation!
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.dataSource = self
@@ -39,6 +43,41 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             print("No location")
         }
 
+        
+        var locManager = CLLocationManager()
+        locManager.requestWhenInUseAuthorization()
+        
+        var currentLocation = CLLocation!()
+        
+        if( CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.Authorized){
+            
+            currentLocation = locManager.location
+            
+            print("longitude: \(currentLocation.coordinate.longitude)")
+            print("latitude: \(currentLocation.coordinate.latitude)")
+            
+            
+            let poyoLat = currentLocation.coordinate.latitude
+            
+            let poyoLong = currentLocation.coordinate.longitude
+            
+            let sfRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(poyoLat, poyoLong), MKCoordinateSpanMake(0.1, 0.1))
+            mapView.delegate = self
+            
+            mapView.setRegion(sfRegion, animated: false)
+            
+             let sanFranLocation = CLLocationCoordinate2DMake(poyoLat, poyoLong)
+             //let pin = MKPinAnnotationView()
+             //pin.pinColor = .Green
+             
+             let dropPin = MKPointAnnotation()
+             dropPin.coordinate = sanFranLocation
+             dropPin.title = "San Francisco"
+             mapView.addAnnotation(dropPin) 
+            
+        }
+        
 
         user = PFUser.currentUser()
         print("User: \(user)")
@@ -67,6 +106,21 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                             objects
                         } else {
                             self.poyos!.append(object)
+                            
+                            let poyoLat = Double(object["latitude"] as! String)
+                            
+                            let poyoLong = Double(object["longitude"] as! String)
+                            
+                            let sanFranLocation = CLLocationCoordinate2DMake(poyoLat!, poyoLong!)
+                            //let pin = MKPinAnnotationView()
+                            //pin.pinColor = .Green
+                            
+                            let dropPin = MKPointAnnotation()
+                            dropPin.coordinate = sanFranLocation
+                            dropPin.title = "San Francisco"
+                            self.mapView.addAnnotation(dropPin)
+                            
+                        
                         }
 
 
@@ -100,6 +154,18 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
                         self.graves!.append(object)
 
+                        let poyoLat = Double(object["latitude"] as! String)
+                        
+                        let poyoLong = Double(object["longitude"] as! String)
+                        
+                        let sanFranLocation = CLLocationCoordinate2DMake(poyoLat!, poyoLong!)
+                        //let pin = MKPinAnnotationView()
+                        //pin.pinColor = .Green
+                        
+                        let dropPin = MKPointAnnotation()
+                        dropPin.coordinate = sanFranLocation
+                        dropPin.title = "San Francisco"
+                        self.mapView.addAnnotation(dropPin)
 
                         print(object.objectId)
 

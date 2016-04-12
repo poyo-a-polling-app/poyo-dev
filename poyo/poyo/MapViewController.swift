@@ -37,7 +37,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             let poyoLong = currentLocation.coordinate.longitude
             
-            let sfRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(poyoLat, poyoLong), MKCoordinateSpanMake(0.1, 0.1))
+            let sfRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(poyoLat, poyoLong), MKCoordinateSpanMake(0.01, 0.01))
             mapView.delegate = self
             
             mapView.setRegion(sfRegion, animated: false)
