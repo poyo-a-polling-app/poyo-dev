@@ -14,6 +14,7 @@ class CommentViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var anonCharacterImage: UIImageView!
     
+    @IBOutlet weak var iconBackView: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
