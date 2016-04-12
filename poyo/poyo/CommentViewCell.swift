@@ -18,6 +18,8 @@ class CommentViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        commentTextLabel.preferredMaxLayoutWidth = commentTextLabel.frame.size.width
+
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

@@ -49,6 +49,8 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         self.tabBarController?.tabBar.hidden = true
         
         commentsArray = passedPoyo["comments"] as? [NSDictionary]
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 85
         
         print(passedPoyo)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
