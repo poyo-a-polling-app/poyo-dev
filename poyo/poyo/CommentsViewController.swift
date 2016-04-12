@@ -103,8 +103,6 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
-        
- 
         // Do any additional setup after loading the view.
     }
 
@@ -114,22 +112,27 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        let reuseID = "myAnnotationView"
+        let identifier = "customAnnotationView"
         
-        var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseID)
+        // custom image annotation
+        var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
         if (annotationView == nil) {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
-            annotationView!.canShowCallout = true
-            annotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
         }
- 
-        //let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
-        //imageView.image = UIImage(named: "camera")
-        annotationView!.image = UIImage(named: "Icon")!
-        print("....................hey.....................")
+        else {
+            annotationView!.annotation = annotation
+        }
+        
+        
+        if annotation.title! == "Blue" {
+            annotationView!.image = UIImage(named: "Icon-167")
+            
+        } else {
+            annotationView!.image = UIImage(named: "Icon")
+        }
+        
         return annotationView
     }
-    
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let commentsArray = commentsArray {
