@@ -305,6 +305,25 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
 
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "customAnnotationView"
+        
+        // custom image annotation
+        var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
+        if (annotationView == nil) {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+        }
+        else {
+            annotationView!.annotation = annotation
+        }
+        
+        
+        annotationView!.image = UIImage(named: "Icon")
+        return annotationView
+    }
+    
+
 
     func timeElapsed(date: NSDate) -> String {
 

@@ -64,7 +64,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             if error == nil {
                 // The find succeeded.
-                print("Successfully retrieved \(objects!.count) scores.")
+                //print("Successfully retrieved \(objects!.count) scores.")
                 // Do something with the found objects
                 if let objects = objects {
                     
@@ -93,7 +93,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         }
                         
                         
-                        print(object.objectId)
+                        //print(object.objectId)
                         
                     }
                     
@@ -114,7 +114,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             if error == nil {
                 // The find succeeded.
-                print("Successfully retrieved \(objects!.count) scores.")
+                //print("Successfully retrieved \(objects!.count) scores.")
                 
                 // Do something with the found objects
                 if let objects = objects {
@@ -132,10 +132,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                        dropPin.coordinate = sanFranLocation
                         dropPin.title = "San Francisco"
                         self.mapView.addAnnotation(dropPin)
-                        
-                        
-                        
-                        print(object.objectId)
                         
                     }
                     
@@ -156,6 +152,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "customAnnotationView"
+        
+        // custom image annotation
+        var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
+        if (annotationView == nil) {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+        }
+        else {
+            annotationView!.annotation = annotation
+        }
+        
+        
+        annotationView!.image = UIImage(named: "Icon")
+        return annotationView
     }
     
 
