@@ -62,9 +62,9 @@ class UserMedia: NSObject {
 
 
     class func killPoyo(poyo: PFObject?) {
-        var deadMedia = PFObject(className: "PoyoGrave")
+        var deadMedia = PFObject(className: "ShakPoyoGrave")
         //deadMedia = poyo!
-
+        
         // Add relevant fields to the object
         //media["media"] = getPFFileFromImage(image) // PFFile column type
         deadMedia["author"] = poyo!["author"] // Pointer column type that points to PFUser
@@ -76,6 +76,7 @@ class UserMedia: NSObject {
         deadMedia["optionOne"] = poyo!["optionOne"]
         deadMedia["optionTwo"] = poyo!["optionTwo"]
         deadMedia["time"] = poyo!["time"]
+        
         deadMedia["option1Answers"] = poyo!["option1Answers"]
         deadMedia["option2Answers"] = poyo!["option2Answers"]
         

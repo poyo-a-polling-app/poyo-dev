@@ -112,7 +112,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.tableview.reloadData()
         }
 
-        var query1 = PFQuery(className: "PoyoGrave")
+        var query1 = PFQuery(className: "ShakPoyoGrave")
         //query.includeKey("author")
         query1.whereKey("author", equalTo: PFUser.currentUser()!)
 
@@ -128,7 +128,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
                     for object in objects {
                         self.poyoCounter++
-                       // self.voteCounter += (object["option1Answers"] as! [NSDictionary]).count + (object["option2Answers"] as! [NSDictionary]).count
+                        self.voteCounter += (object["option1Answers"] as! [NSDictionary]).count + (object["option2Answers"] as! [NSDictionary]).count
                         
                         //DHFSFHSDFH
                         self.graves!.append(object)
