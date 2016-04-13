@@ -62,7 +62,7 @@ class UserMedia: NSObject {
 
 
     class func killPoyo(poyo: PFObject?) {
-        var deadMedia = PFObject(className: "PoyoGrave")
+        var deadMedia = PFObject(className: "ShakPoyoGrave")
         //deadMedia = poyo!
 
         // Add relevant fields to the object
@@ -76,6 +76,9 @@ class UserMedia: NSObject {
         deadMedia["optionOne"] = poyo!["optionOne"]
         deadMedia["optionTwo"] = poyo!["optionTwo"]
         deadMedia["time"] = poyo!["time"]
+
+        deadMedia["option1Answers"] = poyo!["option1Answers"]
+        deadMedia["option2Answers"] = poyo!["option2Answers"]
 
         //print("hey kill was accessed")
 
@@ -91,13 +94,13 @@ class UserMedia: NSObject {
 
 
     }
-    
-    
+
+
     class func postPoyoImage(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, imageOne: UIImage?, imageTwo: UIImage?, withCompletion completion: PFBooleanResultBlock?) {
         // Create Parse object PFObject
         let media = PFObject(className: "PoyosImageTestKevin")
         let date = NSDate()
-        
+
         // Add relevant fields to the object
         //media["media"] = getPFFileFromImage(image) // PFFile column type
         media["author"] = PFUser.currentUser() // Pointer column type that points to PFUser
@@ -112,14 +115,14 @@ class UserMedia: NSObject {
         media["option2Answers"] = []
         media["timeLimit"] = timeLimit
         media["time"] = date
-        
-        
+
+
         media["optionImageOne"] = getPFFileFromImage(imageOne)
-    
+
         media["optionImageTwo"] = getPFFileFromImage(imageTwo)
-        
+
         print("did it work?")
-        
+
         // Save object (following function will save the object in Parse asynchronously)
         media.saveInBackgroundWithBlock(completion)
     }
@@ -128,7 +131,7 @@ class UserMedia: NSObject {
         // Create Parse object PFObject
         let media = PFObject(className: "postPrivatePoyoKevin")
         let date = NSDate()
-        
+
         // Add relevant fields to the object
         //media["media"] = getPFFileFromImage(image) // PFFile column type
         media["author"] = PFUser.currentUser() // Pointer column type that points to PFUser
@@ -145,18 +148,18 @@ class UserMedia: NSObject {
         media["timeLimit"] = timeLimit
         media["time"] = date
         media["password"] = password
-        
-        
+
+
         media["optionImageOne"] = getPFFileFromImage(imageOne)
-        
+
         media["optionImageTwo"] = getPFFileFromImage(imageTwo)
-        
+
         print("did it fucking work?")
-        
+
         // Save object (following function will save the object in Parse asynchronously)
         media.saveInBackgroundWithBlock(completion)
     }
-    
+
     class func getPFFileFromImage(image: UIImage?) -> PFFile? {
         // check if image is not nil
         if let image = image {
