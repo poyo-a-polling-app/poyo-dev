@@ -26,7 +26,6 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var inputFieldView: UIView!
 
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
     var animalFarm = ["ant-eater", "badger", "bear", "buffalo", "deer", "elephant", "fennec", "fox", "giraffe", "gorilla", "hedgehog", "hippopotamus", "hog", "jaguar", "koala", "lion", "monkey", "moose", "panda", "rabbit", " racoon", "rhinoceros", "sloth", "snake", "squirrel", "tiger", "turtle", "wild-horse", "wolf", "zebra"]
 
