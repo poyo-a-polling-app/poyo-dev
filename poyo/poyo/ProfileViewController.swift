@@ -8,21 +8,44 @@
 
 import UIKit
 import Parse
+import MapKit
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate {
 
     @IBOutlet weak var tableview: UITableView!
+
+    @IBOutlet weak var poyoCount: UILabel!
+
+    @IBOutlet weak var voteCount: UILabel!
+
+    @IBOutlet weak var ageCount: UILabel!
+    @IBOutlet weak var mapView: MKMapView!
+
     var user: PFUser?
     var poyos: [PFObject]?
     var graves: [PFObject]?
-
     var locationManager = CLLocationManager()
     var location: CLLocation!
+    var poyoCounter = 0
+    var voteCounter = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.dataSource = self
         tableview.delegate = self
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSS'Z'"
+
+
+        /*find out and place date format from http://userguide.icu-project.org/formatparse/datetime
+         */
+        let createdAt = PFUser.currentUser()!.createdAt!
+        print("sdfsdkfljf........\(createdAt)")
+
+        let timeElapsedString = timeElapsed(createdAt)
+
+        ageCount.text = timeElapsedString
+
 
         self.locationManager.requestAlwaysAuthorization()
 
@@ -37,6 +60,41 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             location = nil
         } else {
             print("No location")
+        }
+
+
+        var locManager = CLLocationManager()
+        locManager.requestWhenInUseAuthorization()
+
+        var currentLocation = CLLocation!()
+
+        if( CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.Authorized){
+
+            currentLocation = locManager.location
+
+            print("longitude: \(currentLocation.coordinate.longitude)")
+            print("latitude: \(currentLocation.coordinate.latitude)")
+
+
+            let poyoLat = currentLocation.coordinate.latitude
+
+            let poyoLong = currentLocation.coordinate.longitude
+
+            let sfRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(poyoLat, poyoLong), MKCoordinateSpanMake(0.1, 0.1))
+            mapView.delegate = self
+
+            mapView.setRegion(sfRegion, animated: false)
+
+             let sanFranLocation = CLLocationCoordinate2DMake(poyoLat, poyoLong)
+             //let pin = MKPinAnnotationView()
+             //pin.pinColor = .Green
+
+             let dropPin = MKPointAnnotation()
+             dropPin.coordinate = sanFranLocation
+             dropPin.title = "CurrentLocation"
+             mapView.addAnnotation(dropPin)
+
         }
 
 
@@ -55,6 +113,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 // The find succeeded.
                 print("Successfully retrieved \(objects!.count) scores.")
                 self.poyos = []
+
+
                 // Do something with the found objects
                 if let objects = objects {
 
@@ -66,13 +126,34 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                             UserMedia.killPoyo(object)
                             objects
                         } else {
+                            self.poyoCounter++
+                            self.voteCounter += (object["option1Answers"] as! [NSDictionary]).count + (object["option2Answers"] as! [NSDictionary]).count
+
                             self.poyos!.append(object)
+
+                            let poyoLat = Double(object["latitude"] as! String)
+
+                            let poyoLong = Double(object["longitude"] as! String)
+
+                            let sanFranLocation = CLLocationCoordinate2DMake(poyoLat!, poyoLong!)
+                            //let pin = MKPinAnnotationView()
+                            //pin.pinColor = .Green
+
+                            let dropPin = MKPointAnnotation()
+                            dropPin.coordinate = sanFranLocation
+                            dropPin.title = "San Francisco"
+                            self.mapView.addAnnotation(dropPin)
+
+
                         }
 
 
                         print(object.objectId)
 
                     }
+                    self.poyoCount.text = "\(self.poyoCounter)"
+                    self.voteCount.text = "\(self.voteCounter)"
+
 
                 }
             } else {
@@ -82,7 +163,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.tableview.reloadData()
         }
 
-        var query1 = PFQuery(className: "PoyoGrave")
+        var query1 = PFQuery(className: "ShakPoyoGrave")
         //query.includeKey("author")
         query1.whereKey("author", equalTo: PFUser.currentUser()!)
 
@@ -97,13 +178,30 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 if let objects = objects {
 
                     for object in objects {
+                        self.poyoCounter++
+                        self.voteCounter += (object["option1Answers"] as! [NSDictionary]).count + (object["option2Answers"] as! [NSDictionary]).count
 
+                        //DHFSFHSDFH
                         self.graves!.append(object)
 
+                        let poyoLat = Double(object["latitude"] as! String)
+
+                        let poyoLong = Double(object["longitude"] as! String)
+
+                        let sanFranLocation = CLLocationCoordinate2DMake(poyoLat!, poyoLong!)
+                        //let pin = MKPinAnnotationView()
+                        //pin.pinColor = .Green
+
+                        let dropPin = MKPointAnnotation()
+                        dropPin.coordinate = sanFranLocation
+                        dropPin.title = "San Francisco"
+                        self.mapView.addAnnotation(dropPin)
 
                         print(object.objectId)
 
                     }
+                    self.poyoCount.text = "\(self.poyoCounter)"
+                    self.voteCount.text = "\(self.voteCounter)"
 
                 }
             } else {
@@ -236,6 +334,30 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         //
         //        rocketMiles.text = String(format: "%.2f miles", distanceMiles)
 
+    }
+
+
+
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "customAnnotationView"
+
+        // custom image annotation
+        var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
+        if (annotationView == nil) {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+        }
+        else {
+            annotationView!.annotation = annotation
+        }
+
+        if annotation.title! == "CurrentLocation" {
+            annotationView!.image = UIImage(named: "moose")
+
+        } else {
+            annotationView!.image = UIImage(named: "Icon")
+        }
+
+        return annotationView
     }
 
 

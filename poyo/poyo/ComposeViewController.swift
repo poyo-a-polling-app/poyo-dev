@@ -10,7 +10,13 @@ import UIKit
 import Parse
 import CoreLocation
 
-class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageTwoViewDelegate, UITextFieldDelegate {
+//protocol ComposeViewDelegate {
+//
+//}
+
+class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageTwoViewDelegate, UITextFieldDelegate, SettingsViewDelegate{
+
+    var passedDater: NSDate?
 
     var imageTwo: UIImage?
     var imageOne: UIImage?
@@ -19,6 +25,12 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     var resizeImageTwo: UIImage?
 
     var imageObject: PFObject?
+
+    var setPrivate: Bool?
+    var privatePassword: String? = ""
+
+    var setDateBool: Bool?
+    var datePick: Int? = 75600
 
     @IBOutlet weak var optionTwoCounter: UILabel!
     @IBOutlet weak var optionOneCounter: UILabel!
@@ -50,11 +62,13 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         poyoField.delegate = self
         optionOneLabel.delegate = self
         optionTwoLabel.delegate = self
-
+        setPrivate = false
         self.locationManager.requestAlwaysAuthorization()
 
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
+
+        datePick = 75600
 
         if CLLocationManager.locationServicesEnabled() {
             print("Location Successful")
@@ -69,21 +83,40 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         var timer =  NSTimer()
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "characterCounter", userInfo: nil, repeats: true)
 
+
         self.imageOneButton.tag = 1
         self.imageTwoButton.tag = 2
 
+        optionOneLabel.text = ""
+        optionTwoLabel.text = ""
+
+        self.tabBarController?.tabBar.hidden = false
+
+        textFieldDidBeginEditing(poyoField)
+        textFieldDidBeginEditing(optionOneLabel)
+        textFieldDidBeginEditing(optionTwoLabel)
         // Do any additional setup after loading the view.
+    }
+
+    func textFieldDidBeginEditing(textField: UITextField) {
+        textField.layer.borderWidth = 0
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        print(imageOneView.image)
-        print(imageTwoView.image)
     }
 
     override func viewWillAppear(animated: Bool) {
         imageOneView.image = imageOne
+        if (imageOne != nil){
+            imageOneView.layer.borderWidth = 0
+        }
         imageTwoView.image = imageTwo
+        if (imageTwo != nil){
+            imageTwoView.layer.borderWidth = 0
+        }
+        print(String(datePick!))
+        self.tabBarController?.tabBar.hidden = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -92,7 +125,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     }
 
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        var latestLocation: AnyObject = locations[locations.count - 1]
+        let latestLocation: AnyObject = locations[locations.count - 1]
 
         latitudeLabel = String(format: "%.4f", latestLocation.coordinate.latitude)
         longitudeLabel = String(format: "%.4f", latestLocation.coordinate.longitude)
@@ -104,28 +137,104 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     }
 
     @IBAction func onPost(sender: AnyObject) {
-        let secondsLeftInt = Int(myDatePicker.date.timeIntervalSinceNow)
         //let secondsLeftString = secondsLeftInt as! String
-        performSegueWithIdentifier("postSegue", sender: nil)
+        var poyotext = String()
+        if (poyoField.text == ""){
+            poyotext = ("\(optionOneLabel.text!) or \(optionTwoLabel.text!)")
+        }
+        else {
+            poyotext = poyoField.text!
+        }
 
-        /*let sizeOne = CGSize(width: 200.0, height: 200.0)
-        resize(imageOne!, newSize: sizeOne)
+        print(imageOneView.image)
 
-        let sizeTwo = CGSize(width: 200.0, height: 200.0)
-        resize(imageTwo!, newSize: sizeTwo)
-        */
-        UserMedia.postPoyoImage(withCaption: poyoField.text, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), imageOne: imageOne, imageTwo: imageTwo, withCompletion: nil)
-        print("did something send?")
+        if (optionOneLabel.text == "" && imageOneView.image == nil && optionTwoLabel.text == "" && imageTwoView.image == nil){
+            poyoField.layer.borderWidth = 1
+            poyoField.layer.cornerRadius = 8.0
+            poyoField.layer.borderColor = UIColor.redColor().CGColor
+            optionTwoLabel.layer.borderWidth = 1
+            optionTwoLabel.layer.cornerRadius = 8.0
+            optionTwoLabel.layer.borderColor = UIColor.redColor().CGColor
+
+            optionOneLabel.layer.borderWidth = 1
+            optionOneLabel.layer.cornerRadius = 8.0
+            optionOneLabel.layer.borderColor = UIColor.redColor().CGColor
+
+            imageOneView.layer.borderWidth = 1
+            imageOneView.layer.borderColor = UIColor.redColor().CGColor
+
+            imageTwoView.layer.borderWidth = 1
+            imageTwoView.layer.borderColor = UIColor.redColor().CGColor
+            return
+        }
+        if (optionOneLabel.text == "" && imageOneView.image != nil && optionTwoLabel.text == "" && imageTwoView.image != nil && poyoField.text == ""){
+            poyoField.layer.borderWidth = 1
+            poyoField.layer.cornerRadius = 8.0
+            poyoField.layer.borderColor = UIColor.redColor().CGColor
+            optionTwoLabel.layer.borderWidth = 1
+            optionTwoLabel.layer.cornerRadius = 8.0
+            optionTwoLabel.layer.borderColor = UIColor.redColor().CGColor
+
+            optionOneLabel.layer.borderWidth = 1
+            optionOneLabel.layer.cornerRadius = 8.0
+            optionOneLabel.layer.borderColor = UIColor.redColor().CGColor
+            return
+        }
+        if (optionOneLabel.text == "" && imageOneView.image == nil){
+            imageOneView.layer.borderWidth = 1
+            imageOneView.layer.borderColor = UIColor.redColor().CGColor
+            return
+        }
+        if (optionTwoLabel.text == "" && imageTwoView.image == nil){
+            imageTwoView.layer.borderWidth = 1
+            imageTwoView.layer.borderColor = UIColor.redColor().CGColor
+            return
+        }
+        if (imageOneView.image == nil || imageTwoView.image == nil){
+            if imageOneView.image == nil{
+                imageOneView.layer.borderWidth = 1
+                imageOneView.layer.borderColor = UIColor.redColor().CGColor
+            }
+            else if imageTwoView.image == nil {
+                imageTwoView.layer.borderWidth = 1
+                imageTwoView.layer.borderColor = UIColor.redColor().CGColor
+            }
+            return
+        }
+
+            if (setPrivate == false){
+                UserMedia.postPoyoImage(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCompletion: { (success: Bool, error: NSError?) -> Void in
+                    print(success)
+                    self.performSegueWithIdentifier("postSegue", sender: nil)
+                })
+                print("did something send?")
+            }
+            else if (setPrivate == true){
+                UserMedia.postPrivatePoyo(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCaption: privatePassword, withCompletion: { (success: Bool, error: NSError?) -> Void in
+                    print(success)
+                    self.performSegueWithIdentifier("postSegue", sender: nil)
+                })
+                print("did something private send?")
+            }
+
+        poyoField.text = ""
+        optionOneLabel.text = ""
+        optionOneLabel.text = ""
+        imageOne = nil
+        imageTwo = nil
+        setPrivate = false
+        privatePassword = ""
+        datePick = 75600
     }
 
     func characterCounter() {
-        var characterCount = poyoField.text!.characters.count
-        var characterOneCount = optionOneLabel.text!.characters.count
-        var characterTwoCount = optionTwoLabel.text!.characters.count
+        let characterCount = poyoField.text!.characters.count
+        let characterOneCount = optionOneLabel.text!.characters.count
+        let characterTwoCount = optionTwoLabel.text!.characters.count
 
-        var charactersLeft = 80 - characterCount
-        var charactersOneLeft = 40 - characterOneCount
-        var charactersTwoLeft = 40 - characterTwoCount
+        let charactersLeft = 80 - characterCount
+        let charactersOneLeft = 40 - characterOneCount
+        let charactersTwoLeft = 40 - characterTwoCount
 
         countLabel.text = String(charactersLeft)
         optionOneCounter.text = String(charactersOneLeft)
@@ -193,6 +302,30 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         }
     }
 
+    func didPrivate(flag: Bool, password: String!) {
+        if (flag == true){
+            privatePassword = password
+            setPrivate = true
+        }
+        else {
+            privatePassword = nil;
+            setPrivate = false
+        }
+    }
+
+    func didDate(flag: Bool, date: Int!, dater: NSDate){
+        if (flag == true){
+            datePick = date
+            setDateBool = true
+            passedDater = dater
+
+        }
+        else {
+            setDateBool = false
+            datePick = 75600
+        }
+    }
+
     func resize(image: UIImage, newSize: CGSize) -> UIImage {
         let resizeImageView = UIImageView(frame: CGRectMake(0, 0, newSize.width, newSize.height))
         resizeImageView.contentMode = UIViewContentMode.ScaleAspectFill
@@ -212,16 +345,25 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         if(segue.identifier == "onImageOne"){
-            print(sender!.tag)
-                var newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
+                let newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
                 newImage.delegate = self
             newImage.senderInt = sender!.tag
         }
         else if (segue.identifier == "onImageTwo"){
-            print(sender!.tag)
-                var newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
+                let newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
                 newImage.delegate = self
             newImage.senderInt = sender!.tag
+        }
+        else if (segue.identifier == "backSegue"){
+            let settings : SettingsViewController = segue.destinationViewController as! SettingsViewController
+            print("OH NOOOO")
+            settings.delegate = self
+            settings.passedPassword = privatePassword
+            settings.passedPrivate = setPrivate
+            settings.passedDate = setDateBool
+            if (setDateBool == true){
+                settings.passerDate = passedDater
+            }
         }
 
         // Get the new view controller using segue.destinationViewController.
