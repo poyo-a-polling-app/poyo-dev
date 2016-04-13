@@ -428,12 +428,8 @@
                                                             <color key="highlightedColor" white="0.44522511190000003" alpha="1" colorSpace="calibratedWhite"/>
                                                         </label>
                                                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hXI-7a-blh">
-                                                            <rect key="frame" x="176" y="85" width="199" height="6"/>
+                                                            <rect key="frame" x="0.0" y="85" width="375" height="6"/>
                                                             <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        </view>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LuL-BN-zBw">
-                                                            <rect key="frame" x="0.0" y="85" width="230" height="6"/>
-                                                            <color key="backgroundColor" red="0.45031540310000001" green="1" blue="0.61892449439999997" alpha="1" colorSpace="calibratedRGB"/>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Question" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h81-ka-a7u">
                                                             <rect key="frame" x="8" y="11" width="367" height="34"/>
@@ -444,6 +440,10 @@
                                                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ETb-7v-z9S">
                                                             <rect key="frame" x="0.0" y="0.0" width="375" height="5"/>
                                                             <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </view>
+                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LuL-BN-zBw">
+                                                            <rect key="frame" x="-190" y="85" width="379" height="6"/>
+                                                            <color key="backgroundColor" red="0.45031540310000001" green="1" blue="0.61892449439999997" alpha="1" colorSpace="calibratedRGB"/>
                                                         </view>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.99218548289844211" green="1" blue="0.98924384435786028" alpha="1" colorSpace="calibratedRGB"/>
@@ -567,10 +567,10 @@
                                                         <constraint firstAttribute="trailing" secondItem="DFe-Bs-ECT" secondAttribute="trailing" constant="21" id="w33-XH-e9n"/>
                                                     </constraints>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yge-uw-nU0">
-                                                    <rect key="frame" x="238" y="421" width="129" height="20"/>
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yge-uw-nU0">
+                                                    <rect key="frame" x="235" y="421" width="129" height="20"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="12"/>
-                                                    <state key="normal" title="View all comments">
+                                                    <state key="normal" title="Click here to comment">
                                                         <color key="titleColor" red="0.34451121794871797" green="0.34451121794871797" blue="0.34451121794871797" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
@@ -578,7 +578,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nvO-Sj-glo">
-                                                    <rect key="frame" x="0.0" y="300" width="375" height="223"/>
+                                                    <rect key="frame" x="0.0" y="300" width="375" height="113"/>
                                                     <connections>
                                                         <segue destination="FiS-cK-dwZ" kind="show" id="p4Z-9j-Jle"/>
                                                     </connections>
@@ -598,6 +598,8 @@
                                             <outlet property="commentPreviewTwo" destination="Oin-em-hNs" id="YTv-fu-8r6"/>
                                             <outlet property="option1Button" destination="u8e-cE-ZlI" id="CYC-xn-Z2E"/>
                                             <outlet property="option2Button" destination="6Fh-xM-n8Q" id="QmJ-Yk-8BW"/>
+                                            <outlet property="optionOnePreview" destination="LuL-BN-zBw" id="Gtk-fd-qUb"/>
+                                            <outlet property="optionTwoPreview" destination="hXI-7a-blh" id="aud-sU-OUl"/>
                                             <outlet property="questionLabel" destination="h81-ka-a7u" id="C0O-2g-3OF"/>
                                             <outlet property="seeAllComments" destination="nvO-Sj-glo" id="qrg-29-gvr"/>
                                             <outlet property="seeComments" destination="yge-uw-nU0" id="wXR-ea-MTr"/>

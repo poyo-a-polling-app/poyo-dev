@@ -455,7 +455,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             }
 
         } else {
-            cell.seeComments.setTitle("No Comments. Click here to change that!", forState: UIControlState.Normal)
+//            cell.seeComments.setTitle("No Comments. Click here to change that!", forState: UIControlState.Normal)
         
         }
         
@@ -511,37 +511,16 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         cell.voteOverlayOne.layer.anchorPoint = CGPointMake(1, 0.5)
         cell.voteOverlayTwo.layer.anchorPoint = CGPointMake(0, 0.5)
+        cell.optionOnePreview.layer.anchorPoint = CGPointMake(0, 0.5)
 
 
-//        cell.voteOverlayOne.frame.height / 2
-
-//            cell.voteOverlayOne.frame.origin.y = CGFloat(25)
-
-//
-//        transformation = CGAffineTransformTranslate(transformation, 0, 100)
-//                NSThread.sleepForTimeInterval(2)
-
-//        UIView.animateWithDuration(0.6 ,
-//            animations: {
-//                cell.voteOverlayOne.transform = CGAffineTransformMakeScale(1,votesOnePercent)
-//            },
-//            completion: { finish in
-//                UIView.animateWithDuration(0.6){
-//                    cell.voteOverlayOne.transform = CGAffineTransformIdentity
-//                }
-//        })
-//
         UIView.animateWithDuration(0.6, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             cell.voteOverlayOne.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
             cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(votesTwoPercent + 0.001, 1)
+            cell.optionOnePreview.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
         }) { (finished: Bool) in
                 //print("Animatioed")
         }
-//        UIView.animateWithDuration(0.4, delay: 1.0, options: UIViewAnimationTransition.None) {
-//            cell.voteOverlayOne.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
-//            cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(votesTwoPercent + 0.001, 1)
-//
-//        }
 
 
         // MARK: CELL EDITING
