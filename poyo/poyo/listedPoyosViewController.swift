@@ -113,7 +113,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     func reloadAllData() {
 
 
-        let query = PFQuery(className:"PoyosImageTest")
+        let query = PFQuery(className:"PoyosImageTestKevin")
         query.orderByDescending("popularity")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
 
@@ -489,7 +489,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         let poyo = self.feed![indexPath.row]
 
 
-        let query : PFQuery = PFQuery(className: "PoyosAnswers")
+        let query : PFQuery = PFQuery(className: "PoyosImageTest")
 
         query.whereKey("objectId", equalTo: poyo.objectId!)
 
