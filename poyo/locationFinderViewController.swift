@@ -53,7 +53,7 @@ class locationFinderViewController: UIViewController, CLLocationManagerDelegate 
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        var latestLocation: AnyObject = locations[locations.count - 1]
+        let latestLocation: AnyObject = locations[locations.count - 1]
         
         latitudeLabel.text = String(format: "%.4f", latestLocation.coordinate.latitude)
         longitudeLabel.text = String(format: "%.4f", latestLocation.coordinate.longitude)
@@ -64,9 +64,9 @@ class locationFinderViewController: UIViewController, CLLocationManagerDelegate 
         
         
         
-        var kennedy = CLLocation(latitude: 28.572646, longitude: -80.649024)
-        var distanceFromKennedy: CLLocationDistance = location.distanceFromLocation(kennedy)
-        var distanceMiles = distanceFromKennedy * 0.621371 / 1000
+        let kennedy = CLLocation(latitude: 28.572646, longitude: -80.649024)
+        let distanceFromKennedy: CLLocationDistance = location.distanceFromLocation(kennedy)
+        let distanceMiles = distanceFromKennedy * 0.621371 / 1000
         
         kennedyDistLabel.text = String(format: "%.2f meters", distanceFromKennedy)
         
