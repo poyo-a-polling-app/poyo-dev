@@ -72,6 +72,8 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         self.imageOneButton.tag = 1
         self.imageTwoButton.tag = 2
 
+
+        print(poyoField.text)
         // Do any additional setup after loading the view.
     }
 
@@ -92,7 +94,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     }
 
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        var latestLocation: AnyObject = locations[locations.count - 1]
+        let latestLocation: AnyObject = locations[locations.count - 1]
 
         latitudeLabel = String(format: "%.4f", latestLocation.coordinate.latitude)
         longitudeLabel = String(format: "%.4f", latestLocation.coordinate.longitude)
@@ -107,14 +109,15 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         let secondsLeftInt = Int(myDatePicker.date.timeIntervalSinceNow)
         //let secondsLeftString = secondsLeftInt as! String
         performSegueWithIdentifier("postSegue", sender: nil)
+        var poyotext = String()
+        if (poyoField.text == ""){
+            poyotext = ("\(optionOneLabel.text!) or \(optionTwoLabel.text!)")
+        }
+        else {
+            poyotext = poyoField.text!
+        }
 
-        /*let sizeOne = CGSize(width: 200.0, height: 200.0)
-        resize(imageOne!, newSize: sizeOne)
-
-        let sizeTwo = CGSize(width: 200.0, height: 200.0)
-        resize(imageTwo!, newSize: sizeTwo)
-        */
-        UserMedia.postPoyoImage(withCaption: poyoField.text, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), imageOne: imageOne, imageTwo: imageTwo, withCompletion: nil)
+        UserMedia.postPoyoImage(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(secondsLeftInt), imageOne: imageOne, imageTwo: imageTwo, withCompletion: nil)
         print("did something send?")
     }
 
@@ -213,13 +216,13 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
 
         if(segue.identifier == "onImageOne"){
             print(sender!.tag)
-                var newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
+                let newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
                 newImage.delegate = self
             newImage.senderInt = sender!.tag
         }
         else if (segue.identifier == "onImageTwo"){
             print(sender!.tag)
-                var newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
+                let newImage : ImageTwoView = segue.destinationViewController as! ImageTwoView
                 newImage.delegate = self
             newImage.senderInt = sender!.tag
         }

@@ -13,34 +13,34 @@ The location based polling application
 - [x] Asynchronous network connection and delayed Parse update
 - [x] Color coded answer
 - [x] Images with options (add-images branch can perfrom action)
-    - [ ] Selfie feature
+    - [x] Selfie feature
 - [x] Comments section
-    - [ ] Comments identified with anonymous characters
-- [ ] Sort table view based on vote count
+    - [x] Comments identified with anonymous characters
+- [x] Sort table view based on popularity
 - [ ] Private polling (using password distributed offline) {1}
     - [ ] Credentials: Author Username and Distribution Key
 - [ ] Map view of Answers to Poyos
 - [x] User accounts (Recorded poyoker, but anonymous poyee)
 - [x] Images in question
-- [ ] Auto-fill question based on answer
+- [x] Auto-fill question based on answer
     - [ ] Have a switch for custom question text
-- [ ] Push notifications for comment on your Poyo
-- [ ] Push notifications for votes on Poyo (occasional total)
-- [ ] Push notifications for closed Poyo
+- [ ] Overall user statistics (total votes, total poyos, hatched since)
+
 
 ##Super Optional
 - [ ] Surrounding poyos on a map
 - [ ] User color defaults for options
-- [ ] Overall user statistics (total votes, total poyos, hatched since)
 - [ ] Date limit
+- [ ] Push notifications for comment on your Poyo
+- [ ] Push notifications for votes on Poyo (occasional total)
+- [ ] Push notifications for closed Poyo
 
 
 ## UI Optionals
 - [ ] Launch screen loader
 - [ ] Blank screen for main feed
 - [ ] Blank screen for user account
-- [ ] Animated bar for resulting bar graph
-- [ ] Color of answer based on image (might not be best)
+- [x] Animated bar for resulting bar graph
 
 ###Date Recording
 * Per User
