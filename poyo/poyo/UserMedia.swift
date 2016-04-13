@@ -30,6 +30,9 @@ class UserMedia: NSObject {
         media["timeLimit"] = timeLimit
         media["time"] = date
         media["comments"] = []
+//        media["option1Color"] = colorOneChoice
+//        media["option2Color"] = colorTwoChoice
+
 
 //        print("did it work?")
 
@@ -96,9 +99,9 @@ class UserMedia: NSObject {
     }
 
 
-    class func postPoyoImage(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, imageOne: UIImage?, imageTwo: UIImage?, withCompletion completion: PFBooleanResultBlock?) {
+    class func postPoyoImage(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, imageOne: UIImage?, imageTwo: UIImage?, withCaption colorOneChoice: String?, withCaption colorTwoChoice: String?, withCompletion completion: PFBooleanResultBlock?) {
         // Create Parse object PFObject
-        let media = PFObject(className: "PoyosImageTestKevin")
+        let media = PFObject(className: "PoyosImageTest")
         let date = NSDate()
 
         // Add relevant fields to the object
@@ -115,6 +118,8 @@ class UserMedia: NSObject {
         media["option2Answers"] = []
         media["timeLimit"] = timeLimit
         media["time"] = date
+        media["option1Color"] = colorOneChoice
+        media["option2Color"] = colorTwoChoice
 
 
         media["optionImageOne"] = getPFFileFromImage(imageOne)
@@ -127,7 +132,7 @@ class UserMedia: NSObject {
         media.saveInBackgroundWithBlock(completion)
     }
     
-    class func postPrivatePoyo(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, imageOne: UIImage?, imageTwo: UIImage?, withCaption password: String?, withCompletion completion: PFBooleanResultBlock?) {
+    class func postPrivatePoyo(withCaption caption: String?, withCaption longitude: String?, withCaption latitude: String?, withCaption optionOne: String?, withCaption optionTwo: String?, withCaption timeLimit: String?, imageOne: UIImage?, imageTwo: UIImage?, withCaption password: String?, withCaption colorOneChoice: String?, withCaption colorTwoChoice: String?, withCompletion completion: PFBooleanResultBlock?) {
         // Create Parse object PFObject
         let media = PFObject(className: "postPrivatePoyoKevin")
         let date = NSDate()
@@ -148,6 +153,8 @@ class UserMedia: NSObject {
         media["timeLimit"] = timeLimit
         media["time"] = date
         media["password"] = password
+        media["option1Color"] = colorOneChoice
+        media["option2Color"] = colorTwoChoice
 
 
         media["optionImageOne"] = getPFFileFromImage(imageOne)

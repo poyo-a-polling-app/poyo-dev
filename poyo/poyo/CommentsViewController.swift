@@ -20,6 +20,15 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
     var userAnswer: Int?
     var keyboardHeight:CGFloat = 300
     var firstMove = true
+    
+    var colorPallete: [String: UIColor] = ["orange": UIColor(red:0.99, green:0.73, blue:0.34, alpha:1.0),
+       "red": UIColor(red:0.96, green:0.52, blue:0.53, alpha:1.0),
+       "pink": UIColor(red:0.97, green:0.67, blue:0.71, alpha:1.0),
+       "yellow": UIColor(red:1.0, green:0.91, blue:0.29, alpha:1.0),
+       "green": UIColor(red:0.85, green:0.9, blue:0.31, alpha:1.0),
+       "teal": UIColor(red:0.45, green:0.79, blue:0.76, alpha:1.0),
+       "blue": UIColor(red:0.33, green:0.64, blue:1.0, alpha:1.0)
+    ]
 
 
     @IBOutlet weak var commentInputField: UITextField!
@@ -185,9 +194,9 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
             print("ANSWER FROM CURRENT USER")
             switch userAnswer! {
             case 1:
-                cell.iconBackView.backgroundColor = UIColor(red:0.09, green:0.7, blue:0.43, alpha:1.0)
+                cell.iconBackView.backgroundColor = colorPallete[passedPoyo["option1Color"] as! String]!
             case 2:
-                cell.iconBackView.backgroundColor = UIColor(red:0.87, green:0.2, blue:0.15, alpha:1.0)
+                cell.iconBackView.backgroundColor = colorPallete[passedPoyo["option2Color"] as! String]!
             default:
                 cell.iconBackView.backgroundColor = UIColor.lightGrayColor()
             }
@@ -198,9 +207,9 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
             let colorSet = findColor(commentsArray![indexPath.row]["user"] as! PFUser)
             switch colorSet {
             case 1:
-                cell.iconBackView.backgroundColor = UIColor(red:0.09, green:0.7, blue:0.43, alpha:1.0)
+                cell.iconBackView.backgroundColor = colorPallete[passedPoyo["option1Color"] as! String]!
             case 2:
-                cell.iconBackView.backgroundColor = UIColor(red:0.87, green:0.2, blue:0.15, alpha:1.0)
+                cell.iconBackView.backgroundColor = colorPallete[passedPoyo["option2Color"] as! String]!
             default:
                 cell.iconBackView.backgroundColor = UIColor.lightGrayColor()
             }

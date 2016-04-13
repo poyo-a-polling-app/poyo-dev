@@ -31,6 +31,17 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
 
     var setDateBool: Bool?
     var datePick: Int? = 75600
+    
+    var colorPallete: [String: UIColor] = ["orange": UIColor(red:0.99, green:0.73, blue:0.34, alpha:1.0),
+        "red": UIColor(red:0.96, green:0.52, blue:0.53, alpha:1.0),
+        "pink": UIColor(red:0.97, green:0.67, blue:0.71, alpha:1.0),
+        "yellow": UIColor(red:1.0, green:0.91, blue:0.29, alpha:1.0),
+        "green": UIColor(red:0.85, green:0.9, blue:0.31, alpha:1.0),
+        "teal": UIColor(red:0.45, green:0.79, blue:0.76, alpha:1.0),
+        "blue": UIColor(red:0.33, green:0.64, blue:1.0, alpha:1.0)
+    ]
+    
+    var colorPalleteKeys = [String]()
 
     @IBOutlet weak var optionTwoCounter: UILabel!
     @IBOutlet weak var optionOneCounter: UILabel!
@@ -64,6 +75,8 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         optionTwoLabel.delegate = self
         setPrivate = false
         self.locationManager.requestAlwaysAuthorization()
+        
+        colorPalleteKeys = [String](colorPallete.keys)
 
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
@@ -138,6 +151,19 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
 
     @IBAction func onPost(sender: AnyObject) {
         //let secondsLeftString = secondsLeftInt as! String
+        var randomInt = Int(arc4random_uniform(7))
+        var colorTwo = colorPalleteKeys[randomInt]
+        var colorOne = ""
+
+        while true {
+            var randomInt = Int(arc4random_uniform(7))
+            if colorTwo != colorPalleteKeys[randomInt] {
+                colorOne = colorPalleteKeys[randomInt]
+                break
+            }
+        }
+        
+        
         var poyotext = String()
         if (poyoField.text == ""){
             poyotext = ("\(optionOneLabel.text!) or \(optionTwoLabel.text!)")
@@ -203,14 +229,14 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         }
 
             if (setPrivate == false){
-                UserMedia.postPoyoImage(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCompletion: { (success: Bool, error: NSError?) -> Void in
+                UserMedia.postPoyoImage(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCaption: colorOne, withCaption: colorTwo, withCompletion: { (success: Bool, error: NSError?) -> Void in
                     print(success)
                     self.performSegueWithIdentifier("postSegue", sender: nil)
                 })
                 print("did something send?")
             }
             else if (setPrivate == true){
-                UserMedia.postPrivatePoyo(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCaption: privatePassword, withCompletion: { (success: Bool, error: NSError?) -> Void in
+                UserMedia.postPrivatePoyo(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCaption: privatePassword,  withCaption: colorOne, withCaption: colorTwo, withCompletion: { (success: Bool, error: NSError?) -> Void in
                     print(success)
                     self.performSegueWithIdentifier("postSegue", sender: nil)
                 })
