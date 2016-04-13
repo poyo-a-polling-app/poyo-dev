@@ -23,6 +23,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     var frameAdded = false
     var chosenSaved = false
+    var colorPallete: [String: UIColor] = ["orange": UIColor(red:0.99, green:0.73, blue:0.34, alpha:1.0),
+       "red": UIColor(red:0.96, green:0.52, blue:0.53, alpha:1.0),
+       "pink": UIColor(red:0.97, green:0.67, blue:0.71, alpha:1.0),
+       "yellow": UIColor(red:1.0, green:0.91, blue:0.29, alpha:1.0),
+       "green": UIColor(red:0.85, green:0.9, blue:0.31, alpha:1.0),
+       "teal": UIColor(red:0.45, green:0.79, blue:0.76, alpha:1.0),
+       "blue": UIColor(red:0.33, green:0.64, blue:1.0, alpha:1.0)
+    ]
 
     var feed: [PFObject]?
 
@@ -132,10 +140,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         let query = PFQuery(className:"PoyosImageTest")
         query.orderByDescending("popularity")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
-
             if let media = media {
                 self.feed = []
                 var indexCount = 0
+                print(media)
                 for (index, medium) in media.enumerate() {
                     if index >= self.chosenOption.count {
                         self.chosenOption.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0, userAlreadyAnswered: 0))
@@ -193,7 +201,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                             ////print("Connection failed to be made!!")
                         }
                     }
-                    
+
                     ////print("Images count = \(self.images.count)")
                     ////print("IndexPathRow = \(tempPoyoImage.indexPathRow)")
 
@@ -232,6 +240,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
 
         reloadPopular = false
+
+        if feed == nil {
+            tableView.hidden = true
+        }
 
 
     }
@@ -295,7 +307,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             return 0
         }
     }
-    
+
 
 
     func countVotes(indexPathrow: Int, option: Int) -> Int {
@@ -305,10 +317,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             var chosen1vote = 0
             var chosen2vote = 0
             var alreadyAnswered = 0
-            
+
 
             print("alreadyAnswered \(alreadyAnswered)")
-            
+
             if chosenOption[indexPathrow].recentVote == chosenOption[indexPathrow].userAlready {
                 print("No need to change vote count")
                 switch option {
@@ -321,7 +333,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 }
             }
 
-         
+
             if chosenOption[indexPathrow].recentVote == 1 {
                 chosen1vote = 1
                 if chosenOption[indexPathrow].userAlready != 0 {
@@ -333,14 +345,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                     chosen1vote = -1
                 }
             }
-            
+
             switch option {
             case 1:
-            
+
                 return poyo["option1Answers"].count + chosen1vote - alreadyAnswered
 
             case 2:
-     
+
                 return poyo["option2Answers"].count + chosen2vote - alreadyAnswered
             default:
                 return 0
@@ -399,6 +411,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
 
 
+
         if poyoComments != nil {
             cell.seeComments.setTitle("View all \(poyoComments!.count) comments", forState: UIControlState.Normal)
 
@@ -411,13 +424,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 cell.commentPreviewColorTwo.layer.cornerRadius = cell.commentPreviewColorTwo.frame.width / 2
                 cell.commentPreviewColorThree.layer.cornerRadius = cell.commentPreviewColorThree.frame.width / 2
 
+
                 var commentColor = UIColor.lightGrayColor()
                 let colorSet = findColor(poyoComments![index]["user"] as! PFUser, indexPath: indexPath)
                 switch colorSet {
                 case 1:
-                    commentColor = UIColor(red:0.09, green:0.7, blue:0.43, alpha:1.0)
+                    commentColor = colorPallete[poyo["option1Color"] as! String]!
                 case 2:
-                    commentColor = UIColor(red:0.87, green:0.2, blue:0.15, alpha:1.0)
+                    commentColor = colorPallete[poyo["option2Color"] as! String]!
                 default:
                     commentColor = UIColor.lightGrayColor()
                 }
@@ -482,6 +496,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             cell.votesLabel.text = String(format: "\(totalCount) votes")
         }
 
+        cell.sliderCircle.layer.cornerRadius = cell.sliderCircle.frame.width / 2
+
 
         var votesOnePercent = CGFloat(0)
         var votesTwoPercent = CGFloat(0)
@@ -505,10 +521,19 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.voteOverlayOne.layer.anchorPoint = CGPointMake(1, 0.5)
         cell.voteOverlayTwo.layer.anchorPoint = CGPointMake(0, 0.5)
         cell.optionOnePreview.layer.anchorPoint = CGPointMake(0, 0.5)
+        
+        cell.voteOverlayOne.backgroundColor = colorPallete[poyo["option1Color"] as! String]
+        cell.voteOverlayTwo.backgroundColor = colorPallete[poyo["option2Color"] as! String]
 
-     
+        let screenSize: CGRect = UIScreen.mainScreen().bounds
+
+        print("PERCENT \(votesOnePercent)")
+
+
 
         UIView.animateWithDuration(0.6, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+
+            cell.sliderCircle.frame.origin.x = screenSize.width * votesOnePercent - (cell.sliderCircle.frame.width / 2)
             cell.voteOverlayOne.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
             cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(votesTwoPercent + 0.001, 1)
             cell.optionOnePreview.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
@@ -560,9 +585,18 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             cell.votesOne.hidden = false
             cell.votesTwo.hidden = false
             cell.seeComments.hidden = cell.checkHeight()
-            cell.optionOnePreview.backgroundColor = UIColor(red:0.09, green:0.7, blue:0.43, alpha:1.0)
-            cell.optionTwoPreview.backgroundColor = UIColor(red:0.87, green:0.2, blue:0.15, alpha:1.0)
-     
+            cell.optionOnePreview.backgroundColor = colorPallete[poyo["option1Color"] as! String]
+            cell.optionTwoPreview.backgroundColor = colorPallete[poyo["option2Color"] as! String]
+            switch chosenOption[indexPath.row].chosen! {
+            case 1:
+                cell.sliderCircle.backgroundColor = colorPallete[poyo["option1Color"] as! String]
+            case 2:
+                cell.sliderCircle.backgroundColor = colorPallete[poyo["option2Color"]as! String]
+            default:
+                print("No picture")
+            }
+
+
         }
 
 
