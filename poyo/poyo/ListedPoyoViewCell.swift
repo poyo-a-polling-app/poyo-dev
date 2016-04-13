@@ -12,6 +12,7 @@ import Parse
 class ListedPoyoViewCell: UITableViewCell {
     //weak var viewController:listedPoyosViewController
     
+    @IBOutlet weak var seeAllComments: UIButton!
     @IBOutlet weak var collapsedView: UIView!
     
     @IBOutlet weak var questionLabel: UILabel!
@@ -24,6 +25,12 @@ class ListedPoyoViewCell: UITableViewCell {
     
     @IBOutlet weak var option2Button: subclassedUIButton!
     
+    @IBOutlet weak var commentPreviewColorOne: UIView!
+    @IBOutlet weak var commentPreviewOne: UILabel!
+    @IBOutlet weak var commentPreviewColorTwo: UIView!
+    @IBOutlet weak var commentPreviewTwo: UILabel!
+    @IBOutlet weak var commentPreviewColorThree: UIView!
+    @IBOutlet weak var commentPreviewThree: UILabel!
 //    @IBOutlet weak var distanceLabel: UILabel!
     
     
@@ -34,10 +41,12 @@ class ListedPoyoViewCell: UITableViewCell {
     @IBOutlet weak var voteOverlayTwo: UIView!
     
     @IBOutlet weak var seeComments: UIButton!
+    @IBOutlet weak var optionOnePreview: UIView!
+    @IBOutlet weak var optionTwoPreview: UIView!
     
     var poyo: PFObject?
     
-    class var expandedHeight: CGFloat { get { return 420 } }
+    class var expandedHeight: CGFloat { get { return 340 } }
 //    class var defaultHeight: CGFloat { get { return 100 } }
     class var defaultHeight: CGFloat { get { return 110 } }
 
@@ -46,11 +55,12 @@ class ListedPoyoViewCell: UITableViewCell {
     
     
     var frameAdded = false
-    //    var expandedHeight: CGFloat = 200
-    //    var defaultHeight: CGFloat = 44
+        var expandedHeight: CGFloat = 340
+        var defaultHeight: CGFloat = 110
     
-    func checkHeight(){
-        collapsedView.hidden = (frame.size.height < ListedPoyoViewCell.expandedHeight)
+    func checkHeight() -> Bool{
+        collapsedView.hidden = (frame.size.height < self.expandedHeight)
+        return collapsedView.hidden
     }
     /*@IBAction func killCell(sender: AnyObject) {
         UserMedia.killPoyo(self.poyo)
@@ -86,6 +96,11 @@ class ListedPoyoViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        commentPreviewOne.preferredMaxLayoutWidth = commentPreviewOne.frame.size.width
+        commentPreviewTwo.preferredMaxLayoutWidth = commentPreviewTwo.frame.size.width
+        commentPreviewThree.preferredMaxLayoutWidth = commentPreviewThree.frame.size.width
+
+
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
