@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 import CoreLocation
+import MBProgressHUD
 
 //protocol ComposeViewDelegate {
 //
@@ -137,6 +138,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     }
 
     @IBAction func onPost(sender: AnyObject) {
+        MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         //let secondsLeftString = secondsLeftInt as! String
         var poyotext = String()
         if (poyoField.text == ""){
@@ -165,6 +167,8 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
 
             imageTwoView.layer.borderWidth = 1
             imageTwoView.layer.borderColor = UIColor.redColor().CGColor
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
+
             return
         }
         if (optionOneLabel.text == "" && imageOneView.image != nil && optionTwoLabel.text == "" && imageTwoView.image != nil && poyoField.text == ""){
@@ -178,33 +182,45 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
             optionOneLabel.layer.borderWidth = 1
             optionOneLabel.layer.cornerRadius = 8.0
             optionOneLabel.layer.borderColor = UIColor.redColor().CGColor
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
+
             return
         }
         if (optionOneLabel.text == "" && imageOneView.image == nil){
             imageOneView.layer.borderWidth = 1
             imageOneView.layer.borderColor = UIColor.redColor().CGColor
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
+
             return
         }
         if (optionTwoLabel.text == "" && imageTwoView.image == nil){
             imageTwoView.layer.borderWidth = 1
             imageTwoView.layer.borderColor = UIColor.redColor().CGColor
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
+
             return
         }
         if (imageOneView.image == nil || imageTwoView.image == nil){
             if imageOneView.image == nil{
                 imageOneView.layer.borderWidth = 1
                 imageOneView.layer.borderColor = UIColor.redColor().CGColor
+
             }
             else if imageTwoView.image == nil {
                 imageTwoView.layer.borderWidth = 1
                 imageTwoView.layer.borderColor = UIColor.redColor().CGColor
+
             }
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
+
             return
         }
 
             if (setPrivate == false){
                 UserMedia.postPoyoImage(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCompletion: { (success: Bool, error: NSError?) -> Void in
                     print(success)
+                    MBProgressHUD.hideHUDForView(self.view, animated: true)
+
                     self.performSegueWithIdentifier("postSegue", sender: nil)
                 })
                 print("did something send?")
@@ -212,6 +228,8 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
             else if (setPrivate == true){
                 UserMedia.postPrivatePoyo(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCaption: privatePassword, withCompletion: { (success: Bool, error: NSError?) -> Void in
                     print(success)
+                    MBProgressHUD.hideHUDForView(self.view, animated: true)
+
                     self.performSegueWithIdentifier("postSegue", sender: nil)
                 })
                 print("did something private send?")
