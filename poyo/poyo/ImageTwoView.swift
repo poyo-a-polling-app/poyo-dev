@@ -27,6 +27,8 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
 
     var captureDevice : AVCaptureDevice?
 
+    @IBOutlet weak var realCaptureButton: UIButton!
+    @IBOutlet weak var captureButton: UIButton!
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var tempImageView: UIImageView!
     @IBOutlet weak var newImageView: UIView!
@@ -80,6 +82,14 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.barTintColor = UIColor.blackColor()
+    }
+
+    override func willMoveToParentViewController(parent: UIViewController?) {
+        if parent == nil {
+            self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+            self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
+        }
     }
 
 

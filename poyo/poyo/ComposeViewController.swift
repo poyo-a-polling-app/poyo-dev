@@ -48,7 +48,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
     @IBOutlet weak var imageTwoButton: UIButton!
     var locationManager = CLLocationManager()
     var location: CLLocation!
-
+    
     var longitudeLabel = ""
     var latitudeLabel = ""
 
@@ -56,6 +56,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
 
     var limitLength = 100
 
+    @IBOutlet weak var postButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.hidden = false
@@ -64,10 +65,14 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         optionTwoLabel.delegate = self
         setPrivate = false
         self.locationManager.requestAlwaysAuthorization()
+        poyoField.layer.borderColor = UIColor.grayColor().CGColor
+        optionOneLabel.layer.borderColor = UIColor.grayColor().CGColor
+        optionTwoLabel.layer.borderColor = UIColor.grayColor().CGColor
+        self.postButton.layer.cornerRadius = self.postButton.frame.size.width / 2;
+        self.postButton.clipsToBounds = true
 
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
-
         datePick = 75600
 
         if CLLocationManager.locationServicesEnabled() {
@@ -82,7 +87,13 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         //Make a change make a wish
         var timer =  NSTimer()
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "characterCounter", userInfo: nil, repeats: true)
-
+        //playButton.setImage(UIImage(named: "play.png"), forState: UIControlState.Normal)
+        imageOneView.layer.borderWidth = 1
+        imageOneView.layer.borderColor = UIColor.lightGrayColor().CGColor
+        
+        imageTwoView.layer.borderWidth = 1
+        imageTwoView.layer.borderColor = UIColor.lightGrayColor().CGColor
+        
 
         self.imageOneButton.tag = 1
         self.imageTwoButton.tag = 2
@@ -91,13 +102,14 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         optionTwoLabel.text = ""
 
         self.tabBarController?.tabBar.hidden = false
-
+        self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         textFieldDidBeginEditing(poyoField)
         textFieldDidBeginEditing(optionOneLabel)
         textFieldDidBeginEditing(optionTwoLabel)
         // Do any additional setup after loading the view.
     }
 
+    @IBOutlet weak var centerView: UIView!
     func textFieldDidBeginEditing(textField: UITextField) {
         textField.layer.borderWidth = 0
     }
@@ -117,6 +129,8 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         }
         print(String(datePick!))
         self.tabBarController?.tabBar.hidden = false
+        self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+        view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -205,6 +219,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
             if (setPrivate == false){
                 UserMedia.postPoyoImage(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCompletion: { (success: Bool, error: NSError?) -> Void in
                     print(success)
+                    print("Hell yea")
                     self.performSegueWithIdentifier("postSegue", sender: nil)
                 })
                 print("did something send?")
@@ -212,6 +227,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
             else if (setPrivate == true){
                 UserMedia.postPrivatePoyo(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCaption: privatePassword, withCompletion: { (success: Bool, error: NSError?) -> Void in
                     print(success)
+                    print("Hell ya private poll")
                     self.performSegueWithIdentifier("postSegue", sender: nil)
                 })
                 print("did something private send?")
