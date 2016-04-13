@@ -289,16 +289,23 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         view.endEditing(true)
     }
 
-    func setImage(image: UIImage, int: Int) {
+    func setImage(image: UIImage, int: Int, rev: Int) {
         if (int == 1){
             let sizeOne = CGSize(width: 500.0, height: 500.0)
             let resizeImage = resize(image, newSize: sizeOne)
             imageOne = resizeImage
+            if (rev == 1){
+                self.imageOneView.transform = CGAffineTransformMakeScale(-1, 1)
+            }
         }
         else if (int == 2){
             let sizeTwo = CGSize(width: 500.0, height: 500.0)
             let resizeImageTwo = resize(image, newSize: sizeTwo)
             imageTwo = resizeImageTwo
+            if (rev == 1){
+                self.imageTwoView.transform = CGAffineTransformMakeScale(-1, 1)
+            }
+            
         }
     }
 
