@@ -138,7 +138,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 var indexCount = 0
                 for (index, medium) in media.enumerate() {
                     if index >= self.chosenOption.count {
-                        self.chosenOption.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0))
+                        self.chosenOption.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0, userAlreadyAnswered: 0))
                     }
                     let timeLimit = Int(medium["timeLimit"] as! String)
                     let date = medium["time"] as! NSDate
@@ -251,7 +251,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
                 if options1Array.contains({$0 == userID!.objectId}){
                     ////print("Already answered 1")
-                    let newPoyoChosen = poyoChosen(poyoObjectID: userID!.objectId!, chosenNumber: 1)
+                    let newPoyoChosen = poyoChosen(poyoObjectID: userID!.objectId!, chosenNumber: 1, userAlreadyAnswered: 1)
                     tempArray.append(newPoyoChosen)
                     continue
                 }
@@ -262,14 +262,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
                 if options2Array.contains({$0 == userID!.objectId}){
                     ////print("Already answered 2")
-                    let newPoyoChosen = poyoChosen(poyoObjectID: userID!.objectId!, chosenNumber: 2)
+                    let newPoyoChosen = poyoChosen(poyoObjectID: userID!.objectId!, chosenNumber: 2, userAlreadyAnswered: 2)
                     tempArray.append(newPoyoChosen)
                     continue
                 }
 
                 //if no answer option
                 ////print("None answered")
-                tempArray.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0))
+                tempArray.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0, userAlreadyAnswered: 0))
             }
             chosenOption = tempArray
             ////print("Chosen Option: \(chosenOption)")
@@ -295,63 +295,55 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             return 0
         }
     }
+    
+
 
     func countVotes(indexPathrow: Int, option: Int) -> Int {
-        ////print("POOPOPOPPPOPO")
-        ////print("DKNKWNDKW IndexPathRow: \(indexPathrow)")
-        ////print("DKNKWNDKW IndexPathRow: \(self.feed?.count)")
 
         if indexPathrow < self.feed?.count {
             let poyo = self.feed![indexPathrow]
-            ////print("ASfasfsafsajfs \(chosenOption.count)")
             var chosen1vote = 0
             var chosen2vote = 0
-            var alreadyChosen1 = 0
-            var alreadyChosen2 = 0
+            var alreadyAnswered = 0
+            
 
-            if chosenOption[indexPathrow].recentVote == 1{
-                ////print(chosenOption[indexPathrow].chosen)
-                if chosenOption[indexPathrow].chosen == 1 {
-                    //                alreadyChosen1 = -1
-                    //                alreadyChosen2 = 1
-                    chosen1vote = 1
+            print("alreadyAnswered \(alreadyAnswered)")
+            
+            if chosenOption[indexPathrow].recentVote == chosenOption[indexPathrow].userAlready {
+                print("No need to change vote count")
+                switch option {
+                    case 1:
+                    return poyo["option1Answers"].count
+                    case 2:
+                    return poyo["option2Answers"].count
+                    default:
+                    return 999999
                 }
-
-            } else if chosenOption[indexPathrow].recentVote == 2 {
-                ////print(chosenOption[indexPathrow].chosen)
-
-                if chosenOption[indexPathrow].chosen == 2 {
-                    //                alreadyChosen1 = 1
-                }
-                chosen2vote = 1
             }
+
+         
+            if chosenOption[indexPathrow].recentVote == 1 {
+                chosen1vote = 1
+                chosen2vote = -1
+            } else if chosenOption[indexPathrow].recentVote == 2 {
+                chosen2vote = 1
+                chosen1vote = -1
+            }
+            
             switch option {
             case 1:
-                //                if poyo["option1Answers"].count == 1 && chosen1vote == 1 {
-                //                    return 1
-                //                } else if poyo["option1Answers"].count == 1 && chosen2vote == 1{
-                //                    return 0
-                //                } else {
-                ////print("ALJSBNFLJASJFASF")
-                return poyo["option1Answers"].count + chosen1vote - alreadyChosen1
-                //                }
+            
+                return poyo["option1Answers"].count + chosen1vote - alreadyAnswered
 
             case 2:
-                //                if poyo["option2Answers"].count == 1 && chosen2vote == 1 {
-                //                    return 1
-                //                } else if poyo["option2Answers"].count == 1 && chosen1vote == 1{
-                //                    return 0
-                //                } else {
-                ////print("ASDKNALSNFLANSLFNSLA")
-                return poyo["option2Answers"].count + chosen2vote - alreadyChosen2
-            //                }
+     
+                return poyo["option2Answers"].count + chosen2vote - alreadyAnswered
             default:
                 return 0
             }
 
         }
 
-        ////print("FARRTS")
         return 0
     }
 
@@ -924,11 +916,13 @@ class poyoChosen {
     var poyoID: String?
     var chosen: Int?
     var recentVote: Int?
+    var userAlready: Int?
 
-    init(poyoObjectID: String, chosenNumber: Int) {
+    init(poyoObjectID: String, chosenNumber: Int, userAlreadyAnswered: Int) {
         poyoID = poyoObjectID
         chosen = chosenNumber
         recentVote = 0
+        userAlready = userAlreadyAnswered
     }
 }
 
