@@ -24,15 +24,16 @@ The location based polling application
 - [x] Images in question
 - [x] Auto-fill question based on answer
     - [ ] Have a switch for custom question text
-- [ ] Push notifications for comment on your Poyo
-- [ ] Push notifications for votes on Poyo (occasional total)
-- [ ] Push notifications for closed Poyo
+- [ ] Overall user statistics (total votes, total poyos, hatched since)
+
 
 ##Super Optional
 - [ ] Surrounding poyos on a map
 - [ ] User color defaults for options
-- [ ] Overall user statistics (total votes, total poyos, hatched since)
 - [ ] Date limit
+- [ ] Push notifications for comment on your Poyo
+- [ ] Push notifications for votes on Poyo (occasional total)
+- [ ] Push notifications for closed Poyo
 
 
 ## UI Optionals
