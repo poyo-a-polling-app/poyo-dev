@@ -164,7 +164,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 cell.questionLabel.text = "hey these are your old poyos :]"
                 cell.votesLabel.hidden = true
                 cell.timeLabel.hidden = true
-                cell.distanceLabel.hidden = true
+//                cell.distanceLabel.hidden = true
                 print("second")
             } else {
 
@@ -195,7 +195,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             let poyoLongitude = poyo!["longitude"].doubleValue as! CLLocationDegrees
             var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
             var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
-            cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
+//            cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
         }
 
 
