@@ -85,9 +85,11 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-poyo/Bolts.framework"
+  install_framework "Pods-poyo/MBProgressHUD.framework"
   install_framework "Pods-poyo/Parse.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-poyo/Bolts.framework"
+  install_framework "Pods-poyo/MBProgressHUD.framework"
   install_framework "Pods-poyo/Parse.framework"
 fi

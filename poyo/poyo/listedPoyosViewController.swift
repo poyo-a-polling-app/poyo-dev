@@ -138,7 +138,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 var indexCount = 0
                 for (index, medium) in media.enumerate() {
                     if index >= self.chosenOption.count {
-                        self.chosenOption.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0))
+                        self.chosenOption.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0, userAlreadyAnswered: 0))
                     }
                     let timeLimit = Int(medium["timeLimit"] as! String)
                     let date = medium["time"] as! NSDate
@@ -251,7 +251,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
                 if options1Array.contains({$0 == userID!.objectId}){
                     ////print("Already answered 1")
-                    let newPoyoChosen = poyoChosen(poyoObjectID: userID!.objectId!, chosenNumber: 1)
+                    let newPoyoChosen = poyoChosen(poyoObjectID: userID!.objectId!, chosenNumber: 1, userAlreadyAnswered: 1)
                     tempArray.append(newPoyoChosen)
                     continue
                 }
@@ -262,14 +262,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
                 if options2Array.contains({$0 == userID!.objectId}){
                     ////print("Already answered 2")
-                    let newPoyoChosen = poyoChosen(poyoObjectID: userID!.objectId!, chosenNumber: 2)
+                    let newPoyoChosen = poyoChosen(poyoObjectID: userID!.objectId!, chosenNumber: 2, userAlreadyAnswered: 2)
                     tempArray.append(newPoyoChosen)
                     continue
                 }
 
                 //if no answer option
                 ////print("None answered")
-                tempArray.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0))
+                tempArray.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0, userAlreadyAnswered: 0))
             }
             chosenOption = tempArray
             ////print("Chosen Option: \(chosenOption)")
@@ -295,63 +295,59 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             return 0
         }
     }
+    
+
 
     func countVotes(indexPathrow: Int, option: Int) -> Int {
-        ////print("POOPOPOPPPOPO")
-        ////print("DKNKWNDKW IndexPathRow: \(indexPathrow)")
-        ////print("DKNKWNDKW IndexPathRow: \(self.feed?.count)")
 
         if indexPathrow < self.feed?.count {
             let poyo = self.feed![indexPathrow]
-            ////print("ASfasfsafsajfs \(chosenOption.count)")
             var chosen1vote = 0
             var chosen2vote = 0
-            var alreadyChosen1 = 0
-            var alreadyChosen2 = 0
+            var alreadyAnswered = 0
+            
 
-            if chosenOption[indexPathrow].recentVote == 1{
-                ////print(chosenOption[indexPathrow].chosen)
-                if chosenOption[indexPathrow].chosen == 1 {
-                    //                alreadyChosen1 = -1
-                    //                alreadyChosen2 = 1
-                    chosen1vote = 1
+            print("alreadyAnswered \(alreadyAnswered)")
+            
+            if chosenOption[indexPathrow].recentVote == chosenOption[indexPathrow].userAlready {
+                print("No need to change vote count")
+                switch option {
+                    case 1:
+                    return poyo["option1Answers"].count
+                    case 2:
+                    return poyo["option2Answers"].count
+                    default:
+                    return 999999
                 }
-
-            } else if chosenOption[indexPathrow].recentVote == 2 {
-                ////print(chosenOption[indexPathrow].chosen)
-
-                if chosenOption[indexPathrow].chosen == 2 {
-                    //                alreadyChosen1 = 1
-                }
-                chosen2vote = 1
             }
+
+         
+            if chosenOption[indexPathrow].recentVote == 1 {
+                chosen1vote = 1
+                if chosenOption[indexPathrow].userAlready != 0 {
+                    chosen2vote = -1
+                }
+            } else if chosenOption[indexPathrow].recentVote == 2 {
+                chosen2vote = 1
+                if chosenOption[indexPathrow].userAlready != 0 {
+                    chosen1vote = -1
+                }
+            }
+            
             switch option {
             case 1:
-                //                if poyo["option1Answers"].count == 1 && chosen1vote == 1 {
-                //                    return 1
-                //                } else if poyo["option1Answers"].count == 1 && chosen2vote == 1{
-                //                    return 0
-                //                } else {
-                ////print("ALJSBNFLJASJFASF")
-                return poyo["option1Answers"].count + chosen1vote - alreadyChosen1
-                //                }
+            
+                return poyo["option1Answers"].count + chosen1vote - alreadyAnswered
 
             case 2:
-                //                if poyo["option2Answers"].count == 1 && chosen2vote == 1 {
-                //                    return 1
-                //                } else if poyo["option2Answers"].count == 1 && chosen1vote == 1{
-                //                    return 0
-                //                } else {
-                ////print("ASDKNALSNFLANSLFNSLA")
-                return poyo["option2Answers"].count + chosen2vote - alreadyChosen2
-            //                }
+     
+                return poyo["option2Answers"].count + chosen2vote - alreadyAnswered
             default:
                 return 0
             }
 
         }
 
-        ////print("FARRTS")
         return 0
     }
 
@@ -396,7 +392,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 //        }
 //
 
-        cell.seeComments.hidden = cell.checkHeight()
 
         var rowHeightForCell:CGFloat = 340
         let poyoComments = poyo["comments"] as? [NSDictionary]
@@ -472,8 +467,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var votesOneCount = CGFloat(countVotes(indexPath.row, option: 1))
         var votesTwoCount = CGFloat(countVotes(indexPath.row, option: 2))
 
-//        cell.votesOne.text = String(format: "\(Int(votesOneCount))")
-//        cell.votesTwo.text = String(format: "\(Int(votesTwoCount))")
 
     // MARK: EDITING LIVE RESULTS
     //calculating total votes
@@ -513,6 +506,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.voteOverlayTwo.layer.anchorPoint = CGPointMake(0, 0.5)
         cell.optionOnePreview.layer.anchorPoint = CGPointMake(0, 0.5)
 
+     
 
         UIView.animateWithDuration(0.6, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             cell.voteOverlayOne.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
@@ -548,6 +542,28 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.seeComments.tag = indexPath.row
         cell.seeAllComments.tag = indexPath.row
 
+        print("ALKNSLNACSCNAKSNLCNA KSC LASNC \(cell.alreadyAnswered)")
+        if chosenOption[indexPath.row].chosen! == 0 && chosenOption[indexPath.row].recentVote == 0{
+            cell.optionOnePreview.backgroundColor = UIColor.lightGrayColor()
+            cell.optionTwoPreview.backgroundColor = UIColor.lightGrayColor()
+            rowHeights[indexPath.row] = 310
+            cell.voteOverlayOne.hidden = true
+            cell.voteOverlayTwo.hidden = true
+            cell.votesOne.hidden = true
+            cell.votesTwo.hidden = true
+            cell.seeComments.hidden = true
+
+
+        } else {
+            cell.voteOverlayOne.hidden = false
+            cell.voteOverlayTwo.hidden = false
+            cell.votesOne.hidden = false
+            cell.votesTwo.hidden = false
+            cell.seeComments.hidden = cell.checkHeight()
+            cell.optionOnePreview.backgroundColor = UIColor(red:0.09, green:0.7, blue:0.43, alpha:1.0)
+            cell.optionTwoPreview.backgroundColor = UIColor(red:0.87, green:0.2, blue:0.15, alpha:1.0)
+     
+        }
 
 
         return cell
@@ -896,8 +912,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 //        reloadAllData()
-        populateChosenOption()
-        tableView.reloadData()
 
         addChosenToParse(sender!.tag)
         var vc = segue.destinationViewController as! CommentsViewController
@@ -924,11 +938,13 @@ class poyoChosen {
     var poyoID: String?
     var chosen: Int?
     var recentVote: Int?
+    var userAlready: Int?
 
-    init(poyoObjectID: String, chosenNumber: Int) {
+    init(poyoObjectID: String, chosenNumber: Int, userAlreadyAnswered: Int) {
         poyoID = poyoObjectID
         chosen = chosenNumber
         recentVote = 0
+        userAlready = userAlreadyAnswered
     }
 }
 

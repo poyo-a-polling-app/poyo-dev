@@ -55,7 +55,7 @@ class ListedPoyoViewCell: UITableViewCell {
     
     
     var frameAdded = false
-        var expandedHeight: CGFloat = 340
+        var expandedHeight: CGFloat = 300
         var defaultHeight: CGFloat = 110
     
     func checkHeight() -> Bool{
