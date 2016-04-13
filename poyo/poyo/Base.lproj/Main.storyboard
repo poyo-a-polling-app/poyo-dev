@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Unknown constraint types" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -65,11 +66,11 @@
                         <viewControllerLayoutGuide type="bottom" id="CtW-rK-JLm"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5MR-aF-DoH">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ZUY-s1-3q4">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -109,7 +110,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="99"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="La4-eW-avK" id="0h3-QV-516">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="98"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="98.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Question" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fpD-kU-HFn">
@@ -179,9 +180,8 @@
                         </subviews>
                         <color key="backgroundColor" red="0.55956645347286771" green="0.6098417469874251" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="gGr-a7-nhb" secondAttribute="trailing" id="Mq3-rX-bVc"/>
-                            <constraint firstItem="gGr-a7-nhb" firstAttribute="leading" secondItem="u00-Py-X5b" secondAttribute="leading" id="gqM-sn-L4Q"/>
-                            <constraint firstItem="gGr-a7-nhb" firstAttribute="top" secondItem="u00-Py-X5b" secondAttribute="top" id="iKk-1Y-8Eg"/>
+                            <constraint firstAttribute="leading" secondItem="u00-Py-X5b" secondAttribute="leading" id="gqM-sn-L4Q"/>
+                            <constraint firstAttribute="top" secondItem="u00-Py-X5b" secondAttribute="top" id="iKk-1Y-8Eg"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" id="z7d-b8-HmH"/>
@@ -296,20 +296,17 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Poyo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rnj-bu-wDt">
                                 <rect key="frame" x="20" y="141" width="335" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="pCY-n4-kAn">
                                 <rect key="frame" x="-1" y="242" width="376" height="159"/>
                                 <date key="date" timeIntervalSinceReferenceDate="479945924.78535998">
                                     <!--2016-03-17 22:18:44 +0000-->
                                 </date>
                             </datePicker>
-
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M2C-iL-cYY">
                                 <rect key="frame" x="0.0" y="286" width="188" height="188"/>
                                 <connections>
@@ -348,7 +345,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BSL-MP-sDG">
                                 <rect key="frame" x="187" y="286" width="1" height="189"/>
                                 <color key="backgroundColor" red="0.92311463640000002" green="0.92311463640000002" blue="0.92311463640000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -446,7 +442,6 @@
                                     <action selector="switchDate:" destination="KSS-d0-9gU" eventType="valueChanged" id="e22-tT-WHi"/>
                                 </connections>
                             </switch>
-
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="End Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ufZ-07-yyJ">
                                 <rect key="frame" x="20" y="194" width="74" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -591,7 +586,7 @@
                                         <rect key="frame" x="0.0" y="92" width="375" height="450"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qWm-NX-bDq" id="gEv-vc-7AE">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="449"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="449.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZjC-Uz-zaL">
@@ -914,7 +909,7 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.90366966980390551" green="0.90649038461538467" blue="0.88521673931693656" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="3e0-44-sDA">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="3e0-44-sDA">
                                 <rect key="frame" x="0.0" y="28" width="375" height="145"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="145" id="Cfj-GK-t4r"/>
@@ -934,9 +929,6 @@
                         <outlet property="commentInputField" destination="QeW-e6-pFz" id="Xdd-Xe-zLy"/>
                         <outlet property="inputFieldView" destination="Lrl-jO-VQL" id="GPz-O3-ZUM"/>
                         <outlet property="mapView" destination="3e0-44-sDA" id="Lsx-TA-3iy"/>
-                        <outlet property="newCommentTextField" destination="QeW-e6-pFz" id="Fnd-Zw-8Z9"/>
-                        <outlet property="sendButton" destination="Mrk-iQ-CbT" id="SnS-BC-MDa"/>
-                        <outlet property="sendCommentButton" destination="Mrk-iQ-CbT" id="020-V9-w3n"/>
                         <outlet property="tableView" destination="Xa5-P8-FYg" id="NpU-Hz-D17"/>
                     </connections>
                 </viewController>
@@ -1012,7 +1004,7 @@
         <image name="Icon-167" width="167" height="167"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Iur-WC-Xsy"/>
+        <segue reference="ETo-rY-bw5"/>
         <segue reference="smE-4i-QUg"/>
         <segue reference="cQ7-cQ-8h7"/>
     </inferredMetricsTieBreakers>
