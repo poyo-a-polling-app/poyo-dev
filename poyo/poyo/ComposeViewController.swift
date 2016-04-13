@@ -16,7 +16,7 @@ import CoreLocation
 
 class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageTwoViewDelegate, UITextFieldDelegate, SettingsViewDelegate{
     
-    var passedDater: NSDate? = nil
+    var passedDater: NSDate?
 
     var imageTwo: UIImage?
     var imageOne: UIImage?
@@ -87,9 +87,19 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         self.imageOneButton.tag = 1
         self.imageTwoButton.tag = 2
 
+        optionOneLabel.text = ""
+        optionTwoLabel.text = ""
         
+        self.tabBarController?.tabBar.hidden = false
        
+        textFieldDidBeginEditing(poyoField)
+        textFieldDidBeginEditing(optionOneLabel)
+        textFieldDidBeginEditing(optionTwoLabel)
         // Do any additional setup after loading the view.
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        textField.layer.borderWidth = 0
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -98,8 +108,15 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
 
     override func viewWillAppear(animated: Bool) {
         imageOneView.image = imageOne
+        if (imageOne != nil){
+            imageOneView.layer.borderWidth = 0
+        }
         imageTwoView.image = imageTwo
+        if (imageTwo != nil){
+            imageTwoView.layer.borderWidth = 0
+        }
         print(String(datePick!))
+        self.tabBarController?.tabBar.hidden = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -121,7 +138,6 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
 
     @IBAction func onPost(sender: AnyObject) {
         //let secondsLeftString = secondsLeftInt as! String
-        performSegueWithIdentifier("postSegue", sender: nil)
         var poyotext = String()
         if (poyoField.text == ""){
             poyotext = ("\(optionOneLabel.text!) or \(optionTwoLabel.text!)")
@@ -130,14 +146,76 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
             poyotext = poyoField.text!
         }
         
-        if (setPrivate == false){
-            UserMedia.postPoyoImage(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCompletion: nil)
-            print("did something send?")
+        print(imageOneView.image)
+        
+        if (optionOneLabel.text == "" && imageOneView.image == nil && optionTwoLabel.text == "" && imageTwoView.image == nil){
+            poyoField.layer.borderWidth = 1
+            poyoField.layer.cornerRadius = 8.0
+            poyoField.layer.borderColor = UIColor.redColor().CGColor
+            optionTwoLabel.layer.borderWidth = 1
+            optionTwoLabel.layer.cornerRadius = 8.0
+            optionTwoLabel.layer.borderColor = UIColor.redColor().CGColor
+            
+            optionOneLabel.layer.borderWidth = 1
+            optionOneLabel.layer.cornerRadius = 8.0
+            optionOneLabel.layer.borderColor = UIColor.redColor().CGColor
+            
+            imageOneView.layer.borderWidth = 1
+            imageOneView.layer.borderColor = UIColor.redColor().CGColor
+            
+            imageTwoView.layer.borderWidth = 1
+            imageTwoView.layer.borderColor = UIColor.redColor().CGColor
+            return
         }
-        else if (setPrivate == true){
-            UserMedia.postPrivatePoyo(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCaption: privatePassword, withCompletion: nil)
-            print("did something private send?")
+        if (optionOneLabel.text == "" && imageOneView.image != nil && optionTwoLabel.text == "" && imageTwoView.image != nil && poyoField.text == ""){
+            poyoField.layer.borderWidth = 1
+            poyoField.layer.cornerRadius = 8.0
+            poyoField.layer.borderColor = UIColor.redColor().CGColor
+            optionTwoLabel.layer.borderWidth = 1
+            optionTwoLabel.layer.cornerRadius = 8.0
+            optionTwoLabel.layer.borderColor = UIColor.redColor().CGColor
+
+            optionOneLabel.layer.borderWidth = 1
+            optionOneLabel.layer.cornerRadius = 8.0
+            optionOneLabel.layer.borderColor = UIColor.redColor().CGColor
+            return
         }
+        if (optionOneLabel.text == "" && imageOneView.image == nil){
+            imageOneView.layer.borderWidth = 1
+            imageOneView.layer.borderColor = UIColor.redColor().CGColor
+            return
+        }
+        if (optionTwoLabel.text == "" && imageTwoView.image == nil){
+            imageTwoView.layer.borderWidth = 1
+            imageTwoView.layer.borderColor = UIColor.redColor().CGColor
+            return
+        }
+        if (imageOneView.image == nil || imageTwoView.image == nil){
+            if imageOneView.image == nil{
+                imageOneView.layer.borderWidth = 1
+                imageOneView.layer.borderColor = UIColor.redColor().CGColor
+            }
+            else if imageTwoView.image == nil {
+                imageTwoView.layer.borderWidth = 1
+                imageTwoView.layer.borderColor = UIColor.redColor().CGColor
+            }
+            return
+        }
+    
+            if (setPrivate == false){
+                UserMedia.postPoyoImage(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCompletion: { (success: Bool, error: NSError?) -> Void in
+                    print(success)
+                    self.performSegueWithIdentifier("postSegue", sender: nil)
+                })
+                print("did something send?")
+            }
+            else if (setPrivate == true){
+                UserMedia.postPrivatePoyo(withCaption: poyotext, withCaption: longitudeLabel, withCaption: latitudeLabel, withCaption: optionOneLabel.text, withCaption: optionTwoLabel.text, withCaption: String(datePick!), imageOne: imageOne, imageTwo: imageTwo, withCaption: privatePassword, withCompletion: { (success: Bool, error: NSError?) -> Void in
+                    print(success)
+                    self.performSegueWithIdentifier("postSegue", sender: nil)
+                })
+                print("did something private send?")
+            }
         
         poyoField.text = ""
         optionOneLabel.text = ""
@@ -244,6 +322,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         }
         else {
             setDateBool = false
+            datePick = 75600
         }
     }
 
@@ -276,7 +355,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
             newImage.senderInt = sender!.tag
         }
         else if (segue.identifier == "backSegue"){
-            let settings :SettingsViewController = segue.destinationViewController as! SettingsViewController
+            let settings : SettingsViewController = segue.destinationViewController as! SettingsViewController
             print("OH NOOOO")
             settings.delegate = self
             settings.passedPassword = privatePassword

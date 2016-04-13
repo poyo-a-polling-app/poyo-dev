@@ -10,6 +10,7 @@
 		0AC221C41CAB3CBB00203C72 /* ImageTwoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC221C31CAB3CBB00203C72 /* ImageTwoView.swift */; };
 		0AD76F941CB0389B00DF597C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AD76F921CB0389B00DF597C /* Main.storyboard */; };
 		0AFBF9B41CBD42C400B5259A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFBF9B31CBD42C400B5259A /* SettingsViewController.swift */; };
+		0AFBF9B61CBDEA2000B5259A /* SetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFBF9B51CBDEA2000B5259A /* SetViewController.swift */; };
 		0AFD03D21C8F9FFA005AC266 /* UserMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD03D11C8F9FFA005AC266 /* UserMedia.swift */; };
 		0AFD03D41C8FA067005AC266 /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD03D31C8FA067005AC266 /* ComposeViewController.swift */; };
 		165647941C8A921B00C73859 /* listedPoyosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165647931C8A921B00C73859 /* listedPoyosViewController.swift */; };
@@ -31,6 +32,7 @@
 		0AC221C31CAB3CBB00203C72 /* ImageTwoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTwoView.swift; sourceTree = "<group>"; };
 		0AD76F931CB0389B00DF597C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0AFBF9B31CBD42C400B5259A /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		0AFBF9B51CBDEA2000B5259A /* SetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SetViewController.swift; path = ../SetViewController.swift; sourceTree = "<group>"; };
 		0AFD03D11C8F9FFA005AC266 /* UserMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMedia.swift; sourceTree = "<group>"; };
 		0AFD03D31C8FA067005AC266 /* ComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
 		165647931C8A921B00C73859 /* listedPoyosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = listedPoyosViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 			children = (
 				165647971C8AA0A900C73859 /* TableCells */,
 				165647951C8A9E9B00C73859 /* locationFinderViewController.swift */,
+				0AFBF9B51CBDEA2000B5259A /* SetViewController.swift */,
 				16AF95AF1C8A658D00A2E244 /* AppDelegate.swift */,
 				16AF95B11C8A658D00A2E244 /* ViewController.swift */,
 				0AFD03D31C8FA067005AC266 /* ComposeViewController.swift */,
@@ -263,6 +266,7 @@
 				1FDBDE901C98622C00745801 /* ProfileViewController.swift in Sources */,
 				16AF95B01C8A658D00A2E244 /* AppDelegate.swift in Sources */,
 				0AFBF9B41CBD42C400B5259A /* SettingsViewController.swift in Sources */,
+				0AFBF9B61CBDEA2000B5259A /* SetViewController.swift in Sources */,
 				16EB4E851CADE1F80076CCF6 /* CommentsViewController.swift in Sources */,
 				0AFD03D21C8F9FFA005AC266 /* UserMedia.swift in Sources */,
 			);

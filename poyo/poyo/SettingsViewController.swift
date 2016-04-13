@@ -32,6 +32,8 @@ class SettingsViewController: UIViewController{
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var dateSet: UISwitch!
 
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         passwordtitle.hidden = true
@@ -58,8 +60,10 @@ class SettingsViewController: UIViewController{
             passwordtitle.hidden = false
             passwordTextField.hidden = false
             passwordTextField.text = passedPassword
+            isPrivate = true
         }
         else{
+            isPrivate = false
             privateSet.on = false
         }
         
@@ -67,8 +71,10 @@ class SettingsViewController: UIViewController{
             dateSet.on = true
             datePicker.hidden = false
             datePicker.date = passerDate!
+            isDate = true
         }
         else{
+            isDate = false
             datePicker.hidden = true
             dateSet.on = false
         }

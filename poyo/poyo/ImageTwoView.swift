@@ -40,6 +40,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         vc.delegate = self
         vc.allowsEditing = true
         vc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        self.tabBarController?.tabBar.hidden = true
     }
     
     override func prefersStatusBarHidden() -> Bool {
