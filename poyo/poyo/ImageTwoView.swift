@@ -13,23 +13,16 @@ protocol ImageTwoViewDelegate {
     func setImage(image: UIImage, int: Int);
 }
 
-
-extension UIImage {
-    var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
-    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)!  }
-    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)! }
-    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)!  }
-    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)! }
-    var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
-}
-
 class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var senderInt: Int! = nil
+    var frontInt: Int! = nil
     
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCaptureStillImageOutput?
     var previewLayer: AVCaptureVideoPreviewLayer?
+    
+    var captureDevice : AVCaptureDevice?
 
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var tempImageView: UIImageView!
@@ -37,17 +30,30 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     var delegate : ImageTwoViewDelegate! = nil
     
+    @IBOutlet weak var BackAction: UIButton!
+    @IBOutlet weak var FrontAction: UIButton!
+    
+    var currentCameraPosition: AVCaptureDevicePosition = .Back
     
     let vc = UIImagePickerController()
+    
+    let flerror : NSError? = nil
+    
+    var input : AVCaptureDeviceInput?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.newImageView.hidden = true
-        
+        //reloadCamera()
         vc.delegate = self
         vc.allowsEditing = true
         vc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        BackAction.hidden = true
+        FrontAction.hidden = false
+        videoDeviceWithPosition(currentCameraPosition)
+        frontInt = 2
+        loadCamera()
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -56,7 +62,6 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
         previewLayer?.frame = cameraView.bounds
     }
 
@@ -66,44 +71,141 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     }
     
     override func viewWillAppear(animated: Bool) {
-        
         super.viewWillAppear(animated)
+    }
+    
+    
+    
+    //loads the camera in in order to crop to whatever the image view is
+    func loadCamera(){
+        
         
         captureSession = AVCaptureSession()
         captureSession?.accessibilityFrame = cameraView.bounds
         captureSession?.sessionPreset = AVCaptureSessionPresetPhoto
         
-        var backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         
-        var flerror : NSError?
+                do{
+                    input = try AVCaptureDeviceInput(device: captureDevice)
         
-        do{
-            var input = try AVCaptureDeviceInput(device: backCamera!)
+                if (flerror == nil && captureSession?.canAddInput(input) != nil){
+                    captureSession?.addInput(input)
         
-        if (flerror == nil && captureSession?.canAddInput(input) != nil){
-            captureSession?.addInput(input)
-            
-            stillImageOutput = AVCaptureStillImageOutput()
-            
-            stillImageOutput?.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
-            
-            if ((captureSession?.canAddOutput(stillImageOutput)) != nil){
-                captureSession?.addOutput(stillImageOutput)
-                
-                previewLayer?.frame = cameraView.bounds
-                previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
-                previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
-                cameraView.layer.addSublayer(previewLayer!)
-                captureSession?.startRunning()
-            }
-        }
-        }
-        catch{
-            fatalError("Could not create capture device input.")
-        }
+                    stillImageOutput = AVCaptureStillImageOutput()
+        
+                    stillImageOutput?.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
+        
+                    if ((captureSession?.canAddOutput(stillImageOutput)) != nil){
+                        
+                        captureSession?.addOutput(stillImageOutput)
+                        previewLayer?.frame = cameraView.bounds
+                        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+                        previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+                        previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
+                        cameraView.layer.addSublayer(previewLayer!)
+                        captureSession?.startRunning()
+                    }
+                }
+                }
+                catch{
+                    fatalError("Could not create capture device input.")
+                }
+
     }
     
+    //sets the device to either front or back
+    func videoDeviceWithPosition(position: AVCaptureDevicePosition) -> AVCaptureDevice? {
+        if (position == .Front) {
+            let videoDevices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+            
+            for device in videoDevices {
+                if device.position == AVCaptureDevicePosition.Front {
+                    captureDevice = device as? AVCaptureDevice
+                    return captureDevice!
+                }
+            }
+        }
+        else {
+            captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+            return captureDevice!
+        }
+        print("No device found")
+        return nil
+    }
+    
+    
+    //toggles the camera
+    func toggleCamera() {
+        let newPosition: AVCaptureDevicePosition = self.currentCameraPosition == .Back ? .Front : .Back
+        let sessionPreset = AVCaptureSessionPreset640x480
+        
+        // Remove all old inputs
+        let inputs = captureSession?.inputs
+        for input in inputs! {
+            captureSession?.removeInput(input as! AVCaptureInput)
+        }
+        
+        let device = self.videoDeviceWithPosition(newPosition)!
+        var deviceInput: AVCaptureDeviceInput
+        do {
+            deviceInput = try AVCaptureDeviceInput(device: device)
+        } catch {
+            print("Exception while getting device input")
+            return
+        }
+        
+        guard let captureSession = captureSession else {
+            print("CaptureSession was nil")
+            return
+        }
+        
+        captureSession.beginConfiguration()
+        captureSession.sessionPreset = sessionPreset
+        
+        if captureSession.canAddInput(deviceInput) {
+            captureSession.addInput(deviceInput)
+            self.currentCameraPosition = newPosition
+        } else {
+            print("Error trying to add input")
+            return
+        }
+        
+        if device.supportsAVCaptureSessionPreset(sessionPreset) {
+            captureSession.sessionPreset = sessionPreset
+        }
+        
+        do {
+            try device.lockForConfiguration()
+        } catch {
+            print("Error when trying to lock device for configuration")
+            return
+        }
+        
+        device.subjectAreaChangeMonitoringEnabled = true
+        device.unlockForConfiguration()
+        captureSession.commitConfiguration()
+    }
+    
+    //switch to the front camera
+    @IBAction func takeFront(sender: AnyObject) {
+        BackAction.hidden = false
+        FrontAction.hidden = true
+        frontInt = nil
+        frontInt = 1
+        toggleCamera()
+    }
+    
+    //switch back to the back camera from the front camera
+    @IBAction func takeBack(sender: AnyObject) {
+        FrontAction.hidden = false
+        BackAction.hidden = true
+        frontInt = nil
+        frontInt = 2
+        toggleCamera()
+    }
+    
+    
+    //takes a photo of preview layer
     func didPressTakePhoto(){
         if let videoConnection = stillImageOutput?.connectionWithMediaType(AVMediaTypeVideo){
             videoConnection.videoOrientation = AVCaptureVideoOrientation.Portrait
@@ -111,14 +213,22 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
                     (sampleBuffer, error) in
                 
                 if sampleBuffer != nil {
-                    var imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+                    let
+                    imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
                     
-                    var dataProvider = CGDataProviderCreateWithCFData(imageData)
-                    var cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, .RenderingIntentDefault)
+                    let dataProvider = CGDataProviderCreateWithCFData(imageData)
+                    let cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, .RenderingIntentDefault)
                     
-                    var image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
+                    let image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
                     
-                   
+                    if self.frontInt == 1 {
+                        self.tempImageView.image = image
+                        self.tempImageView.transform = CGAffineTransformMakeScale(-1, 1)
+                    }
+                    else if self.frontInt == 2{
+                        self.tempImageView.image = image
+                        self.tempImageView.transform = CGAffineTransformIdentity
+                    }
                     
                     self.tempImageView.contentMode = .ScaleAspectFill
                     self.tempImageView.clipsToBounds = true

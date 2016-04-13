@@ -31,7 +31,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     var chosenOption = [poyoChosen]()
 
     var currentUserAnswer = [Int]()
-    
+
     var images = [poyoImages]()
 
     var refreshControl: UIRefreshControl?
@@ -47,7 +47,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         self.refreshControl = UIRefreshControl()
         self.refreshControl!.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl!)
-        
+
         self.locationManager.requestAlwaysAuthorization()
 
         // For use in foreground
@@ -90,7 +90,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     override func viewDidAppear(animated: Bool) {
     }
-    
+
     func popularity(indexPathRow: Int, date: NSDate) -> Double {
         var votesOneCount = CGFloat(countVotes(indexPathRow, option: 1))
         var votesTwoCount = CGFloat(countVotes(indexPathRow, option: 2))
@@ -99,24 +99,24 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var order = log10(Double(max(abs(totalCount), 1)))
         var secondsElapsed = Double(date.timeIntervalSinceNow)
         print("Score: \(order + secondsElapsed/45000)")
-        
+
         return order + secondsElapsed/45000
-        
+
 //        s = score(ups, downs)
 //        order = log(max(abs(s), 1), 10)
 //        sign = 1 if s > 0 else -1 if s < 0 else 0
 //        seconds = epoch_seconds(date) - 1134028003
 //        return round(sign * order + seconds / 45000, 7)
     }
-  
+
 
     func reloadAllData() {
-        
+
 
         let query = PFQuery(className:"PoyosImageTest")
         query.orderByDescending("popularity")
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
-            
+
             if let media = media {
                 self.feed = []
                 var indexCount = 0
@@ -139,27 +139,27 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
 
                     }
-                    
+
                     var tempPoyoImage = poyoImages(index: index)
-                    
+
                     let options1ImageLink = medium.valueForKey("optionImageOne") as! PFFile
-                    
+
                     options1ImageLink.getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) in
                         if (error == nil) {
-                            
+
                             if(self.images[index].imageOptionOne != nil && self.images[index].imageOptionOne!.isEqual(UIImage(data: imageData!))){
                                 //checks if image is equal to current image
                             } else {
                                 tempPoyoImage.imageOptionOne = UIImage(data:imageData!)
                             }
-                            
+
                         } else {
                             print("Connection failed to be made!!")
                         }
                     }
-                    
+
                     let options2ImageLink = medium.valueForKey("optionImageTwo") as! PFFile
-                    
+
                     options2ImageLink.getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) in
                         if (error == nil) {
                             if(self.images[index].imageOptionTwo != nil && self.images[index].imageOptionTwo!.isEqual(UIImage(data: imageData!))){
@@ -171,7 +171,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                             print("Connection failed to be made!!")
                         }
                     }
-                    
+
                     print("Images count = \(self.images.count)")
                     print("IndexPathRow = \(tempPoyoImage.indexPathRow)")
 
@@ -182,8 +182,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                         print("Replaced the old image")
                         self.images[index] = tempPoyoImage
                     }
-                    
-                    
+
+
                 }
 //                if !self.chosenSaved {
                     print("Populated the Chosen Option Array")
@@ -191,10 +191,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 //                }
                 self.tableView.reloadData()
                 print("IT ACCESSED THE DATA!!!!!")
-      
+
             } else {
                 print("COULD NOT ACCESS THE DATA")
-                
+
             }
         }
 
@@ -272,7 +272,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var chosen2vote = 0
         var alreadyChosen1 = 0
         var alreadyChosen2 = 0
-  
+
         if chosenOption[indexPathrow].recentVote == 1{
             print(chosenOption[indexPathrow].chosen)
             if chosenOption[indexPathrow].chosen == 1 {
@@ -316,7 +316,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ListedPoyoViewCell", forIndexPath: indexPath) as! ListedPoyoViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
-        
+
         let poyo = self.feed![indexPath.row]
 
         cell.poyo = poyo
@@ -330,9 +330,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
         var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
 //        var options1ImageLink = poyo["optionImageOne"] as! PFFile
-        
+
 //        let options1ImageLink = poyo.valueForKey("optionImageOne") as! PFFile
-//        
+//
 //        print("Accessed new image \(options1ImageLink)")
 //
 //        options1ImageLink.getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) in
@@ -344,17 +344,17 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 //                print("Connection failed to be made!!")
 //            }
 //        }
-    
+
         if images[indexPath.row].imageOptionOne != UIImage(named: "Icon-167") {
             cell.option1Button.setBackgroundImage(images[indexPath.row].imageOptionOne, forState: UIControlState.Normal)
         }
         if images[indexPath.row].imageOptionTwo != UIImage(named: "Icon-167") {
             cell.option2Button.setBackgroundImage(images[indexPath.row].imageOptionTwo, forState: UIControlState.Normal)
         }
-        
-        
-        
-        
+
+
+
+
 //        cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
 
         //checks radius
@@ -398,13 +398,13 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         } else {
             cell.votesLabel.text = String(format: "\(totalCount) votes")
         }
-        
-        
+
+
         var votesOnePercent = CGFloat(0)
         var votesTwoPercent = CGFloat(0)
     //calculating percentage of votes
         if votesOneCount == 0 && votesTwoCount == 0 {
-    
+
         } else {
             votesOnePercent = CGFloat(votesOneCount/(votesOneCount + votesTwoCount))
             votesTwoPercent = CGFloat(votesTwoCount/(votesOneCount + votesTwoCount))
@@ -415,7 +415,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         //print("votesOnePercent: \(votesOnePercent)")
         //print("votesTwoPercent: \(votesTwoPercent)")
-        
+
         cell.votesOne.text = String(format: "\(Int(votesOnePercent*100))")
         cell.votesTwo.text = String(format: "\(Int(votesTwoPercent*100))")
 
@@ -477,7 +477,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         cell.timeLabel.text = timeElapsed(date)
         cell.seeComments.tag = indexPath.row
-        
+
 
         return cell
     }
@@ -489,7 +489,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         let poyo = self.feed![indexPath.row]
 
 
-        let query : PFQuery = PFQuery(className: "PoyosImageTest")
+        let query : PFQuery = PFQuery(className: "PoyosAnswers")
 
         query.whereKey("objectId", equalTo: poyo.objectId!)
 
@@ -541,10 +541,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         let poyo = self.feed![indexPathRow]
 
         let query : PFQuery = PFQuery(className: "PoyosImageTest")
-        
+
 //        chosenOption[indexPath.row].recentVote = 0;
-        
-        
+
+
         query.whereKey("objectId", equalTo: poyo.objectId!)
 
         query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
@@ -791,7 +791,7 @@ class poyoImages {
     var indexPathRow: Int?
     var imageOptionOne: UIImage?
     var imageOptionTwo: UIImage?
-    
+
     init(index: Int){
         indexPathRow = index
         imageOptionOne = UIImage(named: "Icon-167")
