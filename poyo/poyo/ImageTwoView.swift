@@ -10,14 +10,15 @@ import UIKit
 import AVFoundation
 
 protocol ImageTwoViewDelegate {
-    func setImage(image: UIImage, int: Int);
+    func setImage(image: UIImage, int: Int, rev: Int);
 }
 
 class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var senderInt: Int! = nil
     var frontInt: Int! = nil
-
+    var isFront: Bool?
+    
     @IBOutlet weak var didTake: UIButton!
 
     var captureSession : AVCaptureSession?
@@ -57,6 +58,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
         FrontAction.hidden = false
         videoDeviceWithPosition(currentCameraPosition)
         frontInt = 2
+        isFront = false
         loadCamera()
     }
 
@@ -197,6 +199,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     @IBAction func takeFront(sender: AnyObject) {
         BackAction.hidden = false
         FrontAction.hidden = true
+        isFront = true
         frontInt = nil
         frontInt = 1
         toggleCamera()
@@ -206,6 +209,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
     @IBAction func takeBack(sender: AnyObject) {
         FrontAction.hidden = false
         BackAction.hidden = true
+        isFront = false
         frontInt = nil
         frontInt = 2
         toggleCamera()
@@ -289,7 +293,7 @@ class ImageTwoView: UIViewController, UIImagePickerControllerDelegate, UINavigat
 
     }
     @IBAction func onSend(sender: AnyObject) {
-        delegate.setImage(self.tempImageView.image!, int: senderInt)
+        delegate.setImage(self.tempImageView.image!, int: senderInt, rev: frontInt)
         self.navigationController?.popViewControllerAnimated(true)
     }
 
