@@ -33,6 +33,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     var currentUserAnswer = [Int]()
     
     var images = [poyoImages]()
+    var rowHeights = [CGFloat]()
 
     var refreshControl: UIRefreshControl?
     
@@ -43,6 +44,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         tableView.dataSource = self
         tableView.delegate = self
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+
 
         self.refreshControl = UIRefreshControl()
         self.refreshControl!.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
@@ -64,6 +67,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
         reloadAllData()
         tableView.reloadData()
+        
 
     }
 
@@ -74,6 +78,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         populateChosenOption()
         tableView.reloadData()
         self.refreshControl?.endRefreshing()
+        
 
     }
 
@@ -283,7 +288,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let feed = feed {
+            rowHeights = [CGFloat](count: feed.count, repeatedValue: 340.0)
             return feed.count
+
         } else {
             return 0
         }
@@ -383,19 +390,31 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.commentPreviewTwo.hidden = true
         cell.commentPreviewColorThree.hidden = true
         cell.commentPreviewThree.hidden = true
-
         
+//        if cell.checkHeight() {
+//            cell.seeComments.hidden = true
+//        }
+//        
+        
+        cell.seeComments.hidden = cell.checkHeight()
+        
+        var rowHeightForCell:CGFloat = 340
         let poyoComments = poyo["comments"] as? [NSDictionary]
         print("Row: \(indexPath.row)  =====  \(poyoComments)")
+        
+        
+    
         if poyoComments != nil {
+            cell.seeComments.setTitle("View all \(poyoComments!.count) comments", forState: UIControlState.Normal)
+            
             for (index, comments) in poyoComments!.enumerate() {
                 if index >= 3 {
                     break
                 }
                
-                cell.commentPreviewColorOne.layer.cornerRadius = cell.commentPreviewColorOne.frame.height / 2
-                cell.commentPreviewColorTwo.layer.cornerRadius = cell.commentPreviewColorTwo.frame.height / 2
-                cell.commentPreviewColorThree.layer.cornerRadius = cell.commentPreviewColorThree.frame.height / 2
+                cell.commentPreviewColorOne.layer.cornerRadius = cell.commentPreviewColorOne.frame.width / 2
+                cell.commentPreviewColorTwo.layer.cornerRadius = cell.commentPreviewColorTwo.frame.width / 2
+                cell.commentPreviewColorThree.layer.cornerRadius = cell.commentPreviewColorThree.frame.width / 2
                 
                 var commentColor = UIColor.lightGrayColor()
                 let colorSet = findColor(poyoComments![index]["user"] as! PFUser, indexPath: indexPath)
@@ -414,28 +433,34 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                     cell.commentPreviewOne.hidden = false
                     cell.commentPreviewColorOne.backgroundColor = commentColor
                      cell.commentPreviewOne.text = poyoComments![index]["commentString"] as? String
+                    rowHeightForCell += cell.commentPreviewOne.frame.height - 5
+                    
                 case 1:
                     cell.commentPreviewColorTwo.hidden = false
                     cell.commentPreviewTwo.hidden = false
                     cell.commentPreviewColorTwo.backgroundColor = commentColor
                     cell.commentPreviewTwo.text = poyoComments![index]["commentString"] as? String
+                    rowHeightForCell += cell.commentPreviewTwo.frame.height + 19
+
                 case 2:
                     cell.commentPreviewColorThree.hidden = false
                     cell.commentPreviewThree.hidden = false
                     cell.commentPreviewColorThree.backgroundColor = commentColor
                     cell.commentPreviewThree.text = poyoComments![index]["commentString"] as? String
+                    rowHeightForCell += cell.commentPreviewThree.frame.height + 9
+
                 default:
                     print("INDEX ERROR")
                 }
             }
 
         } else {
+            cell.seeComments.setTitle("No Comments. Click here to change that!", forState: UIControlState.Normal)
         
         }
         
+        rowHeights[indexPath.row] = rowHeightForCell
         
-//        cell.distanceLabel.text = String(format: "%.2f meters", distanceFromPoyo)
-
         //checks radius
         if radius < distanceFromPoyo {
             //            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
@@ -444,20 +469,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
         cell.alreadyAnswered = chosenOption[indexPath.row].chosen!
 
-        //changes color based on chosen
-//        if(cell.alreadyAnswered == 0){
-//            cell.backgroundColor = UIColor.clearColor()
-//            cell.option1Button.backgroundColor = UIColor.clearColor()
-//            cell.option2Button.backgroundColor = UIColor.clearColor()
-//        } else if cell.alreadyAnswered == 1 {
-//            cell.backgroundColor = UIColor.greenColor()
-//            cell.option1Button.backgroundColor = UIColor.greenColor()
-//            cell.option2Button.backgroundColor = UIColor.clearColor()
-//        } else {
-//            cell.backgroundColor = UIColor.blueColor()
-//            cell.option1Button.backgroundColor = UIColor.clearColor()
-//            cell.option2Button.backgroundColor = UIColor.blueColor()
-//        }
         var votesOneCount = CGFloat(countVotes(indexPath.row, option: 1))
         var votesTwoCount = CGFloat(countVotes(indexPath.row, option: 2))
 
@@ -556,6 +567,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         cell.timeLabel.text = timeElapsed(date)
         cell.seeComments.tag = indexPath.row
+        cell.seeAllComments.tag = indexPath.row
+
         
 
         return cell
@@ -756,7 +769,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath == selectedIndexPath {
-            return ListedPoyoViewCell.expandedHeight
+            if rowHeights.count <= indexPath.row {
+                return ListedPoyoViewCell.expandedHeight
+            }
+            return rowHeights[indexPath.row]
         } else {
             return ListedPoyoViewCell.defaultHeight
         }

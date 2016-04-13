@@ -510,51 +510,83 @@
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Goj-l2-O0Q">
-                                                    <rect key="frame" x="0.0" y="300" width="375" height="237"/>
+                                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Goj-l2-O0Q">
+                                                    <rect key="frame" x="0.0" y="300" width="375" height="223"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yge-uw-nU0">
-                                                            <rect key="frame" x="32" y="97" width="129" height="30"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <state key="normal" title="View all comments"/>
-                                                            <connections>
-                                                                <segue destination="FiS-cK-dwZ" kind="showDetail" action="showViewController:sender:" id="smE-4i-QUg"/>
-                                                            </connections>
-                                                        </button>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Comment 1" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DFe-Bs-ECT">
-                                                            <rect key="frame" x="51" y="8" width="285" height="21"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Comment 1" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DFe-Bs-ECT">
+                                                            <rect key="frame" x="41" y="8" width="313" height="21"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fsF-4h-rOP">
-                                                            <rect key="frame" x="18" y="9" width="20" height="20"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Comment 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oin-em-hNs">
+                                                            <rect key="frame" x="41" y="37" width="313" height="21"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Comment 3" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eqH-te-fH8">
+                                                            <rect key="frame" x="41" y="66" width="313" height="21"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fsF-4h-rOP">
+                                                            <rect key="frame" x="15" y="11" width="15" height="15"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Comment 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oin-em-hNs">
-                                                            <rect key="frame" x="51" y="37" width="285" height="21"/>
-                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gr3-S8-t1Z">
-                                                            <rect key="frame" x="18" y="38" width="20" height="20"/>
+                                                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gr3-S8-t1Z">
+                                                            <rect key="frame" x="15" y="40" width="15" height="15"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Comment 3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eqH-te-fH8">
-                                                            <rect key="frame" x="51" y="66" width="285" height="21"/>
-                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9gi-PV-69y">
-                                                            <rect key="frame" x="18" y="67" width="20" height="20"/>
+                                                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9gi-PV-69y">
+                                                            <rect key="frame" x="15" y="66" width="15" height="15"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="eqH-te-fH8" secondAttribute="trailing" constant="21" id="2OZ-Tg-BHV"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Oin-em-hNs" secondAttribute="trailing" constant="21" id="518-we-Qd8"/>
+                                                        <constraint firstItem="DFe-Bs-ECT" firstAttribute="centerY" secondItem="fsF-4h-rOP" secondAttribute="centerY" id="9L6-mw-D85"/>
+                                                        <constraint firstItem="gr3-S8-t1Z" firstAttribute="width" secondItem="fsF-4h-rOP" secondAttribute="width" id="HuA-hy-eqb"/>
+                                                        <constraint firstItem="eqH-te-fH8" firstAttribute="leading" secondItem="9gi-PV-69y" secondAttribute="trailing" constant="11" id="K4L-r8-k0W"/>
+                                                        <constraint firstItem="Oin-em-hNs" firstAttribute="top" secondItem="DFe-Bs-ECT" secondAttribute="bottom" constant="8" id="KEk-D0-qQl"/>
+                                                        <constraint firstItem="DFe-Bs-ECT" firstAttribute="top" secondItem="Goj-l2-O0Q" secondAttribute="top" constant="8" id="Kc5-nU-vMZ"/>
+                                                        <constraint firstItem="Oin-em-hNs" firstAttribute="centerY" secondItem="gr3-S8-t1Z" secondAttribute="centerY" id="N7v-rX-gDU"/>
+                                                        <constraint firstItem="gr3-S8-t1Z" firstAttribute="leading" secondItem="Goj-l2-O0Q" secondAttribute="leading" constant="15" id="OLO-Ez-3uZ"/>
+                                                        <constraint firstItem="DFe-Bs-ECT" firstAttribute="leading" secondItem="fsF-4h-rOP" secondAttribute="trailing" constant="11" id="RKv-4T-Evk"/>
+                                                        <constraint firstItem="9gi-PV-69y" firstAttribute="width" secondItem="fsF-4h-rOP" secondAttribute="width" id="U5C-Rs-SO6"/>
+                                                        <constraint firstItem="eqH-te-fH8" firstAttribute="top" secondItem="Oin-em-hNs" secondAttribute="bottom" constant="8" id="UOq-hj-rrA"/>
+                                                        <constraint firstItem="eqH-te-fH8" firstAttribute="centerY" secondItem="9gi-PV-69y" secondAttribute="centerY" id="Wtb-zC-Gao"/>
+                                                        <constraint firstItem="eqH-te-fH8" firstAttribute="top" secondItem="9gi-PV-69y" secondAttribute="top" constant="-3" id="hNU-Rr-PSU"/>
+                                                        <constraint firstItem="Oin-em-hNs" firstAttribute="leading" secondItem="gr3-S8-t1Z" secondAttribute="trailing" constant="11" id="hfO-cD-G5I"/>
+                                                        <constraint firstItem="DFe-Bs-ECT" firstAttribute="top" secondItem="fsF-4h-rOP" secondAttribute="top" constant="-3" id="kZY-bN-yxa"/>
+                                                        <constraint firstItem="9gi-PV-69y" firstAttribute="leading" secondItem="Goj-l2-O0Q" secondAttribute="leading" constant="15" id="oJA-FG-NeD"/>
+                                                        <constraint firstItem="fsF-4h-rOP" firstAttribute="leading" secondItem="Goj-l2-O0Q" secondAttribute="leading" constant="15" id="tES-1T-yOz"/>
+                                                        <constraint firstAttribute="trailing" secondItem="DFe-Bs-ECT" secondAttribute="trailing" constant="21" id="w33-XH-e9n"/>
+                                                    </constraints>
                                                 </view>
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yge-uw-nU0">
+                                                    <rect key="frame" x="238" y="421" width="129" height="20"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="12"/>
+                                                    <state key="normal" title="View all comments">
+                                                        <color key="titleColor" red="0.34451121794871797" green="0.34451121794871797" blue="0.34451121794871797" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <segue destination="FiS-cK-dwZ" kind="showDetail" action="showViewController:sender:" id="smE-4i-QUg"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nvO-Sj-glo">
+                                                    <rect key="frame" x="0.0" y="300" width="375" height="223"/>
+                                                    <connections>
+                                                        <segue destination="FiS-cK-dwZ" kind="show" id="p4Z-9j-Jle"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="yge-uw-nU0" secondAttribute="bottom" constant="-10" id="quL-aT-jZK"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="collapsedView" destination="kJW-Oe-p9L" id="fq0-6W-qs3"/>
@@ -567,6 +599,7 @@
                                             <outlet property="option1Button" destination="u8e-cE-ZlI" id="CYC-xn-Z2E"/>
                                             <outlet property="option2Button" destination="6Fh-xM-n8Q" id="QmJ-Yk-8BW"/>
                                             <outlet property="questionLabel" destination="h81-ka-a7u" id="C0O-2g-3OF"/>
+                                            <outlet property="seeAllComments" destination="nvO-Sj-glo" id="qrg-29-gvr"/>
                                             <outlet property="seeComments" destination="yge-uw-nU0" id="wXR-ea-MTr"/>
                                             <outlet property="timeLabel" destination="qSP-9i-B8B" id="Kb1-0W-PFu"/>
                                             <outlet property="voteOverlayOne" destination="u6G-Rs-7Th" id="TTK-rU-ZP5"/>
@@ -764,7 +797,8 @@
         <image name="Icon-167" width="167" height="167"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2oD-Ql-z0z"/>
+        <segue reference="Iur-WC-Xsy"/>
+        <segue reference="smE-4i-QUg"/>
         <segue reference="cQ7-cQ-8h7"/>
     </inferredMetricsTieBreakers>
 </document>
