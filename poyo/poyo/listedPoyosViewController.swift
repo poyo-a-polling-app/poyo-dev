@@ -324,10 +324,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
          
             if chosenOption[indexPathrow].recentVote == 1 {
                 chosen1vote = 1
-                chosen2vote = -1
+                if chosenOption[indexPathrow].userAlready != 0 {
+                    chosen2vote = -1
+                }
             } else if chosenOption[indexPathrow].recentVote == 2 {
                 chosen2vote = 1
-                chosen1vote = -1
+                if chosenOption[indexPathrow].userAlready != 0 {
+                    chosen1vote = -1
+                }
             }
             
             switch option {
@@ -388,7 +392,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 //        }
 //
 
-        cell.seeComments.hidden = cell.checkHeight()
 
         var rowHeightForCell:CGFloat = 340
         let poyoComments = poyo["comments"] as? [NSDictionary]
@@ -464,8 +467,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var votesOneCount = CGFloat(countVotes(indexPath.row, option: 1))
         var votesTwoCount = CGFloat(countVotes(indexPath.row, option: 2))
 
-//        cell.votesOne.text = String(format: "\(Int(votesOneCount))")
-//        cell.votesTwo.text = String(format: "\(Int(votesTwoCount))")
 
     // MARK: EDITING LIVE RESULTS
     //calculating total votes
@@ -505,6 +506,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.voteOverlayTwo.layer.anchorPoint = CGPointMake(0, 0.5)
         cell.optionOnePreview.layer.anchorPoint = CGPointMake(0, 0.5)
 
+     
 
         UIView.animateWithDuration(0.6, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             cell.voteOverlayOne.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
@@ -540,6 +542,28 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.seeComments.tag = indexPath.row
         cell.seeAllComments.tag = indexPath.row
 
+        print("ALKNSLNACSCNAKSNLCNA KSC LASNC \(cell.alreadyAnswered)")
+        if chosenOption[indexPath.row].chosen! == 0 && chosenOption[indexPath.row].recentVote == 0{
+            cell.optionOnePreview.backgroundColor = UIColor.lightGrayColor()
+            cell.optionTwoPreview.backgroundColor = UIColor.lightGrayColor()
+            rowHeights[indexPath.row] = 310
+            cell.voteOverlayOne.hidden = true
+            cell.voteOverlayTwo.hidden = true
+            cell.votesOne.hidden = true
+            cell.votesTwo.hidden = true
+            cell.seeComments.hidden = true
+
+
+        } else {
+            cell.voteOverlayOne.hidden = false
+            cell.voteOverlayTwo.hidden = false
+            cell.votesOne.hidden = false
+            cell.votesTwo.hidden = false
+            cell.seeComments.hidden = cell.checkHeight()
+            cell.optionOnePreview.backgroundColor = UIColor(red:0.09, green:0.7, blue:0.43, alpha:1.0)
+            cell.optionTwoPreview.backgroundColor = UIColor(red:0.87, green:0.2, blue:0.15, alpha:1.0)
+     
+        }
 
 
         return cell
@@ -888,8 +912,6 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 //        reloadAllData()
-        populateChosenOption()
-        tableView.reloadData()
 
         addChosenToParse(sender!.tag)
         var vc = segue.destinationViewController as! CommentsViewController
