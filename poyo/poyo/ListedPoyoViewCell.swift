@@ -34,6 +34,7 @@ class ListedPoyoViewCell: UITableViewCell {
 //    @IBOutlet weak var distanceLabel: UILabel!
     
     
+    @IBOutlet weak var sliderCircle: UIView!
     @IBOutlet weak var votesOne: UILabel!
     @IBOutlet weak var votesTwo: UILabel!
     
