@@ -49,6 +49,18 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController!.navigationBar.barTintColor = UIColor(red:1.0, green:0.91, blue:0.29, alpha:1.0)
+//        self.navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: "Avenir", size: 17)!,  NSForegroundColorAttributeName: UIColor.whiteColor()]
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 28))
+        imageView.contentMode = .ScaleAspectFit
+        let image = UIImage(named: "Poyo-Face-2")
+        imageView.image = image
+        navigationItem.titleView = imageView
+        
+        
+//        let logo = UIImage(named: "Icon-167")
+//        let imageView = UIImageView(image:logo)
+//        self.navigationItem.titleView = imageView
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -405,6 +417,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var poyoLocation = CLLocation(latitude: poyoLatitude, longitude: poyoLongitude)
         var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
 
+        cell.option1TextLabel.text = option1
+        cell.option2TextLabel.text = option2
+
 
 
         if images.count > indexPath.row{
@@ -558,18 +573,31 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         let screenSize: CGRect = UIScreen.mainScreen().bounds
 
         print("PERCENT \(votesOnePercent)")
-
-
+//
+//        UIView.animateWithDuration(0.6, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+//            <#code#>
+//            }, completion: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
 
         UIView.animateWithDuration(0.6, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
 
             cell.sliderCircle.frame.origin.x = screenSize.width * votesOnePercent - (cell.sliderCircle.frame.width / 2)
-            cell.voteOverlayOne.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
-            cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(votesTwoPercent + 0.001, 1)
+//            cell.voteOverlayOne.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
+//            cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(votesTwoPercent + 0.001, 1)
+            print(votesOnePercent)
+            if cell.alreadyAnswered == 1 {
+                
+                cell.voteOverlayOne.transform = CGAffineTransformMakeScale(1, 1)
+                cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(0.001, 1)
+            }
+            if cell.alreadyAnswered == 2 {
+                cell.voteOverlayOne.transform = CGAffineTransformMakeScale(0.001, 1)
+                cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(1, 1)
+            }
+            
             cell.optionOnePreview.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
-        }) { (finished: Bool) in
-                //print("Animatioed")
-        }
+            }, completion: { finished in
+                
+        })
 
 
         // MARK: CELL EDITING
@@ -979,6 +1007,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         addChosenToParse(sender!.tag)
         var vc = segue.destinationViewController as! CommentsViewController
+        vc.hidesBottomBarWhenPushed = true
         let passPoyo = feed![sender!.tag]
 
         vc.passedPoyo = passPoyo
