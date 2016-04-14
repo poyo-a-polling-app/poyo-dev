@@ -32,7 +32,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
 
     var setDateBool: Bool?
     var datePick: Int? = 75600
-    
+
     var colorPallete: [String: UIColor] = ["orange": UIColor(red:0.99, green:0.73, blue:0.34, alpha:1.0),
         "red": UIColor(red:0.96, green:0.52, blue:0.53, alpha:1.0),
         "pink": UIColor(red:0.97, green:0.67, blue:0.71, alpha:1.0),
@@ -41,7 +41,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         "teal": UIColor(red:0.45, green:0.79, blue:0.76, alpha:1.0),
         "blue": UIColor(red:0.33, green:0.64, blue:1.0, alpha:1.0)
     ]
-    
+
     var colorPalleteKeys = [String]()
 
     @IBOutlet weak var optionTwoCounter: UILabel!
@@ -68,6 +68,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
 
     var limitLength = 100
 
+    @IBOutlet weak var postButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.hidden = false
@@ -76,12 +77,16 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         optionTwoLabel.delegate = self
         setPrivate = false
         self.locationManager.requestAlwaysAuthorization()
-        
+        poyoField.layer.borderColor = UIColor.grayColor().CGColor
+        optionOneLabel.layer.borderColor = UIColor.grayColor().CGColor
+        optionTwoLabel.layer.borderColor = UIColor.grayColor().CGColor
+        self.postButton.layer.cornerRadius = self.postButton.frame.size.width / 2;
+        self.postButton.clipsToBounds = true
+
         colorPalleteKeys = [String](colorPallete.keys)
 
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
-
         datePick = 75600
 
         if CLLocationManager.locationServicesEnabled() {
@@ -96,6 +101,12 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         //Make a change make a wish
         var timer =  NSTimer()
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "characterCounter", userInfo: nil, repeats: true)
+        //playButton.setImage(UIImage(named: "play.png"), forState: UIControlState.Normal)
+        imageOneView.layer.borderWidth = 1
+        imageOneView.layer.borderColor = UIColor.lightGrayColor().CGColor
+
+        imageTwoView.layer.borderWidth = 1
+        imageTwoView.layer.borderColor = UIColor.lightGrayColor().CGColor
 
 
         self.imageOneButton.tag = 1
@@ -105,13 +116,14 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         optionTwoLabel.text = ""
 
         self.tabBarController?.tabBar.hidden = false
-
+        self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         textFieldDidBeginEditing(poyoField)
         textFieldDidBeginEditing(optionOneLabel)
         textFieldDidBeginEditing(optionTwoLabel)
         // Do any additional setup after loading the view.
     }
 
+    @IBOutlet weak var centerView: UIView!
     func textFieldDidBeginEditing(textField: UITextField) {
         textField.layer.borderWidth = 0
     }
@@ -131,6 +143,8 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
         }
         print(String(datePick!))
         self.tabBarController?.tabBar.hidden = false
+        self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+        view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -164,8 +178,8 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
                 break
             }
         }
-        
-        
+
+
         var poyotext = String()
         if (poyoField.text == ""){
             poyotext = ("\(optionOneLabel.text!) or \(optionTwoLabel.text!)")
@@ -256,6 +270,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
                     print(success)
                     MBProgressHUD.hideHUDForView(self.view, animated: true)
 
+                    MBProgressHUD.hideHUDForView(self.view, animated: true)
                     self.performSegueWithIdentifier("postSegue", sender: nil)
                 })
                 print("did something private send?")
@@ -349,7 +364,7 @@ class ComposeViewController: UIViewController, CLLocationManagerDelegate, ImageT
             if (rev == 1){
                 self.imageTwoView.transform = CGAffineTransformMakeScale(-1, 1)
             }
-            
+
         }
     }
 

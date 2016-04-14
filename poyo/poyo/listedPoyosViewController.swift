@@ -145,25 +145,25 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
             if let media = media {
                 self.feed = []
-                
+
                 var indexCount = 0
 //                print(media)
-                
+
                 for (index, medium) in media.enumerate() {
-                    
+
                     if index >= self.chosenOption.count {
                         self.chosenOption.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0, userAlreadyAnswered: 0))
                     }
-                    
+
                     let timeLimit = Int(medium["timeLimit"] as! String)
                     let date = medium["time"] as! NSDate
                     let timeElapsed = Int(0 - date.timeIntervalSinceNow)
                     if(timeElapsed > timeLimit!) {
-                        
+
                         UserMedia.killPoyo(medium)
                         continue
                     } else {
-                        
+
                         self.feed!.append(medium)
                         print("Index: \(indexCount)")
 
@@ -247,6 +247,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             }
         }
 
+        tableView.reloadData()
         if chosenOption.count != 0 {
             chosenSaved = true
         }
@@ -380,11 +381,18 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
+//        if feed == nil {
+//            tableView.hidden = true
+//        } else {
+//            tableView.hidden = false
+//        }
+
 
         let cell = tableView.dequeueReusableCellWithIdentifier("ListedPoyoViewCell", forIndexPath: indexPath) as! ListedPoyoViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
 
         let poyo = self.feed![indexPath.row]
+
 
         cell.poyo = poyo
         let date = poyo["time"] as! NSDate
