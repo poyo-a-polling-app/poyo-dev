@@ -976,14 +976,16 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 //        reloadAllData()
-
-        addChosenToParse(sender!.tag)
-        var vc = segue.destinationViewController as! CommentsViewController
-        let passPoyo = feed![sender!.tag]
-
-        vc.passedPoyo = passPoyo
-        vc.userAnswer = chosenOption[sender!.tag].chosen!
-
+        
+        if sender is UITableViewCell {
+            addChosenToParse(sender!.tag)
+            var vc = segue.destinationViewController as! CommentsViewController
+            let passPoyo = feed![sender!.tag]
+            
+            vc.passedPoyo = passPoyo
+            vc.userAnswer = chosenOption[sender!.tag].chosen!
+        }
+        
 
 
     }
