@@ -32,6 +32,8 @@ class ListedPoyoViewCell: UITableViewCell {
     @IBOutlet weak var commentPreviewColorThree: UIView!
     @IBOutlet weak var commentPreviewThree: UILabel!
 //    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var option1TextLabel: UILabel!
+    @IBOutlet weak var option2TextLabel: UILabel!
     
     
     @IBOutlet weak var sliderCircle: UIView!
