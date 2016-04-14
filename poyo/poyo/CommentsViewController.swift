@@ -56,11 +56,20 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         mapView.delegate = self
+        
+        self.navigationController!.navigationBar.tintColor = UIColor(red:0.99, green:0.73, blue:0.34, alpha:1.0)
+  self.navigationController!.navigationBar.tintColor = UIColor.blackColor()
+        
+        
+        
         let poyoLat = Double(passedPoyo["latitude"] as! String)
         let poyoLong = Double(passedPoyo["longitude"] as! String)
         print("........poyoLat: \(poyoLat!) poyoLong: \(poyoLong!) hey bitch this working")
         let sfRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(poyoLat!, poyoLong!), MKCoordinateSpanMake(0.1, 0.1))
 
+        
+        
+        
 
         mapView.setRegion(sfRegion, animated: false)
 
@@ -115,10 +124,20 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
             mapView.addAnnotation(pin)
 
         }
+        
+        
+        switch userAnswer! {
+        case 1:
+            inputFieldView.backgroundColor = colorPallete[passedPoyo["option1Color"] as! String]!
+        case 2:
+            inputFieldView.backgroundColor = colorPallete[passedPoyo["option2Color"] as! String]!
+        default:
+            inputFieldView.backgroundColor = UIColor.lightGrayColor()
+        }
 
 //        commentInputField.delegate = self
 
-        self.tabBarController?.tabBar.hidden = true
+//        self.tabBarController?.tabBar.hidden = true
 
         commentsArray = passedPoyo["comments"] as? [NSDictionary]
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -440,15 +459,20 @@ class CommentsViewController: UIViewController, UITableViewDelegate, UITableView
 
 
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let mapView = segue.destinationViewController as! VotesMapViewController
+        
+        mapView.passedPoyo = self.passedPoyo
+        
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+    
 
     @IBAction func onTap(sender: AnyObject) {
         view.endEditing(true)

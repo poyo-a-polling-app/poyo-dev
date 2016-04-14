@@ -177,6 +177,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         return annotationView
     }
     
+    
+    @IBAction func onExit(sender: AnyObject) {
+        
+        self.dismissViewControllerAnimated(false) { 
+            
+        }
+    }
+    
 
     /*
     // MARK: - Navigation
