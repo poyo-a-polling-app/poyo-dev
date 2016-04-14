@@ -52,7 +52,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         tableView.dataSource = self
         tableView.delegate = self
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+//        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
 
 
         self.refreshControl = UIRefreshControl()
@@ -74,6 +74,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
             //print("No location")
         }
         reloadAllData()
+        populateChosenOption()
+
         tableView.reloadData()
 
 
@@ -81,6 +83,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     func refresh(sender: AnyObject) {
 
+//        print("MASDLASMDLASMDLASMDLLASMDLASDMSALMDLAMSLDLMASD")
         chosenSaved = false
         reloadAllData()
         populateChosenOption()
@@ -142,28 +145,34 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         query.findObjectsInBackgroundWithBlock { (media: [PFObject]?, error: NSError?) -> Void in
             if let media = media {
                 self.feed = []
+
                 var indexCount = 0
-                print("media \(media)")
+//                print(media)
+
                 for (index, medium) in media.enumerate() {
+
                     if index >= self.chosenOption.count {
                         self.chosenOption.append(poyoChosen(poyoObjectID: "0", chosenNumber: 0, userAlreadyAnswered: 0))
                     }
+
                     let timeLimit = Int(medium["timeLimit"] as! String)
                     let date = medium["time"] as! NSDate
                     let timeElapsed = Int(0 - date.timeIntervalSinceNow)
                     if(timeElapsed > timeLimit!) {
+
                         UserMedia.killPoyo(medium)
                         continue
                     } else {
+
                         self.feed!.append(medium)
-                        print("Index: \(indexCount) \(self.feed)")
-                        print("End line")
+                        print("Index: \(indexCount)")
 
                         var popularityRating = self.popularity(indexCount, date: medium["time"] as! NSDate)
                         if medium["popularity"] == nil || self.reloadPopular {
-                            medium["popularity"] =
+                            medium["popularity"] = self.popularity(index, date: medium["time"] as! NSDate)
                                 medium.saveInBackground()
                         }
+                        self.tableView.reloadData()
                         indexCount++
 
 
@@ -177,10 +186,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
                     options1ImageLink.getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) in
                         if (error == nil) {
-
                             if(self.images[index].imageOptionOne != nil && self.images[index].imageOptionOne!.isEqual(UIImage(data: imageData!))){
                                 //checks if image is equal to current image
                             } else {
+
                                 tempPoyoImage.imageOptionOne = UIImage(data:imageData!)
                             }
 
@@ -206,11 +215,12 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                     ////print("Images count = \(self.images.count)")
                     ////print("IndexPathRow = \(tempPoyoImage.indexPathRow)")
 
+
                     if self.images.count == tempPoyoImage.indexPathRow {
-                        ////print("Added Image to images")
+                        print("Added Image to images")
                         self.images.append(tempPoyoImage)
                     } else {
-                        ////print("Replaced the old image")
+                        print("ma s,fnajnsnfkalkfnwlknafkla wfnwalfn kanwklfnlaw lfa sReplaced the old image")
                         self.images[indexCount - 1] = tempPoyoImage
                         ////print("ASDASFSAFafasf")
                     }
@@ -231,6 +241,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 ////print("IT ACCESSED THE DATA!!!!!")
 
             } else {
+
                 ////print("COULD NOT ACCESS THE DATA")
 
             }
@@ -242,8 +253,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         }
 
         reloadPopular = false
-
-     
+//
+//        if feed == nil {
+//            tableView.hidden = true
+//        }
 
 
     }
@@ -300,10 +313,12 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let feed = feed {
+            print("FFEDEDEIFNEIAIFNAENFLIAFINAELIFNIENAILNCNIENAIFNLENCLIEAN FFEED COUNT: \(feed.count)")
             rowHeights = [CGFloat](count: feed.count, repeatedValue: 340.0)
             return feed.count
 
         } else {
+            print("ALKSNLKASNKLNASLNDKLNASLKDASNDLKNASKLDNASLKNDLKNASDLKnawnoskFLADSKVBJP/SD ?LJVBSDBPIXFV)Z RX.D")
             return 0
         }
     }
@@ -365,12 +380,13 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+
 //        if feed == nil {
 //            tableView.hidden = true
 //        } else {
 //            tableView.hidden = false
 //        }
+
 
         let cell = tableView.dequeueReusableCellWithIdentifier("ListedPoyoViewCell", forIndexPath: indexPath) as! ListedPoyoViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
@@ -390,12 +406,17 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         var distanceFromPoyo: CLLocationDistance = location.distanceFromLocation(poyoLocation)
 
 
-        if images[indexPath.row].imageOptionOne != UIImage(named: "Icon-167") {
-            cell.option1Button.setBackgroundImage(images[indexPath.row].imageOptionOne, forState: UIControlState.Normal)
+
+        if images.count > indexPath.row{
+            if images[indexPath.row].imageOptionOne != UIImage(named: "Icon-167") {
+
+                cell.option1Button.setBackgroundImage(images[indexPath.row].imageOptionOne, forState: UIControlState.Normal)
+            }
+            if images[indexPath.row].imageOptionTwo != UIImage(named: "Icon-167") {
+                cell.option2Button.setBackgroundImage(images[indexPath.row].imageOptionTwo, forState: UIControlState.Normal)
+            }
         }
-        if images[indexPath.row].imageOptionTwo != UIImage(named: "Icon-167") {
-            cell.option2Button.setBackgroundImage(images[indexPath.row].imageOptionTwo, forState: UIControlState.Normal)
-        }
+
 
 
         //COMMENTS
@@ -475,7 +496,9 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 
         }
 
+
         rowHeights[indexPath.row] = rowHeightForCell
+
 
         //checks radius
         if radius < distanceFromPoyo {
@@ -528,7 +551,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         cell.voteOverlayOne.layer.anchorPoint = CGPointMake(1, 0.5)
         cell.voteOverlayTwo.layer.anchorPoint = CGPointMake(0, 0.5)
         cell.optionOnePreview.layer.anchorPoint = CGPointMake(0, 0.5)
-        
+
         cell.voteOverlayOne.backgroundColor = colorPallete[poyo["option1Color"] as! String]
         cell.voteOverlayTwo.backgroundColor = colorPallete[poyo["option2Color"] as! String]
 
