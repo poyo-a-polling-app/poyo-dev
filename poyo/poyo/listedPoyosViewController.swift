@@ -56,8 +56,8 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
         let image = UIImage(named: "Poyo-Face-2")
         imageView.image = image
         navigationItem.titleView = imageView
-        
-        
+
+
 //        let logo = UIImage(named: "Icon-167")
 //        let imageView = UIImageView(image:logo)
 //        self.navigationItem.titleView = imageView
@@ -585,7 +585,7 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
 //            cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(votesTwoPercent + 0.001, 1)
             print(votesOnePercent)
             if cell.alreadyAnswered == 1 {
-                
+
                 cell.voteOverlayOne.transform = CGAffineTransformMakeScale(1, 1)
                 cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(0.001, 1)
             }
@@ -593,10 +593,10 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
                 cell.voteOverlayOne.transform = CGAffineTransformMakeScale(0.001, 1)
                 cell.voteOverlayTwo.transform = CGAffineTransformMakeScale(1, 1)
             }
-            
+
             cell.optionOnePreview.transform = CGAffineTransformMakeScale(votesOnePercent + 0.001, 1)
             }, completion: { finished in
-                
+
         })
 
 
@@ -1005,13 +1005,14 @@ class listedPoyosViewController: UIViewController, CLLocationManagerDelegate, UI
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 //        reloadAllData()
 
-        addChosenToParse(sender!.tag)
-        var vc = segue.destinationViewController as! CommentsViewController
-        vc.hidesBottomBarWhenPushed = true
-        let passPoyo = feed![sender!.tag]
+        if sender is UIButton {
+            addChosenToParse(sender!.tag)
+            var vc = segue.destinationViewController as! CommentsViewController
+            let passPoyo = feed![sender!.tag]
 
-        vc.passedPoyo = passPoyo
-        vc.userAnswer = chosenOption[sender!.tag].chosen!
+            vc.passedPoyo = passPoyo
+            vc.userAnswer = chosenOption[sender!.tag].chosen!
+        }
 
 
 
