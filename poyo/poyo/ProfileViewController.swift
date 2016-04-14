@@ -33,6 +33,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         tableview.dataSource = self
         tableview.delegate = self
+        mapView.delegate = self
+
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSS'Z'"
 
@@ -81,8 +83,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
             let poyoLong = currentLocation.coordinate.longitude
 
+
+
             let sfRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(poyoLat, poyoLong), MKCoordinateSpanMake(0.1, 0.1))
-            mapView.delegate = self
+
+
 
             mapView.setRegion(sfRegion, animated: false)
 
@@ -94,13 +99,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
              dropPin.coordinate = sanFranLocation
              dropPin.title = "CurrentLocation"
              mapView.addAnnotation(dropPin)
+            
 
         }
 
 
         user = PFUser.currentUser()
         print("User: \(user)")
-        var query = PFQuery(className: "PoyosAnswers")
+        var query = PFQuery(className: "PoyosImageTest")
         //query.includeKey("author")
         query.whereKey("author", equalTo: PFUser.currentUser()!)
 
@@ -246,11 +252,28 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        print("ASLKNDLKASNFASKNFNLASKFANSKFNKLAS \(indexPath)")
+        
+        if let cellEx = tableView.dequeueReusableCellWithIdentifier("Profile-Cell") {
+            print("LANSKLFNIASNFILASFIANSIFLNASLIFN")
+        }
+            else {
+            print("lkankfnasfkasnflknas")
+            fatalError("unexpected cell dequeued from tableView") }
+    
 
-        var cell = tableView.dequeueReusableCellWithIdentifier("ProfileCell", forIndexPath: indexPath) as! ListedPoyoViewCell
+//        var cellExtra = tableView.dequeueReusableCellWithIdentifier("Profile-Cell", forIndexPath: indexPath)
+        print("LKANSLKNASNFASKNFNASLFNKALSFKLANSNFA")
+//        print(cellEx)
+
+
+
+        var cell = tableView.dequeueReusableCellWithIdentifier("Profile-Cell", forIndexPath: indexPath) as! ListedPoyoViewCell
+
 
         var poyo: PFObject?
-        //print("zeroth")
+        print("zeroth")
         print("index row: \(indexPath.row)")
         let rowNum = indexPath.row
         if let poyos = self.poyos{
